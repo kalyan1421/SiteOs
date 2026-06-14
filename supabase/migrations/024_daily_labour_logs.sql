@@ -31,7 +31,7 @@ CREATE POLICY "Site managers can insert project labour logs"
     WITH CHECK (
         EXISTS (
             SELECT 1 FROM public.project_assignments
-            WHERE project_id = दैनिक_labour_logs.project_id AND user_id = auth.uid()
+            WHERE project_id = daily_labour_logs.project_id AND user_id = auth.uid()
         )
         OR
         EXISTS (

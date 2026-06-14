@@ -64,6 +64,7 @@ USING (
 -- Returns material, labor, machinery counts for a project
 -- ============================================================
 
+DROP FUNCTION IF EXISTS public.get_project_stats(UUID);
 CREATE OR REPLACE FUNCTION public.get_project_stats(p_project_id UUID)
 RETURNS JSON
 LANGUAGE plpgsql
@@ -121,6 +122,7 @@ GRANT EXECUTE ON FUNCTION public.get_project_stats TO authenticated;
 -- Returns breakdown by material type (Steel, Cement, etc.)
 -- ============================================================
 
+DROP FUNCTION IF EXISTS public.get_project_material_breakdown(UUID);
 CREATE OR REPLACE FUNCTION public.get_project_material_breakdown(p_project_id UUID)
 RETURNS JSON
 LANGUAGE plpgsql
@@ -157,6 +159,7 @@ GRANT EXECUTE ON FUNCTION public.get_project_material_breakdown TO authenticated
 -- Helper function for soft deleting projects
 -- ============================================================
 
+DROP FUNCTION IF EXISTS public.soft_delete_project(UUID);
 CREATE OR REPLACE FUNCTION public.soft_delete_project(p_project_id UUID)
 RETURNS BOOLEAN
 LANGUAGE plpgsql
@@ -197,6 +200,7 @@ GRANT EXECUTE ON FUNCTION public.soft_delete_project TO authenticated;
 -- Updates progress and handles status transitions
 -- ============================================================
 
+DROP FUNCTION IF EXISTS public.update_project_progress(UUID, INT);
 CREATE OR REPLACE FUNCTION public.update_project_progress(
     p_project_id UUID,
     p_progress INT

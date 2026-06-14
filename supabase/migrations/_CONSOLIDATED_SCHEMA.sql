@@ -3402,6 +3402,7 @@ GRANT EXECUTE ON FUNCTION public.get_project_material_breakdown TO authenticated
 -- Helper function for soft deleting projects
 -- ============================================================
 
+DROP FUNCTION IF EXISTS public.soft_delete_project(UUID);
 CREATE OR REPLACE FUNCTION public.soft_delete_project(p_project_id UUID)
 RETURNS BOOLEAN
 LANGUAGE plpgsql
