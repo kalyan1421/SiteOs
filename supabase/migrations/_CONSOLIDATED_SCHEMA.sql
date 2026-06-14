@@ -2104,11 +2104,11 @@ $$;
 GRANT EXECUTE ON FUNCTION public.is_assigned_to_project(uuid) TO authenticated;
 
 -- ============================================================
--- PART 2: FIX uploaded_by DEFAULT (prevents null constraint errors)
+-- PART 2: FIX uploader_id DEFAULT (prevents null constraint errors)
 -- ============================================================
 
 ALTER TABLE public.blueprints
-ALTER COLUMN uploaded_by SET DEFAULT auth.uid();
+ALTER COLUMN uploader_id SET DEFAULT auth.uid();
 
 -- ============================================================
 -- PART 3: STORAGE POLICIES FOR BLUEPRINTS BUCKET

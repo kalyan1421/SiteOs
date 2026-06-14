@@ -29,7 +29,7 @@ GRANT EXECUTE ON FUNCTION public.is_assigned_to_project(uuid) TO authenticated;
 -- ============================================================
 
 ALTER TABLE public.blueprints
-ALTER COLUMN uploaded_by SET DEFAULT auth.uid();
+ALTER COLUMN uploader_id SET DEFAULT auth.uid();
 
 -- ============================================================
 -- PART 3: STORAGE POLICIES FOR BLUEPRINTS BUCKET
