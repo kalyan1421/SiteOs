@@ -58,6 +58,12 @@ CREATE POLICY "Authenticated users can insert material grades"
 -- Ensure stock_items has project_id NOT NULL if not already
 ALTER TABLE public.stock_items ALTER COLUMN project_id SET NOT NULL;
 
+-- Ensure all columns the view needs exist (guard for partial schema states)
+ALTER TABLE public.stock_items ADD COLUMN IF NOT EXISTS grade TEXT;
+ALTER TABLE public.stock_items ADD COLUMN IF NOT EXISTS low_stock_threshold DECIMAL DEFAULT 10;
+ALTER TABLE public.stock_items ADD COLUMN IF NOT EXISTS category TEXT;
+ALTER TABLE public.material_logs ADD COLUMN IF NOT EXISTS grade TEXT;
+
 -- Dynamic view replacing the static balance logic
 CREATE OR REPLACE VIEW public.v_stock_balance_dynamic AS
 SELECT 

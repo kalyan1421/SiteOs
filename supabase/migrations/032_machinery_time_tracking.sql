@@ -4,7 +4,11 @@
 -- ============================================================
 
 -- 1. Update machinery_logs table
--- We make reading columns nullable because new logs might only use time
+-- Ensure columns exist before altering them
+ALTER TABLE public.machinery_logs ADD COLUMN IF NOT EXISTS start_reading DECIMAL;
+ALTER TABLE public.machinery_logs ADD COLUMN IF NOT EXISTS end_reading DECIMAL;
+
+-- Make reading columns nullable because new logs might only use time
 ALTER TABLE public.machinery_logs
 ALTER COLUMN start_reading DROP NOT NULL,
 ALTER COLUMN end_reading DROP NOT NULL;
