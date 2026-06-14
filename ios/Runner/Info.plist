@@ -28,6 +28,10 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Location access is needed to verify GPS attendance check-ins at your site.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Location access is needed to verify GPS attendance check-ins at your site.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Camera access is needed to capture site photos, material receipts, and documents.</string>
 	<key>NSPhotoLibraryUsageDescription</key>

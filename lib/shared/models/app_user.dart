@@ -359,6 +359,7 @@ class UserPermissions {
       case UserRole.admin:
         return UserPermissions.admin();
       case UserRole.siteManager:
+      case UserRole.client:
         return UserPermissions.siteManager();
     }
   }

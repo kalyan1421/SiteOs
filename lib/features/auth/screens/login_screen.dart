@@ -61,6 +61,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           context.go('/admin/dashboard');
         case UserRole.siteManager:
           context.go('/site-manager/dashboard');
+        case UserRole.client:
+          context.go('/client/dashboard');
         case null:
           break;
       }

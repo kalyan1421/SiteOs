@@ -771,6 +771,8 @@ String _getRoleBasedRoute(UserRole role) {
       return '/admin/dashboard';
     case UserRole.siteManager:
       return '/site-manager/dashboard';
+    case UserRole.client:
+      return '/client/dashboard';
   }
 }
 

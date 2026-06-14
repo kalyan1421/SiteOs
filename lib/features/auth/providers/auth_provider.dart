@@ -15,7 +15,8 @@ import 'auth_repository_provider.dart';
 enum UserRole {
   superAdmin('super_admin'),
   admin('admin'),
-  siteManager('site_manager');
+  siteManager('site_manager'),
+  client('client');
 
   final String value;
   const UserRole(this.value);
@@ -28,14 +29,19 @@ enum UserRole {
     );
   }
 
-  /// Check if this role has higher privileges than another
+  /// Check if this role has higher privileges than another.
+  /// The `client` role is outside the internal hierarchy and is never
+  /// considered to have higher privilege than any staff role.
   bool hasHigherPrivilegeThan(UserRole other) {
     const hierarchy = [
       UserRole.siteManager,
       UserRole.admin,
       UserRole.superAdmin,
     ];
-    return hierarchy.indexOf(this) > hierarchy.indexOf(other);
+    final a = hierarchy.indexOf(this);
+    final b = hierarchy.indexOf(other);
+    if (a == -1) return false; // client
+    return a > b;
   }
 
   /// Get display name for UI
@@ -47,6 +53,8 @@ enum UserRole {
         return 'Admin';
       case UserRole.siteManager:
         return 'Site Manager';
+      case UserRole.client:
+        return 'Client';
     }
   }
 }
@@ -81,7 +89,8 @@ class AppAuthState {
   bool hasAnyRole(List<UserRole> allowedRoles) =>
       role != null && allowedRoles.contains(role);
 
-  /// Check if user is at least the given role level
+  /// Check if user is at least the given role level.
+  /// The `client` role is outside the staff hierarchy and returns false.
   bool isAtLeast(UserRole minRole) {
     if (role == null) return false;
     const hierarchy = [
@@ -89,7 +98,9 @@ class AppAuthState {
       UserRole.admin,
       UserRole.superAdmin,
     ];
-    return hierarchy.indexOf(role!) >= hierarchy.indexOf(minRole);
+    final idx = hierarchy.indexOf(role!);
+    if (idx == -1) return false; // client
+    return idx >= hierarchy.indexOf(minRole);
   }
 
   AppAuthState copyWith({

@@ -5,12 +5,15 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'firebase_options.dart';
 import 'core/config/env.dart';
 import 'core/config/supabase_client.dart';
 import 'core/providers/global_realtime_sync_provider.dart';
+import 'core/providers/locale_provider.dart';
 import 'core/services/connectivity_service.dart';
 import 'core/services/local_database_service.dart';
 import 'core/services/notification_service.dart';
@@ -117,6 +120,7 @@ class SiteOsApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
+    final locale = ref.watch(localeProvider);
     ref.watch(globalRealtimeSyncProvider);
 
     ref.listen<AsyncValue<AppLifecycleState?>>(appLifecycleProvider, (
@@ -141,6 +145,14 @@ class SiteOsApp extends ConsumerWidget {
       theme: _theme,
       themeMode: ThemeMode.light,
       routerConfig: router,
+      locale: locale,
+      supportedLocales: kSupportedLocales,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
     );
   }
 }
