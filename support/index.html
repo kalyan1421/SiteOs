@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Civil Pro — Support</title>
+  <meta name="description" content="Support and help for the Civil Pro construction app." />
+  <style>
+    :root { --navy:#1E3A8A; --blue:#2563EB; --orange:#F97316; --ink:#1f2937; --muted:#6b7280; --bg:#f8fafc; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; color:var(--ink); background:var(--bg); line-height:1.6; }
+    .hero { background:linear-gradient(135deg,var(--navy),var(--blue)); color:#fff; padding:64px 20px 56px; text-align:center; }
+    .logo { width:72px; height:72px; border-radius:18px; background:#fff; display:inline-flex; align-items:center; justify-content:center; font-weight:800; font-size:34px; color:var(--blue); box-shadow:0 8px 24px rgba(0,0,0,.18); }
+    .logo span { color:var(--orange); }
+    .hero h1 { margin:18px 0 6px; font-size:30px; }
+    .hero p { margin:0; opacity:.9; font-size:17px; }
+    .wrap { max-width:760px; margin:-32px auto 60px; padding:0 20px; }
+    .card { background:#fff; border-radius:16px; padding:28px; box-shadow:0 6px 24px rgba(15,23,42,.06); margin-bottom:20px; }
+    h2 { color:var(--navy); margin:0 0 12px; font-size:20px; }
+    a { color:var(--blue); }
+    .btn { display:inline-block; background:var(--blue); color:#fff; text-decoration:none; padding:12px 22px; border-radius:10px; font-weight:600; margin-top:6px; }
+    .btn.secondary { background:#fff; color:var(--navy); border:1.5px solid #dbe2f1; }
+    .row { display:flex; flex-wrap:wrap; gap:12px; }
+    details { border-top:1px solid #eef1f6; padding:14px 0; }
+    details:first-of-type { border-top:0; }
+    summary { cursor:pointer; font-weight:600; color:var(--ink); }
+    details p { margin:10px 0 0; color:var(--muted); }
+    footer { text-align:center; color:var(--muted); font-size:14px; padding:24px; }
+    .muted { color:var(--muted); font-size:14px; }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="logo">C<span>↗</span></div>
+    <h1>Civil Pro — Support</h1>
+    <p>Construction projects, labour, stock &amp; site photos in one app.</p>
+  </header>
+
+  <main class="wrap">
+    <section class="card">
+      <h2>Need help?</h2>
+      <p>Civil Pro is an invite-only app for construction teams. If you have a question,
+         a problem, or a data request, reach out and we'll get back to you.</p>
+      <div class="row">
+        <a class="btn" href="mailto:support@clivimanagement.app">Email Support</a>
+        <a class="btn secondary" href="https://clivi-privacy.web.app">Privacy Policy</a>
+      </div>
+      <p class="muted" style="margin-top:14px;">Typical response time: 1–2 business days.</p>
+    </section>
+
+    <section class="card">
+      <h2>Getting started</h2>
+      <p>Accounts are created by your organization's administrator — there is no public sign-up.
+         If you don't have login details, contact your project admin or super admin.</p>
+    </section>
+
+    <section class="card">
+      <h2>Frequently asked</h2>
+
+      <details open>
+        <summary>I can't log in / forgot my password</summary>
+        <p>Use the "Forgot password" option on the sign-in screen, or ask your administrator to
+           reset your account. Accounts are managed by your organization's admin.</p>
+      </details>
+
+      <details>
+        <summary>How do I add site photos?</summary>
+        <p>Open a project's site, tap the photo action, and either capture a new photo with your
+           camera or pick one from your library. Civil Pro needs camera and photo permissions for this.</p>
+      </details>
+
+      <details>
+        <summary>Why does the app ask for camera and photo access?</summary>
+        <p>Only to capture and upload site photos, material receipts, and documents. Permissions are
+           requested when you use those features and can be revoked anytime in device settings.</p>
+      </details>
+
+      <details>
+        <summary>Does it work offline?</summary>
+        <p>Yes — recently loaded data is cached so you can keep working with intermittent
+           connectivity. Changes sync automatically when you reconnect.</p>
+      </details>
+
+      <details>
+        <summary>How do I delete my account or data?</summary>
+        <p>Email <a href="mailto:support@clivimanagement.app">support@clivimanagement.app</a> or ask
+           your administrator. See our <a href="https://clivi-privacy.web.app">Privacy Policy</a> for details.</p>
+      </details>
+    </section>
+  </main>
+
+  <footer>© 2026 Civil Pro · <a href="https://clivi-privacy.web.app">Privacy Policy</a></footer>
+</body>
+</html>

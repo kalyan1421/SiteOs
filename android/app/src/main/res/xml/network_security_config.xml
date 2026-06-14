@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Default deny cleartext (http://). Supabase is always https://, so this
+  is a safe default. If you need to add a trusted local dev server,
+  whitelist it under <domain-config> with a specific hostname.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>

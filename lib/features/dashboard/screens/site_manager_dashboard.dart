@@ -1,0 +1,837 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import '../../../core/theme/app_colors.dart';
+import '../../../core/ui/responsive.dart';
+import '../../auth/data/models/user_profile_model.dart';
+import '../../auth/providers/auth_provider.dart';
+import '../providers/dashboard_provider.dart';
+import '../data/models/dashboard_models.dart';
+
+/// Site Manager / Project Manager Dashboard
+/// Features: Welcome header, blue stats card, operations grid, active projects, recent operations
+class SiteManagerDashboard extends ConsumerWidget {
+  const SiteManagerDashboard({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final profile = ref.watch(userProfileProvider);
+    final statsState = ref.watch(dashboardStatsProvider);
+    final activityState = ref.watch(recentActivityProvider);
+    final projectsState = ref.watch(activeProjectsProvider);
+
+    return Scaffold(
+      backgroundColor: AppColors.scaffoldBackground,
+      body: SafeArea(
+        child: RefreshIndicator(
+          onRefresh: () => _refreshAll(ref),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final r = R(Size(constraints.maxWidth, constraints.maxHeight));
+
+              return SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight,
+                      maxWidth: r.maxContentWidth,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(
+                            r.isDesktop ? 32 : 20,
+                            r.isDesktop ? 28 : 8,
+                            r.isDesktop ? 32 : 20,
+                            0,
+                          ),
+                          child: _buildHeader(context, profile),
+                        ),
+                        const SizedBox(height: 20),
+                        _buildStatsCard(context, statsState),
+                        const SizedBox(height: 20),
+                        _buildOperationsSection(context),
+                        const SizedBox(height: 20),
+                        if (r.isDesktop)
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                flex: 6,
+                                child: _buildActiveProjectsBlock(
+                                  context,
+                                  projectsState,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                flex: 5,
+                                child: _buildRecentOperationsBlock(
+                                  context,
+                                  activityState,
+                                ),
+                              ),
+                            ],
+                          )
+                        else ...[
+                          _buildActiveProjectsBlock(context, projectsState),
+                          const SizedBox(height: 20),
+                          _buildRecentOperationsBlock(context, activityState),
+                        ],
+                        const SizedBox(height: 20),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildActiveProjectsBlock(
+    BuildContext context,
+    ActiveProjectsState projectsState,
+  ) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Active Projects',
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+              ),
+              TextButton(
+                onPressed: () => context.push('/projects'),
+                child: Text(
+                  'View All',
+                  style: TextStyle(color: AppColors.primary),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 8),
+        _buildProjectsList(context, projectsState),
+      ],
+    );
+  }
+
+  Widget _buildRecentOperationsBlock(
+    BuildContext context,
+    RecentActivityState activityState,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Text(
+            'Recent Operations',
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+          ),
+        ),
+        const SizedBox(height: 12),
+        _buildRecentOperations(context, activityState),
+      ],
+    );
+  }
+
+  Future<void> _refreshAll(WidgetRef ref) async {
+    ref.invalidate(operationsLiveCountsProvider);
+    await Future.wait([
+      ref.read(dashboardStatsProvider.notifier).refresh(),
+      ref.read(recentActivityProvider.notifier).refresh(),
+      ref.read(activeProjectsProvider.notifier).refresh(),
+    ]);
+  }
+
+  Widget _buildHeader(BuildContext context, UserProfileModel? profile) {
+    final name = (profile?.fullName ?? '').isNotEmpty
+        ? profile!.fullName!
+        : 'Manager';
+    final now = DateTime.now();
+    final greeting = now.hour < 12
+        ? 'Good morning'
+        : now.hour < 17
+            ? 'Good afternoon'
+            : 'Good evening';
+    final dateStr = DateFormat('EEEE, MMM d').format(now);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          dateStr.toUpperCase(),
+          style: GoogleFonts.plusJakartaSans(
+            fontSize: 11,
+            fontWeight: FontWeight.w700,
+            color: AppColors.secondaryDark,
+            letterSpacing: 2.2,
+          ),
+        ),
+        const SizedBox(height: 18),
+        Text(
+          '$greeting,',
+          style: GoogleFonts.fraunces(
+            fontSize: 32,
+            fontWeight: FontWeight.w400,
+            color: AppColors.textPrimary,
+            letterSpacing: -1.0,
+            height: 1.05,
+          ),
+        ),
+        Text(
+          name,
+          style: GoogleFonts.fraunces(
+            fontSize: 32,
+            fontWeight: FontWeight.w400,
+            fontStyle: FontStyle.italic,
+            color: AppColors.primary,
+            letterSpacing: -1.0,
+            height: 1.05,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildStatsCard(BuildContext context, DashboardStatsState state) {
+    final stats = state.stats;
+
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            AppColors.primary,
+            AppColors.primary.withValues(alpha: 0.85),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: _buildStatItem(
+              context,
+              icon: Icons.business,
+              value: stats.activeProjects.toString().padLeft(2, '0'),
+              label: 'Active Projects',
+              isLoading: state.isLoading,
+              growth:
+                  '${stats.growthPercentage > 0 ? '+' : ''}${stats.growthPercentage}%',
+            ),
+          ),
+          Container(
+            width: 1,
+            height: 60,
+            color: Colors.white.withValues(alpha: 0.3),
+          ),
+          Expanded(
+            child: _buildStatItem(
+              context,
+              icon: Icons.people,
+              value: stats.totalWorkers.toString(),
+              label: 'Total Workers',
+              isLoading: state.isLoading,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStatItem(
+    BuildContext context, {
+    required IconData icon,
+    required String value,
+    required String label,
+    required bool isLoading,
+    String? growth,
+  }) {
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.2),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Icon(icon, color: Colors.white, size: 24),
+        ),
+        const SizedBox(height: 12),
+        if (isLoading)
+          Container(
+            width: 40,
+            height: 28,
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.3),
+              borderRadius: BorderRadius.circular(4),
+            ),
+          )
+        else
+          Text(
+            value,
+            style: const TextStyle(
+              fontSize: 28,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+        const SizedBox(height: 4),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 12,
+            color: Colors.white.withValues(alpha: 0.8),
+          ),
+        ),
+        if (growth != null) ...[
+          const SizedBox(height: 8),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.trending_up, size: 14, color: Colors.white),
+                const SizedBox(width: 4),
+                Text(
+                  growth,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+
+  Widget _buildOperationsSection(BuildContext context) {
+    final operations = [
+      _OperationTile(
+        label: 'Projects',
+        subtitle: 'Open assigned sites',
+        icon: Icons.business_outlined,
+        bg: AppColors.infoLight,
+        onTap: () => context.push('/projects'),
+      ),
+      _OperationTile(
+        label: 'Bills',
+        subtitle: 'Track bill requests',
+        icon: Icons.receipt_long_outlined,
+        bg: AppColors.warningLight,
+        onTap: () => context.push('/bills'),
+      ),
+    ];
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Operations',
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 14),
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: operations.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 12,
+              mainAxisSpacing: 12,
+              mainAxisExtent: 140,
+            ),
+            itemBuilder: (context, index) {
+              final op = operations[index];
+              return InkWell(
+                borderRadius: BorderRadius.circular(18),
+                onTap: op.onTap,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 16,
+                    horizontal: 12,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppColors.surface,
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(color: AppColors.border),
+                    boxShadow: AppColors.cardShadow,
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: op.bg,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(op.icon, color: AppColors.primary),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        op.label,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        op.subtitle,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: AppColors.textSecondary,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildProjectsList(BuildContext context, ActiveProjectsState state) {
+    if (state.isLoading) {
+      return _buildProjectsLoading();
+    }
+
+    if (state.projects.isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 32),
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 56,
+                height: 56,
+                decoration: BoxDecoration(
+                  color: AppColors.surfaceVariant,
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: const Icon(
+                  Icons.folder_open_outlined,
+                  size: 28,
+                  color: AppColors.textHint,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                'No active projects',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.textSecondary,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                'Projects assigned to you will appear here',
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: AppColors.textHint,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return ListView.separated(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      itemCount: state.projects.length,
+      separatorBuilder: (_, _) => const SizedBox(height: 12),
+      itemBuilder: (context, index) {
+        final project = state.projects[index];
+        return _buildProjectCard(context, project);
+      },
+    );
+  }
+
+  Widget _buildProjectsLoading() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        children: List.generate(3, (index) {
+          return Container(
+            margin: const EdgeInsets.only(bottom: 12),
+            height: 80,
+            decoration: BoxDecoration(
+              color: AppColors.surfaceVariant,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: AppColors.border),
+            ),
+          );
+        }),
+      ),
+    );
+  }
+
+  Widget _buildProjectCard(BuildContext context, ProjectSummary project) {
+    return GestureDetector(
+      onTap: () => context.push('/projects/${project.id}'),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: AppColors.border),
+          boxShadow: AppColors.cardShadow,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: _getTypeColor(
+                      project.projectType,
+                    ).withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Text(
+                    project.displayType.toUpperCase(),
+                    style: TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w600,
+                      color: _getTypeColor(project.projectType),
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                if (project.location != null)
+                  Expanded(
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.location_on,
+                          size: 12,
+                          color: AppColors.textSecondary,
+                        ),
+                        const SizedBox(width: 2),
+                        Flexible(
+                          child: Text(
+                            project.location!,
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: AppColors.textSecondary,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: project.status == 'in_progress'
+                        ? AppColors.success.withValues(alpha: 0.1)
+                        : AppColors.warning.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Text(
+                    project.status == 'in_progress' ? 'Active' : project.status,
+                    style: TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w600,
+                      color: project.status == 'in_progress'
+                          ? AppColors.success
+                          : AppColors.warning,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Text(
+              project.name,
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Completion',
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(4),
+                        child: LinearProgressIndicator(
+                          value: project.progress / 100,
+                          backgroundColor: AppColors.border,
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            _getProgressColor(project.progress),
+                          ),
+                          minHeight: 6,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Text(
+                  '${project.progress}%',
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.primary,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Icon(
+                  Icons.arrow_forward_ios,
+                  size: 14,
+                  color: AppColors.textSecondary,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Color _getTypeColor(String? type) {
+    switch (type?.toLowerCase()) {
+      case 'residential':
+        return AppColors.info;
+      case 'commercial':
+        return AppColors.warning;
+      case 'infrastructure':
+        return AppColors.success;
+      case 'industrial':
+        return AppColors.error;
+      default:
+        return AppColors.secondary;
+    }
+  }
+
+  Color _getProgressColor(int progress) {
+    if (progress < 25) return AppColors.error;
+    if (progress < 50) return AppColors.warning;
+    if (progress < 75) return AppColors.info;
+    return AppColors.success;
+  }
+
+  Widget _buildRecentOperations(
+    BuildContext context,
+    RecentActivityState state,
+  ) {
+    if (state.isLoading && state.activities.isEmpty) {
+      return _buildOperationsLoading();
+    }
+
+    if (state.activities.isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.all(20),
+        child: Center(
+          child: Text(
+            'No recent operations',
+            style: TextStyle(color: AppColors.textSecondary),
+          ),
+        ),
+      );
+    }
+
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      itemCount: state.activities.take(5).length,
+      itemBuilder: (context, index) {
+        final activity = state.activities[index];
+        return _buildOperationItem2(context, activity);
+      },
+    );
+  }
+
+  Widget _buildOperationsLoading() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        children: List.generate(3, (index) {
+          return Container(
+            margin: const EdgeInsets.only(bottom: 12),
+            height: 60,
+            decoration: BoxDecoration(
+              color: AppColors.surfaceVariant,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: AppColors.border),
+            ),
+          );
+        }),
+      ),
+    );
+  }
+
+  Widget _buildOperationItem2(BuildContext context, OperationLog activity) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.border),
+        boxShadow: AppColors.cardShadow,
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: _getOperationColor(
+                activity.operationType,
+              ).withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(
+              _getOperationIcon(activity.entityType),
+              color: _getOperationColor(activity.operationType),
+              size: 22,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  activity.title,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  activity.description ?? activity.projectName ?? '',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: AppColors.textSecondary,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+          Text(
+            activity.relativeTime,
+            style: TextStyle(fontSize: 11, color: AppColors.textSecondary),
+          ),
+        ],
+      ),
+    );
+  }
+
+  IconData _getOperationIcon(String entityType) {
+    switch (entityType) {
+      case 'project':
+        return Icons.business;
+      case 'stock':
+        return Icons.inventory_2;
+      case 'labour':
+        return Icons.people;
+      case 'blueprint':
+        return Icons.description;
+      case 'machinery':
+        return Icons.construction;
+      default:
+        return Icons.info_outline;
+    }
+  }
+
+  Color _getOperationColor(String operationType) {
+    switch (operationType) {
+      case 'create':
+        return AppColors.success;
+      case 'update':
+        return AppColors.info;
+      case 'delete':
+        return AppColors.error;
+      case 'upload':
+        return AppColors.primary;
+      case 'status_change':
+        return AppColors.warning;
+      default:
+        return AppColors.secondary;
+    }
+  }
+}
+
+class _OperationTile {
+  final String label;
+  final String subtitle;
+  final IconData icon;
+  final Color? bg;
+  final VoidCallback onTap;
+
+  const _OperationTile({
+    required this.label,
+    required this.subtitle,
+    required this.icon,
+    this.bg,
+    required this.onTap,
+  });
+}
