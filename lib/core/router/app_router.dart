@@ -119,6 +119,12 @@ final routerProvider = Provider<GoRouter>((ref) {
 
         final path = state.uri.path;
 
+        // Client role is sandboxed to /client/* — block access to all
+        // staff-facing routes so a client token cannot browse the shell.
+        if (userRole == UserRole.client && !path.startsWith('/client/')) {
+          return '/client/dashboard';
+        }
+
         if (_requiresSuperAdmin(path) && userRole != UserRole.superAdmin) {
           return _getRoleBasedRoute(userRole);
         }

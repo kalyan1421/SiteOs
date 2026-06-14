@@ -194,12 +194,31 @@ class AuthNotifier extends StateNotifier<AppAuthState> {
     }
   }
 
-  /// Load user profile and role from database
+  /// Load user profile and role from database.
+  ///
+  /// On any failure we sign the user out rather than silently granting a
+  /// default role. A bad/missing profile must never grant shell access.
   Future<void> _loadUserProfile(supabase.User user) async {
     try {
       final profile = await _repository.getUserProfile(user.id);
-      final role = UserRole.fromString(profile?.role);
 
+      if (profile == null) {
+        // Profile row genuinely missing (e.g. trigger failed on signup).
+        // Sign out so the user can re-register cleanly.
+        logger.w('No profile row for ${user.email} — signing out');
+        await _repository.signOut();
+        state = const AppAuthState(
+          user: null,
+          role: null,
+          profile: null,
+          isLoading: false,
+          isInitialized: true,
+          error: 'Account setup incomplete. Please sign up again.',
+        );
+        return;
+      }
+
+      final role = UserRole.fromString(profile.role);
       state = AppAuthState(
         user: user,
         role: role ?? UserRole.siteManager,
@@ -212,14 +231,18 @@ class AuthNotifier extends StateNotifier<AppAuthState> {
     } catch (e) {
       logger.e('Failed to load user profile: $e');
 
-      // User exists but profile doesn't - set default role
+      // Network / RLS error — sign out rather than grant any role.
+      try {
+        await _repository.signOut();
+      } catch (_) {}
+
       state = AppAuthState(
-        user: user,
-        role: UserRole.siteManager,
+        user: null,
+        role: null,
         profile: null,
         isLoading: false,
         isInitialized: true,
-        error: 'Profile not found. Using default role.',
+        error: 'Could not verify your account. Please sign in again.',
       );
     }
   }
