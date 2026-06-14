@@ -191,17 +191,19 @@ class _AiBoqWizardState extends ConsumerState<AiBoqWizard> {
         return _StepCard(
           title: 'What are you building?',
           subtitle: 'Choose the project type.',
-          child: Column(
-            children: _projectTypes
-                .map((t) => RadioListTile<String>(
-                      value: t.$1,
-                      groupValue: _projectType,
-                      title: Text(t.$2),
-                      contentPadding: EdgeInsets.zero,
-                      onChanged: (v) =>
-                          setState(() => _projectType = v ?? _projectType),
-                    ))
-                .toList(),
+          child: RadioGroup<String>(
+            groupValue: _projectType,
+            onChanged: (v) =>
+                setState(() => _projectType = v ?? _projectType),
+            child: Column(
+              children: _projectTypes
+                  .map((t) => RadioListTile<String>(
+                        value: t.$1,
+                        title: Text(t.$2),
+                        contentPadding: EdgeInsets.zero,
+                      ))
+                  .toList(),
+            ),
           ),
         );
       case 1:

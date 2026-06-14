@@ -206,7 +206,7 @@ class _WorkOrderFormState extends ConsumerState<WorkOrderForm> {
                   onChanged: (v) => setState(() => _projectId = v),
                 ),
                 loading: () => const LinearProgressIndicator(),
-                error: (_, __) => const SizedBox.shrink(),
+                error: (_, _) => const SizedBox.shrink(),
               ),
               const SizedBox(height: AppSpacing.s4),
               TextFormField(

@@ -77,7 +77,7 @@ class InvoiceOcrResult {
         lineItems: (json['line_items'] as List? ?? [])
             .whereType<Map>()
             .map((e) => InvoiceLineItem.fromJson(
-                Map<String, dynamic>.from(e as Map)))
+                Map<String, dynamic>.from(e)))
             .toList(),
         taxAmount: _toDouble(json['tax_amount']),
         total: _toDouble(json['total']),

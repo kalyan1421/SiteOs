@@ -205,7 +205,7 @@ class _VoiceReportScreenState extends ConsumerState<VoiceReportScreen> {
                   onChanged: (v) => setState(() => _projectId = v),
                 ),
                 loading: () => const LinearProgressIndicator(),
-                error: (_, __) => Text('Could not load projects',
+                error: (_, _) => Text('Could not load projects',
                     style: AppTextStyles.bodySmall
                         .copyWith(color: AppColors.error)),
               ),

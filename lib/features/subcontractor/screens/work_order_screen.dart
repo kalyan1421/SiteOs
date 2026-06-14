@@ -58,7 +58,7 @@ class WorkOrderScreen extends ConsumerWidget {
               : ListView.separated(
                   padding: const EdgeInsets.all(AppSpacing.s4),
                   itemCount: wos.length,
-                  separatorBuilder: (_, __) =>
+                  separatorBuilder: (_, _) =>
                       const SizedBox(height: AppSpacing.s3),
                   itemBuilder: (_, i) => _WorkOrderCard(
                     workOrder: wos[i],

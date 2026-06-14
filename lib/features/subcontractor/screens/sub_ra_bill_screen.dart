@@ -82,7 +82,7 @@ class SubRaBillScreen extends ConsumerWidget {
                   ),
                   sliver: SliverList.separated(
                     itemCount: bills.length,
-                    separatorBuilder: (_, __) =>
+                    separatorBuilder: (_, _) =>
                         const SizedBox(height: AppSpacing.s3),
                     itemBuilder: (_, i) => _RaBillCard(
                       bill: bills[i],

@@ -58,7 +58,7 @@ class BoqResult {
   factory BoqResult.fromJson(Map<String, dynamic> json) => BoqResult(
         rows: (json['rows'] as List? ?? [])
             .whereType<Map>()
-            .map((e) => BoqRow.fromJson(Map<String, dynamic>.from(e as Map)))
+            .map((e) => BoqRow.fromJson(Map<String, dynamic>.from(e)))
             .toList(),
         assumptions: (json['assumptions'] as List? ?? [])
             .map((e) => e.toString())

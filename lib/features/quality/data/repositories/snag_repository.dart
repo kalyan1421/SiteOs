@@ -6,7 +6,7 @@ import '../../../../core/config/supabase_client.dart';
 import '../models/snag.dart';
 
 /// All Supabase access for snags and their before/after photos. Photos live in
-/// the 'snags' Storage bucket under '<project_id>/<snag_id>/<file>'.
+/// the 'snags' Storage bucket under `<project_id>/<snag_id>/<file>`.
 class SnagRepository {
   static const String bucket = 'snags';
 

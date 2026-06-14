@@ -52,7 +52,7 @@ class SubcontractorsScreen extends ConsumerWidget {
                     : ListView.separated(
                         padding: const EdgeInsets.all(AppSpacing.s4),
                         itemCount: subs.length,
-                        separatorBuilder: (_, __) =>
+                        separatorBuilder: (_, _) =>
                             const SizedBox(height: AppSpacing.s3),
                         itemBuilder: (_, i) => _SubcontractorCard(
                           subcontractor: subs[i],
