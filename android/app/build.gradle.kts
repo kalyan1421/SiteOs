@@ -22,7 +22,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.clivimanagement.app"
+    namespace = "in.siteos.app"
     compileSdk = 36
     ndkVersion = flutter.ndkVersion
 
@@ -36,7 +36,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.clivimanagement.app"
+        applicationId = "in.siteos.app"
         minSdk = flutter.minSdkVersion
         targetSdk = 35
         versionCode = flutter.versionCode

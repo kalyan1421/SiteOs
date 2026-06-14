@@ -1,0 +1,189 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "SiteOS",
+  "@appTitle": {
+    "description": "The application name shown in titles and the app bar."
+  },
+
+  "dashboard": "Dashboard",
+  "@dashboard": {
+    "description": "Primary navigation label for the dashboard."
+  },
+  "projects": "Projects",
+  "@projects": {
+    "description": "Navigation label for the projects section."
+  },
+  "materials": "Materials",
+  "@materials": {
+    "description": "Navigation label for the materials section."
+  },
+  "labour": "Labour",
+  "@labour": {
+    "description": "Navigation label for the labour section."
+  },
+  "bills": "Bills",
+  "@bills": {
+    "description": "Navigation label for the bills/billing section."
+  },
+  "reports": "Reports",
+  "@reports": {
+    "description": "Navigation label for the reports section."
+  },
+  "blueprints": "Blueprints",
+  "@blueprints": {
+    "description": "Navigation label for the blueprints section."
+  },
+  "inventory": "Inventory",
+  "@inventory": {
+    "description": "Navigation label for the inventory section."
+  },
+  "machinery": "Machinery",
+  "@machinery": {
+    "description": "Navigation label for the machinery section."
+  },
+  "vendors": "Vendors",
+  "@vendors": {
+    "description": "Navigation label for the vendors section."
+  },
+  "settings": "Settings",
+  "@settings": {
+    "description": "Navigation label for the settings screen."
+  },
+  "profile": "Profile",
+  "@profile": {
+    "description": "Navigation label for the user profile screen."
+  },
+  "company": "Company",
+  "@company": {
+    "description": "Navigation label for the company management screen."
+  },
+  "subscription": "Subscription",
+  "@subscription": {
+    "description": "Navigation label for the subscription/plan screen."
+  },
+
+  "save": "Save",
+  "@save": {
+    "description": "Generic save action button."
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Generic cancel action button."
+  },
+  "delete": "Delete",
+  "@delete": {
+    "description": "Generic delete action button."
+  },
+  "edit": "Edit",
+  "@edit": {
+    "description": "Generic edit action button."
+  },
+  "add": "Add",
+  "@add": {
+    "description": "Generic add action button."
+  },
+  "update": "Update",
+  "@update": {
+    "description": "Generic update action button."
+  },
+  "search": "Search",
+  "@search": {
+    "description": "Generic search field placeholder / action."
+  },
+  "filter": "Filter",
+  "@filter": {
+    "description": "Generic filter action."
+  },
+  "confirm": "Confirm",
+  "@confirm": {
+    "description": "Generic confirm action button."
+  },
+  "close": "Close",
+  "@close": {
+    "description": "Generic close action button."
+  },
+  "retry": "Retry",
+  "@retry": {
+    "description": "Retry action shown on error states."
+  },
+  "loading": "Loading...",
+  "@loading": {
+    "description": "Generic loading indicator label."
+  },
+  "noData": "No data available",
+  "@noData": {
+    "description": "Generic empty-state message."
+  },
+
+  "login": "Log in",
+  "@login": {
+    "description": "Login action button on the auth screen."
+  },
+  "logout": "Log out",
+  "@logout": {
+    "description": "Logout action."
+  },
+  "register": "Register",
+  "@register": {
+    "description": "Registration action button on the auth screen."
+  },
+  "email": "Email",
+  "@email": {
+    "description": "Email field label."
+  },
+  "password": "Password",
+  "@password": {
+    "description": "Password field label."
+  },
+  "phone": "Phone",
+  "@phone": {
+    "description": "Phone number field label."
+  },
+  "name": "Name",
+  "@name": {
+    "description": "Name field label."
+  },
+  "forgotPassword": "Forgot password?",
+  "@forgotPassword": {
+    "description": "Link to the password reset flow."
+  },
+  "welcomeBack": "Welcome back",
+  "@welcomeBack": {
+    "description": "Greeting shown on the login screen."
+  },
+
+  "totalProjects": "Total projects",
+  "@totalProjects": {
+    "description": "Dashboard KPI label for total project count."
+  },
+  "activeProjects": "Active projects",
+  "@activeProjects": {
+    "description": "Dashboard KPI label for active projects."
+  },
+  "pendingBills": "Pending bills",
+  "@pendingBills": {
+    "description": "Dashboard KPI label for bills awaiting action."
+  },
+  "recentActivity": "Recent activity",
+  "@recentActivity": {
+    "description": "Dashboard section header for the activity feed."
+  },
+
+  "language": "Language",
+  "@language": {
+    "description": "Settings label for choosing the app language."
+  },
+  "selectLanguage": "Select language",
+  "@selectLanguage": {
+    "description": "Title of the language picker screen."
+  },
+  "languageEnglish": "English",
+  "@languageEnglish": {
+    "description": "Display name for the English language option."
+  },
+  "languageHindi": "Hindi",
+  "@languageHindi": {
+    "description": "Display name for the Hindi language option (in English)."
+  }
+}

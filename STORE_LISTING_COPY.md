@@ -1,4 +1,4 @@
-# 🏪 Civil Pro — Store Listing Copy
+# 🏪 SiteOS — Store Listing Copy
 
 Ready-to-paste text for Google Play and the Apple App Store.
 **Privacy Policy URL (live):** https://clivi-privacy.web.app
@@ -12,7 +12,7 @@ Ready-to-paste text for Google Play and the Apple App Store.
 
 **App name** (≤30 chars)
 ```
-Civil Pro: Construction Mgr
+SiteOS: Construction Mgr
 ```
 
 **Short description** (≤80 chars)
@@ -22,9 +22,9 @@ Manage construction projects, labour, stock, bills & site photos in one app.
 
 **Full description** (≤4000 chars)
 ```
-Civil Pro is an all-in-one construction project management app for builders, contractors, and site teams. It keeps every project, site, and team member organized — from labour attendance to material stock, machinery, bills, and on-site documentation.
+SiteOS is an all-in-one construction project management app for builders, contractors, and site teams. It keeps every project, site, and team member organized — from labour attendance to material stock, machinery, bills, and on-site documentation.
 
-Civil Pro is an invite-only workplace tool. Accounts are created by your organization's administrator with role-based access for admins and site managers, so everyone sees exactly what they need.
+SiteOS is an invite-only workplace tool. Accounts are created by your organization's administrator with role-based access for admins and site managers, so everyone sees exactly what they need.
 
 KEY FEATURES
 
@@ -43,7 +43,7 @@ Built for construction firms that want to replace scattered spreadsheets and pap
 
 Your data is protected with row-level security and encrypted connections. See our privacy policy at https://clivi-privacy.web.app
 
-Note: Civil Pro requires an account provided by your organization. There is no public sign-up.
+Note: SiteOS requires an account provided by your organization. There is no public sign-up.
 ```
 
 **Category:** Business (alternate: Productivity)
@@ -58,7 +58,7 @@ Note: Civil Pro requires an account provided by your organization. There is no p
 
 **App Name** (≤30 chars)
 ```
-Civil Pro Construction Manager
+SiteOS Construction Manager
 ```
 
 **Subtitle** (≤30 chars)
@@ -73,9 +73,9 @@ Run your construction sites from one app: projects, labour, stock, machinery, bi
 
 **Description** (≤4000 chars)
 ```
-Civil Pro is an all-in-one construction project management app for builders, contractors, and site teams. It brings every project, site, and team member into one organized system — from labour attendance to material stock, machinery, bills, and on-site documentation.
+SiteOS is an all-in-one construction project management app for builders, contractors, and site teams. It brings every project, site, and team member into one organized system — from labour attendance to material stock, machinery, bills, and on-site documentation.
 
-Civil Pro is an invite-only workplace tool. Accounts are created by your organization's administrator with role-based access for admins and site managers, so each person sees exactly what they need.
+SiteOS is an invite-only workplace tool. Accounts are created by your organization's administrator with role-based access for admins and site managers, so each person sees exactly what they need.
 
 KEY FEATURES
 
@@ -94,7 +94,7 @@ Built for construction firms replacing scattered spreadsheets and paperwork with
 
 Your data is protected with row-level security and encrypted connections.
 
-Note: Civil Pro requires an account provided by your organization. There is no public sign-up.
+Note: SiteOS requires an account provided by your organization. There is no public sign-up.
 ```
 
 **Keywords** (≤100 chars, comma-separated, no spaces)
@@ -114,7 +114,7 @@ construction,project,contractor,site,labour,inventory,builder,blueprint,bills,ma
 ## 📝 App Review notes (paste into "App Review Information")
 
 ```
-Civil Pro is an invite-only construction management tool. There is NO public sign-up — accounts are created by an administrator.
+SiteOS is an invite-only construction management tool. There is NO public sign-up — accounts are created by an administrator.
 
 A demo account is provided below for review:
   Email:    <ADD DEMO EMAIL>

@@ -1,8 +1,8 @@
-# 📦 Civil Pro — Store Release Checklist
+# 📦 SiteOS — Store Release Checklist
 
 Status of everything needed to publish on **Google Play** (Android) and the **Apple App Store** (iOS).
 
-- **App name:** Civil Pro
+- **App name:** SiteOS
 - **Bundle / Application ID:** `com.clivimanagement.app`
 - **Version:** `1.0.0+1` (versionName `1.0.0`, versionCode/build `1`)
 - **Backend:** Supabase (Postgres + RLS + Storage + Realtime)
@@ -25,7 +25,7 @@ Status of everything needed to publish on **Google Play** (Android) and the **Ap
 | Support page | **LIVE → https://clivi-support.web.app** (separate Firebase site `clivi-support`, source `support/index.html`) |
 | Store copy | Drafted for Play + App Store → `STORE_LISTING_COPY.md` |
 | Crashlytics | Firebase Crashlytics wired (Android + iOS apps registered, `firebase_options.dart`, error handlers in `main.dart`); release-only collection |
-| Verified | `flutter build appbundle --release` succeeds (55.3MB w/ Firebase), signed with `CN=Clivi Management`; iOS `pod install` resolves Firebase pods (iOS 15) |
+| Verified | `flutter build appbundle --release` succeeds (55.3MB w/ Firebase), signed with `CN=SiteOS`; iOS `pod install` resolves Firebase pods (iOS 15) |
 
 > ⚠️ **BACK UP YOUR KEYSTORE.** The password was printed in the terminal during generation.
 > Store `android/upload-keystore.jks` **and** the password somewhere safe (password manager).

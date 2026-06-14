@@ -1,4 +1,4 @@
-# Clivi Management - User Manual
+# SiteOS - User Manual
 
 **Version 1.0.0**
 Construction project management made simple and efficient.
@@ -41,7 +41,7 @@ Construction project management made simple and efficient.
 
 ## User Roles
 
-Clivi Management has three user roles. Each role has different access levels:
+SiteOS has three user roles. Each role has different access levels:
 
 | Feature | Super Admin | Admin | Site Manager |
 |---------|:-----------:|:-----:|:------------:|
@@ -453,4 +453,4 @@ For issues or feedback, contact your system administrator or visit the project r
 
 ---
 
-*Clivi Management v1.0.0 — Built with Flutter*
+*SiteOS v1.0.0 — Built with Flutter*

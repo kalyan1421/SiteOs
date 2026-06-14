@@ -20,6 +20,14 @@ class RouteNames {
   static const String signup = 'signup';
   static const String signupPath = '/signup';
 
+  /// Company registration route (self-service 14-day trial)
+  static const String register = 'register';
+  static const String registerPath = '/register';
+
+  /// Trial-expired paywall route
+  static const String trialExpired = 'trial-expired';
+  static const String trialExpiredPath = '/trial-expired';
+
   /// Forgot password screen route
   static const String forgotPassword = 'forgot-password';
   static const String forgotPasswordPath = '/forgot-password';
@@ -258,6 +266,7 @@ class RouteNames {
     splashPath,
     loginPath,
     signupPath,
+    registerPath,
     forgotPasswordPath,
     resetPasswordPath,
   ];

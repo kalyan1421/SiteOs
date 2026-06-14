@@ -2,116 +2,120 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'app_colors.dart';
 
-/// Editorial type system.
+/// SiteOS type system.
 ///
-/// - **Display / Headlines** use Fraunces — a variable serif with editorial
-///   character. Reserved for hero moments (welcome, page titles, key metrics).
-/// - **Titles / UI** use Plus Jakarta Sans — a refined modern grotesk that
-///   reads premium on cream surfaces.
-/// - **Body** uses Inter — high-legibility grotesk, ideal for long copy.
+/// - **Display / Headings** use **Space Grotesk** — geometric, confident,
+///   structured. All headings H1–H4 and hero moments.
+/// - **Body / Labels** use **Inter** — the most readable digital typeface, for
+///   all body text, labels, inputs, and data.
+/// - **Amounts / IDs** use **JetBrains Mono** — bill numbers, IDs, ₹ amounts.
+///
+/// Source of truth: SiteOS Brand Guide v1.0 (Section 4 — Typography).
+/// Getter NAMES are preserved from the previous type system so every screen
+/// keeps compiling; only the font families / weights changed.
 class AppTextStyles {
   AppTextStyles._();
 
   // ── Font families ──────────────────────────────────────────────────
 
-  static String get displayFontFamily =>
-      GoogleFonts.fraunces().fontFamily!;
+  static String get displayFontFamily => GoogleFonts.spaceGrotesk().fontFamily!;
 
-  /// Primary font family for headings (alias kept for backwards compat).
-  static String get headingFontFamily =>
-      GoogleFonts.plusJakartaSans().fontFamily!;
+  /// Heading font (alias kept for backwards compatibility).
+  static String get headingFontFamily => GoogleFonts.spaceGrotesk().fontFamily!;
 
-  static String get titleFontFamily =>
-      GoogleFonts.plusJakartaSans().fontFamily!;
+  static String get titleFontFamily => GoogleFonts.spaceGrotesk().fontFamily!;
 
   static String get bodyFontFamily => GoogleFonts.inter().fontFamily!;
 
-  // ── Display (editorial serif, hero moments only) ──────────────────
+  /// Monospace font for amounts, bill numbers, IDs.
+  static String get monoFontFamily => GoogleFonts.jetBrainsMono().fontFamily!;
 
-  static TextStyle get displayLarge => GoogleFonts.fraunces(
-        fontSize: 52,
-        fontWeight: FontWeight.w500,
-        color: AppColors.textPrimary,
-        letterSpacing: -1.0,
-        height: 1.05,
-      );
+  // ── Display (Space Grotesk, hero moments) ─────────────────────────
 
-  static TextStyle get displayMedium => GoogleFonts.fraunces(
-        fontSize: 42,
-        fontWeight: FontWeight.w500,
+  static TextStyle get displayLarge => GoogleFonts.spaceGrotesk(
+        fontSize: 40,
+        fontWeight: FontWeight.w700,
         color: AppColors.textPrimary,
         letterSpacing: -0.8,
-        height: 1.08,
+        height: 1.15,
       );
 
-  static TextStyle get displaySmall => GoogleFonts.fraunces(
+  static TextStyle get displayMedium => GoogleFonts.spaceGrotesk(
         fontSize: 34,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w700,
         color: AppColors.textPrimary,
         letterSpacing: -0.6,
-        height: 1.1,
+        height: 1.15,
       );
 
-  // ── Headlines (section titles, big card titles) ───────────────────
+  static TextStyle get displaySmall => GoogleFonts.spaceGrotesk(
+        fontSize: 30,
+        fontWeight: FontWeight.w700,
+        color: AppColors.textPrimary,
+        letterSpacing: -0.5,
+        height: 1.2,
+      );
 
-  static TextStyle get headlineLarge => GoogleFonts.fraunces(
+  // ── Headlines (page + section titles) ─────────────────────────────
+
+  static TextStyle get headlineLarge => GoogleFonts.spaceGrotesk(
         fontSize: 28,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w700,
         color: AppColors.textPrimary,
         letterSpacing: -0.4,
-        height: 1.18,
+        height: 1.2,
       );
 
-  static TextStyle get headlineMedium => GoogleFonts.plusJakartaSans(
+  static TextStyle get headlineMedium => GoogleFonts.spaceGrotesk(
         fontSize: 24,
-        fontWeight: FontWeight.w700,
+        fontWeight: FontWeight.w600,
         color: AppColors.textPrimary,
         letterSpacing: -0.3,
-        height: 1.22,
-      );
-
-  static TextStyle get headlineSmall => GoogleFonts.plusJakartaSans(
-        fontSize: 20,
-        fontWeight: FontWeight.w700,
-        color: AppColors.textPrimary,
-        letterSpacing: -0.2,
-        height: 1.28,
-      );
-
-  // ── Titles (card titles, list items, sheet titles) ────────────────
-
-  static TextStyle get titleLarge => GoogleFonts.plusJakartaSans(
-        fontSize: 18,
-        fontWeight: FontWeight.w700,
-        color: AppColors.textPrimary,
-        letterSpacing: -0.1,
         height: 1.3,
       );
 
-  static TextStyle get titleMedium => GoogleFonts.plusJakartaSans(
-        fontSize: 15,
+  static TextStyle get headlineSmall => GoogleFonts.spaceGrotesk(
+        fontSize: 20,
+        fontWeight: FontWeight.w600,
+        color: AppColors.textPrimary,
+        letterSpacing: -0.2,
+        height: 1.35,
+      );
+
+  // ── Titles (card titles, sheet titles, subheadings) ───────────────
+
+  static TextStyle get titleLarge => GoogleFonts.spaceGrotesk(
+        fontSize: 18,
+        fontWeight: FontWeight.w600,
+        color: AppColors.textPrimary,
+        letterSpacing: -0.1,
+        height: 1.35,
+      );
+
+  static TextStyle get titleMedium => GoogleFonts.spaceGrotesk(
+        fontSize: 16,
         fontWeight: FontWeight.w600,
         color: AppColors.textPrimary,
         letterSpacing: 0,
         height: 1.4,
       );
 
-  static TextStyle get titleSmall => GoogleFonts.plusJakartaSans(
-        fontSize: 13,
+  static TextStyle get titleSmall => GoogleFonts.spaceGrotesk(
+        fontSize: 14,
         fontWeight: FontWeight.w600,
         color: AppColors.textPrimary,
         letterSpacing: 0,
         height: 1.4,
       );
 
-  // ── Body (paragraph text) ─────────────────────────────────────────
+  // ── Body (Inter) ──────────────────────────────────────────────────
 
   static TextStyle get bodyLarge => GoogleFonts.inter(
         fontSize: 16,
         fontWeight: FontWeight.w400,
         color: AppColors.textPrimary,
         letterSpacing: 0,
-        height: 1.55,
+        height: 1.6,
       );
 
   static TextStyle get bodyMedium => GoogleFonts.inter(
@@ -119,20 +123,20 @@ class AppTextStyles {
         fontWeight: FontWeight.w400,
         color: AppColors.textPrimary,
         letterSpacing: 0,
-        height: 1.5,
+        height: 1.6,
       );
 
   static TextStyle get bodySmall => GoogleFonts.inter(
-        fontSize: 12.5,
+        fontSize: 13,
         fontWeight: FontWeight.w400,
         color: AppColors.textSecondary,
-        letterSpacing: 0.05,
-        height: 1.45,
+        letterSpacing: 0,
+        height: 1.5,
       );
 
-  // ── Labels (buttons, chips, form labels) ──────────────────────────
+  // ── Labels (Inter — buttons, chips, form labels) ──────────────────
 
-  static TextStyle get labelLarge => GoogleFonts.plusJakartaSans(
+  static TextStyle get labelLarge => GoogleFonts.inter(
         fontSize: 14,
         fontWeight: FontWeight.w600,
         color: AppColors.textPrimary,
@@ -140,46 +144,46 @@ class AppTextStyles {
         height: 1.4,
       );
 
-  static TextStyle get labelMedium => GoogleFonts.plusJakartaSans(
+  static TextStyle get labelMedium => GoogleFonts.inter(
         fontSize: 12,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w500,
         color: AppColors.textPrimary,
         letterSpacing: 0.2,
-        height: 1.35,
+        height: 1.4,
       );
 
-  static TextStyle get labelSmall => GoogleFonts.plusJakartaSans(
+  static TextStyle get labelSmall => GoogleFonts.inter(
         fontSize: 11,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w500,
         color: AppColors.textSecondary,
-        letterSpacing: 0.4,
-        height: 1.45,
+        letterSpacing: 0.3,
+        height: 1.4,
       );
 
   // ── Custom ─────────────────────────────────────────────────────────
 
-  static TextStyle get button => GoogleFonts.plusJakartaSans(
-        fontSize: 15,
+  static TextStyle get button => GoogleFonts.inter(
+        fontSize: 14,
         fontWeight: FontWeight.w600,
         letterSpacing: 0.1,
         height: 1.4,
       );
 
   static TextStyle get caption => GoogleFonts.inter(
-        fontSize: 12,
+        fontSize: 11,
         fontWeight: FontWeight.w400,
         color: AppColors.textSecondary,
         letterSpacing: 0.1,
         height: 1.4,
       );
 
-  /// All-caps editorial overline (e.g. ASSIGNED · PROJECTS · etc.)
-  static TextStyle get overline => GoogleFonts.plusJakartaSans(
+  /// All-caps overline / section eyebrow (e.g. MATERIAL CONSUMPTION).
+  static TextStyle get overline => GoogleFonts.inter(
         fontSize: 11,
-        fontWeight: FontWeight.w700,
+        fontWeight: FontWeight.w600,
         color: AppColors.textSecondary,
-        letterSpacing: 1.6,
-        height: 1.5,
+        letterSpacing: 0.6,
+        height: 1.4,
       );
 
   static TextStyle get error => GoogleFonts.inter(
@@ -190,7 +194,7 @@ class AppTextStyles {
         height: 1.4,
       );
 
-  static TextStyle get link => GoogleFonts.plusJakartaSans(
+  static TextStyle get link => GoogleFonts.inter(
         fontSize: 14,
         fontWeight: FontWeight.w600,
         color: AppColors.primary,
@@ -200,19 +204,29 @@ class AppTextStyles {
         height: 1.4,
       );
 
-  static TextStyle get price => GoogleFonts.plusJakartaSans(
-        fontSize: 22,
-        fontWeight: FontWeight.w700,
+  /// Amounts (₹) — always JetBrains Mono per brand guide.
+  static TextStyle get price => GoogleFonts.jetBrainsMono(
+        fontSize: 20,
+        fontWeight: FontWeight.w500,
         color: AppColors.textPrimary,
-        letterSpacing: -0.4,
-        height: 1.25,
+        letterSpacing: -0.2,
+        height: 1.3,
       );
 
-  static TextStyle get badge => GoogleFonts.plusJakartaSans(
-        fontSize: 10.5,
-        fontWeight: FontWeight.w700,
+  /// Mono — inline bill numbers, IDs, ₹ amounts in tables.
+  static TextStyle get mono => GoogleFonts.jetBrainsMono(
+        fontSize: 13,
+        fontWeight: FontWeight.w400,
+        color: AppColors.textPrimary,
+        letterSpacing: 0,
+        height: 1.5,
+      );
+
+  static TextStyle get badge => GoogleFonts.inter(
+        fontSize: 11,
+        fontWeight: FontWeight.w600,
         color: AppColors.textOnPrimary,
-        letterSpacing: 0.6,
+        letterSpacing: 0.3,
         height: 1.2,
       );
 

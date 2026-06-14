@@ -1,6 +1,6 @@
-# Clivi Management — Application Features
+# SiteOS — Application Features
 
-**App:** Clivi Management (Civil Construction Management)
+**App:** SiteOS (Civil Construction Management)
 **Platform:** Flutter (Android, iOS) + Supabase backend + Firebase (Crashlytics / messaging)
 **Architecture:** Feature-based modules, Repository pattern, Riverpod state management
 **Backend:** Supabase (PostgreSQL + RLS + Realtime + Storage + Edge Functions)

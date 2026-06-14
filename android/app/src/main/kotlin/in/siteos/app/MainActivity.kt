@@ -1,4 +1,4 @@
-package com.clivimanagement.app
+package `in`.siteos.app
 
 import io.flutter.embedding.android.FlutterActivity
 

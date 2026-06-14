@@ -1,4 +1,4 @@
-# Clivi Management App - Technical Documentation
+# SiteOS App - Technical Documentation
 
 > **Version:** 1.0 | **Last Updated:** February 2026  
 > **Stack:** Flutter + Supabase (PostgreSQL + Auth + Storage)
@@ -8,7 +8,7 @@
 ## 1️⃣ System Overview
 
 ### Purpose
-Clivi Management is a mobile application for **construction site management** enabling:
+SiteOS is a mobile application for **construction site management** enabling:
 - Project tracking and progress monitoring
 - Labour/workforce management and attendance
 - Material/stock inventory control

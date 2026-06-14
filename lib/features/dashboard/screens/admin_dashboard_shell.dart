@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:clivi_management/core/theme/app_colors.dart';
-import 'package:clivi_management/core/ui/responsive.dart';
-import 'package:clivi_management/core/widgets/sync_banner.dart';
-import 'package:clivi_management/features/auth/providers/auth_provider.dart';
+import 'package:siteos/core/theme/app_colors.dart';
+import 'package:siteos/core/ui/responsive.dart';
+import 'package:siteos/core/widgets/sync_banner.dart';
+import 'package:siteos/core/widgets/siteos_logo.dart';
+import 'package:siteos/features/auth/providers/auth_provider.dart';
 
 class DashboardShell extends ConsumerWidget {
   final Widget child;
@@ -34,6 +35,7 @@ class DashboardShell extends ConsumerWidget {
       const _NavDestination(Icons.receipt_long, 'Bills', '/bills'),
       if (isAdminRole)
         const _NavDestination(Icons.bar_chart, 'Reports', '/reports'),
+      const _NavDestination(Icons.apps_rounded, 'More', '/tools'),
       const _NavDestination(Icons.person_outline, 'Profile', '/profile'),
     ];
 
@@ -220,14 +222,9 @@ class _SidebarHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final logo = ClipRRect(
-      borderRadius: BorderRadius.circular(10),
-      child: Image.asset(
-        'assets/images/logo.png',
-        width: 38,
-        height: 38,
-        fit: BoxFit.contain,
-      ),
+    final logo = const SiteOsLogo(
+      size: 38,
+      variant: SiteOsLogoVariant.onDark,
     );
 
     if (!extended) {
@@ -242,7 +239,7 @@ class _SidebarHeader extends StatelessWidget {
           const SizedBox(width: 10),
           Expanded(
             child: Text(
-              'Clivi',
+              'SiteOS',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(

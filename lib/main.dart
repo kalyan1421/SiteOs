@@ -1,6 +1,6 @@
 import 'dart:ui' show PlatformDispatcher;
 
-import 'package:clivi_management/core/config/app_lifecycle_provider.dart';
+import 'package:siteos/core/config/app_lifecycle_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
@@ -78,12 +78,13 @@ void main() async {
 
     // Pre-load Google Fonts to prevent runtime download lag
     GoogleFonts.pendingFonts([
-      GoogleFonts.poppins(),
+      GoogleFonts.spaceGrotesk(),
       GoogleFonts.inter(),
+      GoogleFonts.jetBrainsMono(),
     ]);
 
     // Run the app
-    runApp(ProviderScope(child: CliviManagementApp()));
+    runApp(ProviderScope(child: SiteOsApp()));
   } catch (e, stackTrace) {
     logger.e('Failed to initialize app', error: e, stackTrace: stackTrace);
 
@@ -108,8 +109,8 @@ void main() async {
 }
 
 /// Main application widget
-class CliviManagementApp extends ConsumerWidget {
-  const CliviManagementApp({super.key});
+class SiteOsApp extends ConsumerWidget {
+  const SiteOsApp({super.key});
 
   static final _theme = AppTheme.lightTheme;
 
@@ -135,7 +136,7 @@ class CliviManagementApp extends ConsumerWidget {
     });
 
     return MaterialApp.router(
-      title: 'Civil Pro',
+      title: 'SiteOS',
       debugShowCheckedModeBanner: false,
       theme: _theme,
       themeMode: ThemeMode.light,

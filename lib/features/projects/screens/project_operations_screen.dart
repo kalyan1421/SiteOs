@@ -364,6 +364,64 @@ class _MaterialsTabState extends ConsumerState<_MaterialsTab> {
                   );
                 },
               ),
+              const Divider(height: 32),
+              ListTile(
+                leading: Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: AppColors.primary.withValues(alpha: 0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(Icons.list_alt_rounded,
+                      color: AppColors.primary),
+                ),
+                title: const Text('BOQ & Estimation',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+                subtitle: const Text('Bill of quantities & BOQ-vs-actual'),
+                onTap: () {
+                  Navigator.pop(ctx);
+                  context.push('/projects/${widget.projectId}/boq');
+                },
+              ),
+              const Divider(height: 32),
+              ListTile(
+                leading: Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: AppColors.secondary.withValues(alpha: 0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(Icons.checklist_rounded,
+                      color: AppColors.secondary),
+                ),
+                title: const Text('Quality Checklists',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+                subtitle: const Text('QA/QC checklists for this project'),
+                onTap: () {
+                  Navigator.pop(ctx);
+                  context.push(
+                      '/projects/${widget.projectId}/quality/checklists');
+                },
+              ),
+              const Divider(height: 32),
+              ListTile(
+                leading: Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: AppColors.warning.withValues(alpha: 0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(Icons.report_problem_rounded,
+                      color: AppColors.warning),
+                ),
+                title: const Text('Snags',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+                subtitle: const Text('Defects & punch list with photos'),
+                onTap: () {
+                  Navigator.pop(ctx);
+                  context.push('/projects/${widget.projectId}/quality/snags');
+                },
+              ),
             ],
           ),
         );

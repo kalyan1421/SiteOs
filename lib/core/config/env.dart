@@ -1,6 +1,6 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/foundation.dart';
-import 'package:clivi_management/core/config/supabase_client.dart' show logger;
+import 'package:siteos/core/config/supabase_client.dart' show logger;
 
 /// Environment configuration for the app
 /// Loads values from .env file

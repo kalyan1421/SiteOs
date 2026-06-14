@@ -8,6 +8,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/ui/responsive.dart';
 import '../../../core/widgets/error_widget.dart';
 import '../../../core/widgets/shake_transition.dart';
+import '../../../core/widgets/siteos_logo.dart';
 import '../providers/auth_provider.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -332,12 +333,38 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                     ),
                                   ),
 
-                                  const SizedBox(height: 32),
+                                  const SizedBox(height: 24),
+
+                                  // ── Create company account ──
+                                  Center(
+                                    child: Wrap(
+                                      crossAxisAlignment:
+                                          WrapCrossAlignment.center,
+                                      children: [
+                                        Text(
+                                          'New to SiteOS?',
+                                          style: GoogleFonts.inter(
+                                            fontSize: 13,
+                                            color: AppColors.textSecondary,
+                                          ),
+                                        ),
+                                        TextButton(
+                                          onPressed: isLoading
+                                              ? null
+                                              : () => context.go('/register'),
+                                          child: const Text(
+                                              'Create a company account'),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
+                                  const SizedBox(height: 16),
 
                                   // ── Footer ──
                                   Center(
                                     child: Text(
-                                      '© ${DateTime.now().year}  Clivi Management',
+                                      '© ${DateTime.now().year}  SiteOS',
                                       style: GoogleFonts.plusJakartaSans(
                                         fontSize: 11.5,
                                         color: AppColors.textHint,
@@ -426,49 +453,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 class _BrandLockup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          width: 36,
-          height: 36,
-          decoration: BoxDecoration(
-            color: AppColors.primary,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          alignment: Alignment.center,
-          child: Text(
-            'C',
-            style: GoogleFonts.fraunces(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              color: AppColors.textOnPrimary,
-              letterSpacing: -0.5,
-              height: 1,
-            ),
-          ),
-        ),
-        const SizedBox(width: 12),
-        Text(
-          'Clivi',
-          style: GoogleFonts.fraunces(
-            fontSize: 22,
-            fontWeight: FontWeight.w500,
-            color: AppColors.textPrimary,
-            letterSpacing: -0.5,
-            height: 1,
-          ),
-        ),
-        const SizedBox(width: 6),
-        Container(
-          width: 5,
-          height: 5,
-          decoration: const BoxDecoration(
-            color: AppColors.secondary,
-            shape: BoxShape.circle,
-          ),
-        ),
-      ],
-    );
+    return const SiteOsLogo(size: 36, showWordmark: true);
   }
 }
 

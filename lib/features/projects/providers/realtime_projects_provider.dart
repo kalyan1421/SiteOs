@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:clivi_management/core/config/supabase_client.dart' show logger;
+import 'package:siteos/core/config/supabase_client.dart' show logger;
 import '../data/models/project_model.dart';
 import 'project_provider.dart';
 

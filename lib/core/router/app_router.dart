@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../theme/app_colors.dart';
 import '../../features/auth/screens/splash_screen.dart';
 import '../../features/auth/screens/login_screen.dart';
+import '../../features/auth/screens/register_screen.dart';
+import '../../features/subscription/screens/trial_expired_screen.dart';
 import '../../features/dashboard/screens/site_manager_management_screen.dart';
 import '../../features/dashboard/screens/add_site_manager_screen.dart';
 import '../../features/dashboard/screens/staff_directory_screen.dart';
@@ -45,6 +47,37 @@ import '../../features/labour/screens/labour_tab_screen.dart';
 import '../../features/profile/screens/profile_screen.dart';
 import '../../features/projects/screens/project_site_photos_screen.dart';
 import 'route_param_guard.dart';
+// ── Phase 1–3 feature screens ──
+import '../../features/subscription/data/models/plan.dart';
+import '../../features/subscription/widgets/plan_guard.dart';
+import '../../features/quality/screens/checklist_templates_screen.dart';
+import '../../features/quality/screens/project_checklists_screen.dart';
+import '../../features/quality/screens/snags_screen.dart';
+import '../../features/boq/screens/boq_list_screen.dart';
+import '../../features/boq/screens/boq_detail_screen.dart';
+import '../../features/boq/screens/boq_vs_actual_screen.dart';
+import '../../features/ra_billing/screens/ra_bill_list_screen.dart';
+import '../../features/ra_billing/screens/clients_screen.dart';
+import '../../features/ra_billing/screens/gst_config_screen.dart';
+import '../../features/whatsapp/screens/whatsapp_settings_screen.dart';
+import '../../features/settings/screens/language_picker_screen.dart';
+import '../../features/ai/screens/invoice_scan_screen.dart';
+import '../../features/ai/screens/daily_report_screen.dart';
+import '../../features/ai/screens/voice_report_screen.dart';
+import '../../features/ai/screens/ai_boq_wizard.dart';
+import '../../features/ai/screens/ai_chat_screen.dart';
+import '../../features/client_portal/screens/client_dashboard.dart';
+import '../../features/client_portal/screens/client_project_screen.dart';
+import '../../features/client_portal/screens/client_photos_screen.dart';
+import '../../features/client_portal/screens/client_billing_screen.dart';
+import '../../features/gps_attendance/screens/geofence_setup_screen.dart';
+import '../../features/gps_attendance/screens/gps_checkin_screen.dart';
+import '../../features/purchase/screens/indents_screen.dart';
+import '../../features/purchase/screens/po_list_screen.dart';
+import '../../features/rera/screens/rera_dashboard_screen.dart';
+import '../../features/rera/screens/rera_report_form.dart';
+import '../../features/subcontractor/screens/subcontractors_screen.dart';
+import '../../features/dashboard/screens/more_tools_screen.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authProvider);
@@ -62,7 +95,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       final userRole = authState.role;
       final isSplashRoute = state.matchedLocation == '/splash';
 
-      final publicRoutes = ['/login', '/forgot-password'];
+      final publicRoutes = ['/login', '/register', '/forgot-password'];
       final isPublicRoute = publicRoutes.contains(state.matchedLocation);
 
       if (!isAuthenticated && !isPublicRoute) {
@@ -71,6 +104,12 @@ final routerProvider = Provider<GoRouter>((ref) {
 
       if (isAuthenticated) {
         if (isSplashRoute || isPublicRoute) {
+          // Keep a just-registered user on /register until their company is
+          // created there (then the screen routes onward to the dashboard).
+          if (state.matchedLocation == '/register' &&
+              authState.profile?.companyId == null) {
+            return null;
+          }
           return _getRoleBasedRoute(userRole ?? UserRole.siteManager);
         }
 
@@ -109,6 +148,16 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const LoginScreen(),
       ),
       GoRoute(
+        path: '/register',
+        name: 'register',
+        builder: (context, state) => const RegisterScreen(),
+      ),
+      GoRoute(
+        path: '/trial-expired',
+        name: 'trial-expired',
+        builder: (context, state) => const TrialExpiredScreen(),
+      ),
+      GoRoute(
         path: '/forgot-password',
         name: 'forgot-password',
         builder: (context, state) => const ForgotPasswordScreen(),
@@ -119,6 +168,31 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/super-admin/dashboard',
         name: 'super-admin-dashboard',
         builder: (context, state) => const SuperAdminDashboard(),
+      ),
+
+      // ── Client Portal (AKS-81) — read-only, builder's clients ──
+      GoRoute(
+        path: '/client/dashboard',
+        name: 'client-dashboard',
+        builder: (context, state) => const ClientDashboard(),
+      ),
+      GoRoute(
+        path: '/client/project/:projectId',
+        name: 'client-project',
+        builder: (context, state) =>
+            ClientProjectScreen(projectId: state.pathParameters['projectId']!),
+      ),
+      GoRoute(
+        path: '/client/project/:projectId/photos',
+        name: 'client-photos',
+        builder: (context, state) =>
+            ClientPhotosScreen(projectId: state.pathParameters['projectId']!),
+      ),
+      GoRoute(
+        path: '/client/project/:projectId/billing',
+        name: 'client-billing',
+        builder: (context, state) =>
+            ClientBillingScreen(projectId: state.pathParameters['projectId']!),
       ),
 
       // ── Authenticated Shell ──
@@ -143,6 +217,13 @@ final routerProvider = Provider<GoRouter>((ref) {
             path: '/profile',
             name: 'profile',
             builder: (context, state) => const ProfileScreen(),
+          ),
+
+          // Tools hub — surfaces all global Phase 1–3 modules
+          GoRoute(
+            path: '/tools',
+            name: 'tools',
+            builder: (context, state) => const MoreToolsScreen(),
           ),
 
           // Reports
@@ -464,6 +545,167 @@ final routerProvider = Provider<GoRouter>((ref) {
               final projectId = state.pathParameters['id']!;
               return CreateProjectScreen(projectId: projectId);
             },
+          ),
+
+          // ── QA/QC Snag Lists (AKS-70) ──
+          GoRoute(
+            path: '/quality/templates',
+            name: 'quality-templates',
+            builder: (context, state) => const ChecklistTemplatesScreen(),
+          ),
+          GoRoute(
+            path: '/projects/:id/quality/checklists',
+            name: 'project-checklists',
+            builder: (context, state) => ProjectChecklistsScreen(
+                projectId: state.pathParameters['id']!),
+          ),
+          GoRoute(
+            path: '/projects/:id/quality/snags',
+            name: 'project-snags',
+            builder: (context, state) =>
+                SnagsScreen(projectId: state.pathParameters['id']!),
+          ),
+
+          // ── BOQ / Estimation (AKS-72, Professional) ──
+          GoRoute(
+            path: '/projects/:id/boq',
+            name: 'boq-list',
+            builder: (context, state) => PlanGuard(
+              feature: AppFeature.boqModule,
+              child: BoqListScreen(projectId: state.pathParameters['id']!),
+            ),
+          ),
+          GoRoute(
+            path: '/projects/:id/boq/:boqId',
+            name: 'boq-detail',
+            builder: (context, state) => PlanGuard(
+              feature: AppFeature.boqModule,
+              child: BoqDetailScreen(
+                projectId: state.pathParameters['id']!,
+                boqId: state.pathParameters['boqId']!,
+              ),
+            ),
+          ),
+          GoRoute(
+            path: '/projects/:id/boq/:boqId/vs-actual',
+            name: 'boq-vs-actual',
+            builder: (context, state) => PlanGuard(
+              feature: AppFeature.boqModule,
+              child: BoqVsActualScreen(
+                projectId: state.pathParameters['id']!,
+                boqId: state.pathParameters['boqId']!,
+              ),
+            ),
+          ),
+
+          // ── GST / RA Billing + Tally (AKS-73, Professional) ──
+          GoRoute(
+            path: '/ra-billing',
+            name: 'ra-billing',
+            builder: (context, state) => const PlanGuard(
+                feature: AppFeature.gstBilling, child: RaBillListScreen()),
+          ),
+          GoRoute(
+            path: '/ra-billing/clients',
+            name: 'ra-billing-clients',
+            builder: (context, state) => const PlanGuard(
+                feature: AppFeature.gstBilling, child: ClientsScreen()),
+          ),
+          GoRoute(
+            path: '/ra-billing/gst-config',
+            name: 'ra-billing-gst-config',
+            builder: (context, state) => const PlanGuard(
+                feature: AppFeature.gstBilling, child: GstConfigScreen()),
+          ),
+
+          // ── WhatsApp (AKS-71, Starter+) ──
+          GoRoute(
+            path: '/settings/whatsapp',
+            name: 'whatsapp-settings',
+            builder: (context, state) => const PlanGuard(
+                feature: AppFeature.whatsapp, child: WhatsAppSettingsScreen()),
+          ),
+
+          // ── Language (AKS-69) ──
+          GoRoute(
+            path: '/settings/language',
+            name: 'language-picker',
+            builder: (context, state) => const LanguagePickerScreen(),
+          ),
+
+          // ── AI Suite (AKS-75..79, Professional) ──
+          GoRoute(
+            path: '/ai/invoice-scan',
+            name: 'ai-invoice-scan',
+            builder: (context, state) => const PlanGuard(
+                feature: AppFeature.aiFeatures, child: InvoiceScanScreen()),
+          ),
+          GoRoute(
+            path: '/ai/daily-report',
+            name: 'ai-daily-report',
+            builder: (context, state) => const PlanGuard(
+                feature: AppFeature.aiFeatures, child: DailyReportScreen()),
+          ),
+          GoRoute(
+            path: '/ai/voice-report',
+            name: 'ai-voice-report',
+            builder: (context, state) => const PlanGuard(
+                feature: AppFeature.aiFeatures, child: VoiceReportScreen()),
+          ),
+          GoRoute(
+            path: '/ai/boq',
+            name: 'ai-boq',
+            builder: (context, state) => const PlanGuard(
+                feature: AppFeature.aiFeatures, child: AiBoqWizard()),
+          ),
+          GoRoute(
+            path: '/ai/chat',
+            name: 'ai-chat',
+            builder: (context, state) => const PlanGuard(
+                feature: AppFeature.aiFeatures, child: AiChatScreen()),
+          ),
+
+          // ── GPS / Geofence Attendance (AKS-82) ──
+          GoRoute(
+            path: '/gps-attendance/geofence-setup',
+            name: 'geofence-setup',
+            builder: (context, state) => const GeofenceSetupScreen(),
+          ),
+          GoRoute(
+            path: '/gps-attendance/check-in',
+            name: 'gps-checkin',
+            builder: (context, state) => const GpsCheckinScreen(),
+          ),
+
+          // ── Purchase Orders (AKS-83) ──
+          GoRoute(
+            path: '/purchase/indents',
+            name: 'purchase-indents',
+            builder: (context, state) => const IndentsScreen(),
+          ),
+          GoRoute(
+            path: '/purchase/orders',
+            name: 'purchase-orders',
+            builder: (context, state) => const PoListScreen(),
+          ),
+
+          // ── RERA Reporting (AKS-84) ──
+          GoRoute(
+            path: '/rera',
+            name: 'rera',
+            builder: (context, state) => const ReraDashboardScreen(),
+          ),
+          GoRoute(
+            path: '/rera/report/new',
+            name: 'rera-report-new',
+            builder: (context, state) => const ReraReportForm(),
+          ),
+
+          // ── Subcontractor Management (AKS-85) ──
+          GoRoute(
+            path: '/subcontractors',
+            name: 'subcontractors',
+            builder: (context, state) => const SubcontractorsScreen(),
           ),
         ],
       ),

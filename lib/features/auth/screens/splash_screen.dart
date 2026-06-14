@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/text_styles.dart';
+import '../../../core/widgets/siteos_logo.dart';
 
-// Change to StatelessWidget - no logic needed here anymore!
+// StatelessWidget — no logic needed here; routing is handled elsewhere.
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
@@ -13,34 +15,17 @@ class SplashScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              width: 120,
-              height: 120,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(24),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Image.asset(
-                  'assets/images/logo.png',
-                  fit: BoxFit.contain,
-                ),
-              ),
-            ),
-            const SizedBox(height: 24),
-            const Text(
-              'Clivi Management',
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
+            const SiteOsLogo(size: 96, variant: SiteOsLogoVariant.onBrand),
+            const SizedBox(height: 28),
+            Text(
+              'SiteOS',
+              style: AppTextStyles.displaySmall.copyWith(color: Colors.white),
             ),
             const SizedBox(height: 8),
-            const Text(
-              'Construction Project Manager',
-              style: TextStyle(fontSize: 14, color: Colors.white70),
+            Text(
+              'Every site. Under control.',
+              style: AppTextStyles.bodyMedium
+                  .copyWith(color: Colors.white.withValues(alpha: 0.85)),
             ),
             const SizedBox(height: 48),
             const CircularProgressIndicator(

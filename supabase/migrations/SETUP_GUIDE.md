@@ -1,6 +1,6 @@
-# 🚀 Supabase Setup Guide for Clivi Management
+# 🚀 Supabase Setup Guide for SiteOS
 
-This guide walks you through setting up the Supabase backend for the Clivi Management app.
+This guide walks you through setting up the Supabase backend for the SiteOS app.
 
 ## Prerequisites
 

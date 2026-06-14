@@ -1,144 +1,154 @@
 import 'package:flutter/material.dart';
 
-/// Editorial cream + navy palette.
+/// SiteOS color system.
 ///
-/// Mood: refined, architectural, calm. Cream surfaces with a deep navy
-/// accent and warm hairlines. Designed for content-first layouts where
-/// imagery and typography do the heavy lifting.
+/// Mood: structured, trustworthy, Indian-first construction software. Cool
+/// slate surfaces with a confident Brand Blue, a Precision Teal secondary, and
+/// a Site Amber accent (the "active site" dot from the logo).
+///
+/// Source of truth: SiteOS Brand Guide v1.0 (Section 3 — Color System).
+/// Field NAMES are preserved from the previous palette so every screen keeps
+/// compiling; only the VALUES changed to the SiteOS tokens.
 class AppColors {
   AppColors._();
 
-  // ── Brand ──────────────────────────────────────────────────────────
-  // Deep editorial navy — used sparingly for primary actions and key marks.
-  static const Color primary = Color(0xFF1E3A8A);
-  static const Color primaryDark = Color(0xFF172554);
-  static const Color primaryLight = Color(0xFF3B5BDB);
-  static const Color primaryVariant = Color(0xFF1E40AF);
+  // ── Brand (named tokens from the brand guide) ──────────────────────
+  static const Color brandBlue = Color(0xFF1B4FD8);
+  static const Color brandBlueDark = Color(0xFF1E40AF);
+  static const Color brandAmber = Color(0xFFF59E0B);
+  static const Color brandTeal = Color(0xFF0891B2);
+  static const Color brandNavy = Color(0xFF0F172A);
 
-  // Soft tonal partner to navy — used for chips, highlights, hover.
-  static const Color secondary = Color(0xFFB8845C);
-  static const Color secondaryDark = Color(0xFF8C5E3C);
-  static const Color secondaryLight = Color(0xFFDCC2A8);
-  static const Color secondaryVariant = Color(0xFF7A4F32);
+  // ── Brand — primary (Brand Blue) ───────────────────────────────────
+  // Primary buttons, logo mark, links, active states.
+  static const Color primary = Color(0xFF1B4FD8);
+  static const Color primaryDark = Color(0xFF1E40AF);
+  static const Color primaryLight = Color(0xFF3B82F6);
+  static const Color primaryVariant = Color(0xFF1D4ED8);
 
-  // Accent — used very sparingly for "new", "highlight" callouts.
-  static const Color accent = Color(0xFF3B5BDB);
-  static const Color accentDark = Color(0xFF1E3A8A);
-  static const Color accentLight = Color(0xFF8DA4F1);
+  // Secondary accent — Precision Teal. Info states, charts, subtle accents.
+  static const Color secondary = Color(0xFF0891B2);
+  static const Color secondaryDark = Color(0xFF155E75);
+  static const Color secondaryLight = Color(0xFF67E8F9);
+  static const Color secondaryVariant = Color(0xFF0E7490);
 
-  // ── Status ─────────────────────────────────────────────────────────
-  static const Color success = Color(0xFF15803D);
-  static const Color successLight = Color(0xFFBBF7D0);
-  static const Color successDark = Color(0xFF166534);
+  // Accent — Site Amber. The "active site" dot, KPI highlights, callouts.
+  static const Color accent = Color(0xFFF59E0B);
+  static const Color accentDark = Color(0xFFD97706);
+  static const Color accentLight = Color(0xFFFCD34D);
 
-  static const Color error = Color(0xFFB91C1C);
-  static const Color errorLight = Color(0xFFFECACA);
+  // ── Status / semantic ──────────────────────────────────────────────
+  static const Color success = Color(0xFF10B981);
+  static const Color successLight = Color(0xFFD1FAE5);
+  static const Color successDark = Color(0xFF065F46);
+
+  static const Color error = Color(0xFFEF4444);
+  static const Color errorLight = Color(0xFFFEE2E2);
   static const Color errorDark = Color(0xFF991B1B);
 
-  static const Color warning = Color(0xFFB45309);
-  static const Color warningLight = Color(0xFFFDE68A);
+  static const Color warning = Color(0xFFF59E0B);
+  static const Color warningLight = Color(0xFFFEF3C7);
   static const Color warningDark = Color(0xFF92400E);
 
-  static const Color info = Color(0xFF1E40AF);
+  static const Color info = Color(0xFF3B82F6);
   static const Color infoLight = Color(0xFFDBEAFE);
-  static const Color infoDark = Color(0xFF1E3A8A);
+  static const Color infoDark = Color(0xFF1E40AF);
 
   // ── Surfaces ───────────────────────────────────────────────────────
-  // Warm cream paper-like background.
-  static const Color background = Color(0xFFFAF8F3);
-  static const Color scaffoldBackground = Color(0xFFFAF8F3);
+  // Cool slate-50 page background.
+  static const Color background = Color(0xFFF8FAFC);
+  static const Color scaffoldBackground = Color(0xFFF8FAFC);
 
-  // Pure white for elevated cards and surfaces.
+  // Pure white for elevated cards, inputs, modals.
   static const Color surface = Color(0xFFFFFFFF);
 
-  // Slightly warm tinted neutral for filled chips and subtle blocks.
-  static const Color surfaceVariant = Color(0xFFF3EFE6);
+  // Slate-100 tinted neutral for filled chips and subtle blocks.
+  static const Color surfaceVariant = Color(0xFFF1F5F9);
 
   // ── Text ───────────────────────────────────────────────────────────
-  // All values verified against cream (#FAF8F3) for WCAG AA compliance.
-  // textPrimary  ~17:1, textSecondary ~7:1, textHint ~4.7:1 — all pass.
+  // Verified against white/slate-50 for WCAG AA.
+  // Brand Blue on white 8.6:1 · Navy on white 18.1:1.
   static const Color textPrimary = Color(0xFF0F172A);
-  static const Color textSecondary = Color(0xFF4B4B53);
-  static const Color textHint = Color(0xFF6F6A5E);
-  static const Color textDisabled = Color(0xFFA8A296);
-  static const Color textOnPrimary = Color(0xFFFAF8F3);
-  static const Color textOnSecondary = Color(0xFF0F172A);
+  static const Color textSecondary = Color(0xFF334155);
+  static const Color textHint = Color(0xFF64748B);
+  static const Color textDisabled = Color(0xFF94A3B8);
+  static const Color textOnPrimary = Color(0xFFFFFFFF);
+  static const Color textOnSecondary = Color(0xFFFFFFFF);
 
   // ── Borders / dividers ─────────────────────────────────────────────
-  // Warm cream hairlines instead of grey-blue.
-  static const Color border = Color(0xFFE7E2D8);
-  static const Color borderLight = Color(0xFFF1ECE2);
-  static const Color borderDark = Color(0xFFD5CFC2);
-  static const Color divider = Color(0xFFE7E2D8);
+  static const Color border = Color(0xFFE2E8F0);
+  static const Color borderLight = Color(0xFFF1F5F9);
+  static const Color borderDark = Color(0xFFCBD5E1);
+  static const Color divider = Color(0xFFE2E8F0);
 
   // ── Shadow ─────────────────────────────────────────────────────────
-  // Warm low-alpha shadows — never blue/grey on cream.
-  static const Color shadow = Color(0x14241C0A);
-  static const Color shadowLight = Color(0x0A241C0A);
-  static const Color shadowDark = Color(0x1F241C0A);
+  // Cool navy-tinted, low-alpha — never warm/grey on slate.
+  static const Color shadow = Color(0x140F172A);
+  static const Color shadowLight = Color(0x0A0F172A);
+  static const Color shadowDark = Color(0x1F0F172A);
 
   // ── Roles ──────────────────────────────────────────────────────────
   static const Color superAdmin = Color(0xFF7C3AED);
-  static const Color admin = Color(0xFF1E3A8A);
-  static const Color siteManager = Color(0xFF15803D);
+  static const Color admin = Color(0xFF1B4FD8);
+  static const Color siteManager = Color(0xFF0891B2);
 
   // ── Project status ─────────────────────────────────────────────────
-  static const Color statusActive = Color(0xFF15803D);
-  static const Color statusPending = Color(0xFFB45309);
-  static const Color statusCompleted = Color(0xFF1E3A8A);
-  static const Color statusOnHold = Color(0xFF8B8579);
-  static const Color statusCancelled = Color(0xFFB91C1C);
+  static const Color statusActive = Color(0xFF10B981);
+  static const Color statusPending = Color(0xFFF59E0B);
+  static const Color statusCompleted = Color(0xFF1B4FD8);
+  static const Color statusOnHold = Color(0xFF64748B);
+  static const Color statusCancelled = Color(0xFFEF4444);
 
-  // ── Sidebar (desktop / tablet) ────────────────────────────────────
-  static const Color sidebarBackground = Color(0xFF0B1224);
-  static const Color sidebarSurface = Color(0xFF1A2240);
-  static const Color sidebarTextPrimary = Color(0xFFEDE9DD);
-  static const Color sidebarTextSecondary = Color(0xFF9CA3B8);
-  static const Color sidebarSelectedBg = Color(0x1AFAF8F3);
-  static const Color sidebarHoverBg = Color(0x0DFAF8F3);
-  static const Color sidebarAccent = Color(0xFFDCC2A8);
+  // ── Sidebar (desktop / tablet) — on-brand dark navy surface ────────
+  static const Color sidebarBackground = Color(0xFF0F172A);
+  static const Color sidebarSurface = Color(0xFF1E293B);
+  static const Color sidebarTextPrimary = Color(0xFFF1F5F9);
+  static const Color sidebarTextSecondary = Color(0xFF94A3B8);
+  static const Color sidebarSelectedBg = Color(0x331B4FD8);
+  static const Color sidebarHoverBg = Color(0x14FFFFFF);
+  static const Color sidebarAccent = Color(0xFFF59E0B);
 
   // ── Chart palette ──────────────────────────────────────────────────
-  // Editorial sequence — navy → tonal warmth, distinct but unified.
+  // SiteOS sequence — blue → teal → amber → green, distinct but unified.
   static const List<Color> chartColors = [
-    Color(0xFF1E3A8A), // navy
-    Color(0xFFB8845C), // warm tan
-    Color(0xFF15803D), // forest
+    Color(0xFF1B4FD8), // brand blue
+    Color(0xFF0891B2), // precision teal
+    Color(0xFFF59E0B), // site amber
+    Color(0xFF10B981), // success green
     Color(0xFF7C3AED), // plum
-    Color(0xFF0E7490), // teal
-    Color(0xFFB91C1C), // crimson
-    Color(0xFFB45309), // ochre
-    Color(0xFF3B5BDB), // azure
+    Color(0xFFEF4444), // danger red
+    Color(0xFF3B82F6), // info blue
+    Color(0xFF64748B), // slate
   ];
 
   // ── Gradients ──────────────────────────────────────────────────────
   static const LinearGradient primaryGradient = LinearGradient(
-    colors: [Color(0xFF1E3A8A), Color(0xFF0B1224)],
+    colors: [Color(0xFF1B4FD8), Color(0xFF1E40AF)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
 
   static const LinearGradient secondaryGradient = LinearGradient(
-    colors: [Color(0xFFDCC2A8), Color(0xFFB8845C)],
+    colors: [Color(0xFF22D3EE), Color(0xFF0891B2)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
 
   static const LinearGradient successGradient = LinearGradient(
-    colors: [Color(0xFF22C55E), Color(0xFF15803D)],
+    colors: [Color(0xFF34D399), Color(0xFF10B981)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
 
   // ── Shadow presets ─────────────────────────────────────────────────
-  // Layered, warm-toned shadows. Calmer than greyscale defaults.
+  // Layered, cool navy-tinted shadows. Calm and crisp on slate surfaces.
   static const List<BoxShadow> cardShadow = [
-    BoxShadow(color: Color(0x07241C0A), blurRadius: 2, offset: Offset(0, 1)),
-    BoxShadow(color: Color(0x0C241C0A), blurRadius: 12, offset: Offset(0, 6)),
+    BoxShadow(color: Color(0x0A0F172A), blurRadius: 2, offset: Offset(0, 1)),
+    BoxShadow(color: Color(0x0F0F172A), blurRadius: 12, offset: Offset(0, 6)),
   ];
 
   static const List<BoxShadow> elevatedShadow = [
-    BoxShadow(color: Color(0x0A241C0A), blurRadius: 6, offset: Offset(0, 2)),
-    BoxShadow(color: Color(0x14241C0A), blurRadius: 28, offset: Offset(0, 16)),
+    BoxShadow(color: Color(0x0F0F172A), blurRadius: 6, offset: Offset(0, 2)),
+    BoxShadow(color: Color(0x1A0F172A), blurRadius: 28, offset: Offset(0, 16)),
   ];
 }

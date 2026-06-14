@@ -4,7 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:clivi_management/core/config/supabase_client.dart' show logger;
+import 'package:siteos/core/config/supabase_client.dart' show logger;
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/custom_text_field.dart';
 import '../../../../core/widgets/app_button.dart';

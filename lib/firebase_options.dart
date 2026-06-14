@@ -50,19 +50,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAnOMDjjQQjX-DSN0LNIDx0wuRgZY-MSjg',
-    appId: '1:1611595429:android:4dcf5b8ce31f9432a1d74c',
-    messagingSenderId: '1611595429',
-    projectId: 'clivi-management',
-    storageBucket: 'clivi-management.firebasestorage.app',
+    apiKey: 'AIzaSyCsprLfP4lfYOMqaAWvBBOHo3kcYWjRghY',
+    appId: '1:926018893261:android:8c6b925a8b3f6bd6640084',
+    messagingSenderId: '926018893261',
+    projectId: 'siteos-app',
+    storageBucket: 'siteos-app.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAk5Mx5HkxY1By0Bb4ebR32_wYxHnYGZXo',
-    appId: '1:1611595429:ios:ca9963c18583b5afa1d74c',
-    messagingSenderId: '1611595429',
-    projectId: 'clivi-management',
-    storageBucket: 'clivi-management.firebasestorage.app',
-    iosBundleId: 'com.clivimanagement.app',
+    apiKey: 'AIzaSyBXklIKm4O3aLkc1B0vE8A-6geswtaJNyk',
+    appId: '1:926018893261:ios:fa10252a2586551a640084',
+    messagingSenderId: '926018893261',
+    projectId: 'siteos-app',
+    storageBucket: 'siteos-app.firebasestorage.app',
+    iosBundleId: 'in.siteos.app',
   );
 }
