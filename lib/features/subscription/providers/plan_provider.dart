@@ -30,3 +30,12 @@ final currentPlanProvider = Provider<SiteOsPlan>((ref) {
         orElse: () => SiteOsPlan.trial,
       );
 });
+
+/// True when the company's trial or subscription has expired.
+/// Returns false while loading (never block the user prematurely).
+final isSubscriptionExpiredProvider = Provider<bool>((ref) {
+  return ref.watch(planFeaturesProvider).maybeWhen(
+        data: (features) => features.isExpired,
+        orElse: () => false,
+      );
+});

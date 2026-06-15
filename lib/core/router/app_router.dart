@@ -49,6 +49,7 @@ import '../../features/projects/screens/project_site_photos_screen.dart';
 import 'route_param_guard.dart';
 // ── Phase 1–3 feature screens ──
 import '../../features/subscription/data/models/plan.dart';
+import '../../features/subscription/providers/plan_provider.dart';
 import '../../features/subscription/widgets/plan_guard.dart';
 import '../../features/quality/screens/checklist_templates_screen.dart';
 import '../../features/quality/screens/project_checklists_screen.dart';
@@ -136,6 +137,14 @@ final routerProvider = Provider<GoRouter>((ref) {
         if (path == '/site-manager/dashboard' &&
             userRole != UserRole.siteManager) {
           return _getRoleBasedRoute(userRole);
+        }
+
+        // Trial / subscription expired — redirect all staff (not super_admin)
+        // to the upgrade wall. Super admins can still access to fix billing.
+        if (path != '/trial-expired' &&
+            userRole != UserRole.superAdmin &&
+            ref.read(isSubscriptionExpiredProvider)) {
+          return '/trial-expired';
         }
       }
 

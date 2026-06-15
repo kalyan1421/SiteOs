@@ -7,6 +7,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/text_styles.dart';
 import '../../../core/widgets/siteos_logo.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../company/providers/company_provider.dart';
 import '../providers/auth_provider.dart';
 
@@ -100,7 +101,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(onPressed: () => context.go('/login')),
-        title: const Text('Create account'),
+        title: Text(AppLocalizations.of(context)!.createAccount),
       ),
       body: SafeArea(
         child: Center(
@@ -115,7 +116,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   children: [
                     const Center(child: SiteOsLogo(size: 44, showWordmark: true)),
                     const SizedBox(height: AppSpacing.s6),
-                    Text('Start your free trial', style: AppTextStyles.headlineMedium),
+                    Text(AppLocalizations.of(context)!.startYourFreeTrial, style: AppTextStyles.headlineMedium),
                     const SizedBox(height: AppSpacing.s1),
                     Text(
                       '14 days free. No credit card. Every site, under control.',
@@ -203,7 +204,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                 child: CircularProgressIndicator(
                                     strokeWidth: 2, color: Colors.white),
                               )
-                            : const Text('Start free trial'),
+                            : Text(AppLocalizations.of(context)!.startFreeTrial),
                       ),
                     ),
                     const SizedBox(height: AppSpacing.s3),
@@ -211,7 +212,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       child: TextButton(
                         onPressed:
                             _isLoading ? null : () => context.go('/login'),
-                        child: const Text('Already have an account? Sign in'),
+                        child: Text(AppLocalizations.of(context)!.alreadyHaveAccount),
                       ),
                     ),
                   ],

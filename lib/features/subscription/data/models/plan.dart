@@ -62,6 +62,8 @@ class PlanFeatures {
   final bool aiFeatures;
   final bool whatsapp;
   final bool clientPortal;
+  final String subStatus;
+  final DateTime? trialEndsAt;
 
   const PlanFeatures({
     required this.plan,
@@ -72,10 +74,23 @@ class PlanFeatures {
     required this.aiFeatures,
     required this.whatsapp,
     required this.clientPortal,
+    this.subStatus = 'trialing',
+    this.trialEndsAt,
   });
 
   bool get unlimitedProjects => maxProjects < 0;
   bool get unlimitedUsers => maxUsers < 0;
+
+  /// True when the subscription/trial is no longer active.
+  bool get isExpired {
+    if (subStatus == 'expired' || subStatus == 'canceled' || subStatus == 'past_due') {
+      return true;
+    }
+    if (subStatus == 'trialing' && trialEndsAt != null) {
+      return DateTime.now().isAfter(trialEndsAt!);
+    }
+    return false;
+  }
 
   /// Whether [feature] is enabled on this plan.
   bool has(AppFeature feature) => switch (feature) {
@@ -95,6 +110,10 @@ class PlanFeatures {
         aiFeatures: json['ai_features'] as bool? ?? false,
         whatsapp: json['whatsapp'] as bool? ?? false,
         clientPortal: json['client_portal'] as bool? ?? false,
+        subStatus: json['sub_status'] as String? ?? 'trialing',
+        trialEndsAt: json['trial_ends_at'] == null
+            ? null
+            : DateTime.tryParse(json['trial_ends_at'] as String),
       );
 
   /// Safe defaults used when the plan can't be fetched (offline / error).
@@ -108,5 +127,6 @@ class PlanFeatures {
         aiFeatures: false,
         whatsapp: false,
         clientPortal: false,
+        subStatus: 'trialing',
       );
 }

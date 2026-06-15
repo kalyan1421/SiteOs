@@ -9,6 +9,7 @@ import '../../../core/ui/responsive.dart';
 import '../../../core/widgets/error_widget.dart';
 import '../../../core/widgets/shake_transition.dart';
 import '../../../core/widgets/siteos_logo.dart';
+import '../../../l10n/app_localizations.dart';
 import '../providers/auth_provider.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -166,7 +167,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                                 : const SizedBox.shrink(),
                                           ),
 
-                                          _FieldLabel('Email'),
+                                          _FieldLabel(AppLocalizations.of(context)!.email),
                                           const SizedBox(height: 6),
                                           TextFormField(
                                             controller: _emailController,
@@ -211,7 +212,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                           ),
                                           const SizedBox(height: 18),
 
-                                          _FieldLabel('Password'),
+                                          _FieldLabel(AppLocalizations.of(context)!.password),
                                           const SizedBox(height: 6),
                                           TextFormField(
                                             controller: _passwordController,
@@ -287,8 +288,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                                     MaterialTapTargetSize
                                                         .shrinkWrap,
                                               ),
-                                              child: const Text(
-                                                  'Forgot password?'),
+                                              child: Text(
+                                                  AppLocalizations.of(context)!.forgotPassword),
                                             ),
                                           ),
                                           const SizedBox(height: 14),
@@ -317,10 +318,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
                                                                 .center,
-                                                        children: const [
-                                                          Text('Sign in'),
-                                                          SizedBox(width: 8),
-                                                          Icon(
+                                                        children: [
+                                                          Text(AppLocalizations.of(context)!.signIn),
+                                                          const SizedBox(width: 8),
+                                                          const Icon(
                                                             Icons
                                                                 .arrow_forward_rounded,
                                                             size: 18,

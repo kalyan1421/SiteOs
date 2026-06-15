@@ -12,7 +12,7 @@ class PlanRepository {
     try {
       final company = await supabase
           .from('companies')
-          .select('plan')
+          .select('plan, sub_status, trial_ends_at')
           .eq('id', companyId)
           .maybeSingle();
 
@@ -25,7 +25,12 @@ class PlanRepository {
           .maybeSingle();
 
       if (row == null) return PlanFeatures.fallback(plan);
-      return PlanFeatures.fromJson({...row, 'plan': plan.key});
+      return PlanFeatures.fromJson({
+        ...row,
+        'plan': plan.key,
+        'sub_status': company?['sub_status'],
+        'trial_ends_at': company?['trial_ends_at'],
+      });
     } catch (e) {
       logger.w('PlanRepository.fetchForCompany failed: $e');
       return PlanFeatures.fallback(SiteOsPlan.trial);

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/text_styles.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../data/models/plan.dart';
 import '../providers/plan_provider.dart';
@@ -37,7 +38,7 @@ class TrialExpiredScreen extends ConsumerWidget {
                         color: AppColors.warning, size: 34),
                   ),
                   const SizedBox(height: AppSpacing.s5),
-                  Text('Your free trial has ended',
+                  Text(AppLocalizations.of(context)!.yourFreeTrialHasEnded,
                       style: AppTextStyles.headlineSmall,
                       textAlign: TextAlign.center),
                   const SizedBox(height: AppSpacing.s2),
@@ -55,8 +56,8 @@ class TrialExpiredScreen extends ConsumerWidget {
                       onPressed: () {
                         // TODO(AKS-66): open the Razorpay plans/checkout screen.
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text('Plans & checkout — coming soon.')),
+                          SnackBar(
+                              content: Text(AppLocalizations.of(context)!.plansComingSoon)),
                         );
                       },
                       child: Text(plan == SiteOsPlan.trial
@@ -67,7 +68,7 @@ class TrialExpiredScreen extends ConsumerWidget {
                   const SizedBox(height: AppSpacing.s2),
                   TextButton(
                     onPressed: () => ref.read(authProvider.notifier).signOut(),
-                    child: const Text('Sign out'),
+                    child: Text(AppLocalizations.of(context)!.signOut),
                   ),
                 ],
               ),
