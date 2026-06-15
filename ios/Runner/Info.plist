@@ -38,6 +38,10 @@
 	<string>Photo library access is needed to upload site photos and document images.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Permission to save photos to your library.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Microphone access is needed to record your voice notes for the AI site report feature.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Speech recognition is used to transcribe your voice notes into text for generating site reports.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
