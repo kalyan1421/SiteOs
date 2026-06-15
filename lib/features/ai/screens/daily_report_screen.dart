@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import '../../../l10n/app_localizations.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
@@ -67,9 +68,10 @@ class _DailyReportScreenState extends ConsumerState<DailyReportScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final projects = ref.watch(aiProjectsProvider);
     return Scaffold(
-      appBar: AppBar(title: const Text('Daily Report')),
+      appBar: AppBar(title: Text(l10n.dailyReport)),
       body: Stack(
         children: [
           ListView(
@@ -86,7 +88,7 @@ class _DailyReportScreenState extends ConsumerState<DailyReportScreen> {
                 data: (list) => DropdownButtonFormField<String>(
                   initialValue: _projectId,
                   isExpanded: true,
-                  hint: const Text('Select a project'),
+                  hint: Text(l10n.selectProject),
                   items: list
                       .map((p) => DropdownMenuItem(
                             value: p.id,
@@ -119,7 +121,7 @@ class _DailyReportScreenState extends ConsumerState<DailyReportScreen> {
               FilledButton.icon(
                 onPressed: _generating ? null : _generate,
                 icon: const Icon(Icons.auto_awesome_rounded),
-                label: const Text('Generate report'),
+                label: Text(l10n.generateReport),
               ),
               if (_error != null) ...[
                 const SizedBox(height: AppSpacing.s6),
@@ -147,6 +149,7 @@ class _ReportPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.all(AppSpacing.s4),
       decoration: BoxDecoration(
@@ -162,7 +165,7 @@ class _ReportPreview extends StatelessWidget {
               const Icon(Icons.chat_rounded,
                   color: AppColors.successDark, size: 20),
               const SizedBox(width: AppSpacing.s2),
-              Text('WhatsApp preview', style: AppTextStyles.titleMedium),
+              Text(l10n.whatsappPreview, style: AppTextStyles.titleMedium),
             ],
           ),
           const SizedBox(height: AppSpacing.s3),
@@ -175,11 +178,11 @@ class _ReportPreview extends StatelessWidget {
                   onPressed: () {
                     Clipboard.setData(ClipboardData(text: result.summary));
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Report copied')),
+                      SnackBar(content: Text(l10n.reportCopied)),
                     );
                   },
                   icon: const Icon(Icons.copy_rounded, size: 18),
-                  label: const Text('Copy'),
+                  label: Text(l10n.copy),
                 ),
               ),
               const SizedBox(width: AppSpacing.s3),
@@ -187,7 +190,7 @@ class _ReportPreview extends StatelessWidget {
                 child: FilledButton.icon(
                   onPressed: () => _share(context, result.summary),
                   icon: const Icon(Icons.share_rounded, size: 18),
-                  label: const Text('Share'),
+                  label: Text(l10n.share),
                 ),
               ),
             ],
@@ -204,31 +207,34 @@ class _ReportPreview extends StatelessWidget {
     showModalBottomSheet<void>(
       context: context,
       showDragHandle: true,
-      builder: (ctx) => Padding(
-        padding: const EdgeInsets.all(AppSpacing.s6),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Share report', style: AppTextStyles.titleLarge),
-            const SizedBox(height: AppSpacing.s2),
-            Text(
-              'The report is copied to your clipboard. Paste it into WhatsApp '
-              'or any chat to send.',
-              style: AppTextStyles.bodyMedium
-                  .copyWith(color: AppColors.textSecondary),
-            ),
-            const SizedBox(height: AppSpacing.s4),
-            SizedBox(
-              width: double.infinity,
-              child: FilledButton(
-                onPressed: () => Navigator.of(ctx).pop(),
-                child: const Text('Done'),
+      builder: (ctx) {
+        final l10n = AppLocalizations.of(ctx)!;
+        return Padding(
+          padding: const EdgeInsets.all(AppSpacing.s6),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(l10n.shareReport, style: AppTextStyles.titleLarge),
+              const SizedBox(height: AppSpacing.s2),
+              Text(
+                'The report is copied to your clipboard. Paste it into WhatsApp '
+                'or any chat to send.',
+                style: AppTextStyles.bodyMedium
+                    .copyWith(color: AppColors.textSecondary),
               ),
-            ),
-          ],
-        ),
-      ),
+              const SizedBox(height: AppSpacing.s4),
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton(
+                  onPressed: () => Navigator.of(ctx).pop(),
+                  child: Text(l10n.done),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

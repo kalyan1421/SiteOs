@@ -4,6 +4,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/error_widget.dart';
 import '../providers/labour_provider.dart';
 import '../data/models/labour_model.dart';
+import '../../../l10n/app_localizations.dart';
 
 
 /// Master Labour list (project_id is null)
@@ -12,11 +13,12 @@ class LabourMasterScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final labourAsync = ref.watch(masterLabourProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Labour Master'),
+        title: Text(l10n.labourMaster),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
@@ -33,7 +35,7 @@ class LabourMasterScreen extends ConsumerWidget {
         ),
         data: (list) {
           if (list.isEmpty) {
-            return const Center(child: Text('No workers in master list'));
+            return Center(child: Text(l10n.noWorkersInMasterList));
           }
           return ListView.separated(
             padding: const EdgeInsets.all(16),
@@ -54,14 +56,14 @@ class LabourMasterScreen extends ConsumerWidget {
                       final confirmed = await showDialog<bool>(
                         context: context,
                         builder: (ctx) => AlertDialog(
-                          title: const Text('Confirm Delete'),
-                          content: const Text('Are you sure? This action cannot be undone.'),
+                          title: Text(l10n.confirmDelete),
+                          content: Text(l10n.areYouSureCannotBeUndone),
                           actions: [
-                            TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancel')),
+                            TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(l10n.cancel)),
                             ElevatedButton(
                               onPressed: () => Navigator.pop(ctx, true),
                               style: ElevatedButton.styleFrom(backgroundColor: AppColors.error),
-                              child: const Text('Delete'),
+                              child: Text(l10n.delete),
                             ),
                           ],
                         ),
@@ -75,10 +77,13 @@ class LabourMasterScreen extends ConsumerWidget {
                       _openSheet(context, ref, existing: labour);
                     }
                   },
-                  itemBuilder: (context) => const [
-                    PopupMenuItem(value: 'edit', child: Text('Edit')),
-                    PopupMenuItem(value: 'delete', child: Text('Delete')),
-                  ],
+                  itemBuilder: (context) {
+                    final l10n = AppLocalizations.of(context)!;
+                    return [
+                      PopupMenuItem(value: 'edit', child: Text(l10n.edit)),
+                      PopupMenuItem(value: 'delete', child: Text(l10n.delete)),
+                    ];
+                  },
                 ),
                 onTap: () => _openSheet(context, ref, existing: labour),
               );
@@ -109,6 +114,7 @@ class LabourMasterScreen extends ConsumerWidget {
       useSafeArea: true,
       builder: (ctx) => StatefulBuilder(
         builder: (context, setState) {
+          final l10n = AppLocalizations.of(context)!;
           return Padding(
             padding: EdgeInsets.only(
               left: 16,
@@ -123,7 +129,7 @@ class LabourMasterScreen extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    existing == null ? 'Add Worker' : 'Edit Worker',
+                    existing == null ? l10n.addWorker : l10n.edit,
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -181,7 +187,7 @@ class LabourMasterScreen extends ConsumerWidget {
                             ref.invalidate(masterLabourProvider);
                             if (ctx.mounted) Navigator.pop(ctx);
                           },
-                    child: Text(existing == null ? 'Save' : 'Update'),
+                    child: Text(existing == null ? l10n.save : 'Update'),
                   ),
                 ],
               ),

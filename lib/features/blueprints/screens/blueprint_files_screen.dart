@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../l10n/app_localizations.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/error_widget.dart';
@@ -53,23 +54,26 @@ class _BlueprintFilesScreenState extends ConsumerState<BlueprintFilesScreen> {
     // Show confirmation dialog
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Delete Blueprint'),
-        content: Text(
-          'Are you sure you want to delete "${blueprint.folderName}"?\n\nThis action cannot be undone.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Cancel'),
+      builder: (ctx) {
+        final l10n = AppLocalizations.of(ctx)!;
+        return AlertDialog(
+          title: Text(l10n.deleteBlueprint),
+          content: Text(
+            'Are you sure you want to delete "${blueprint.folderName}"?\n\nThis action cannot be undone.',
           ),
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            style: TextButton.styleFrom(foregroundColor: Colors.red),
-            child: const Text('Delete'),
-          ),
-        ],
-      ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(ctx).pop(false),
+              child: Text(l10n.cancel),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(ctx).pop(true),
+              style: TextButton.styleFrom(foregroundColor: Colors.red),
+              child: Text(l10n.delete),
+            ),
+          ],
+        );
+      },
     );
 
     if (confirmed != true) return;
@@ -88,9 +92,10 @@ class _BlueprintFilesScreenState extends ConsumerState<BlueprintFilesScreen> {
       );
 
       if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Blueprint deleted successfully'),
+          SnackBar(
+            content: Text(l10n.blueprintDeletedSuccessfully),
             backgroundColor: Colors.green,
           ),
         );
@@ -109,6 +114,7 @@ class _BlueprintFilesScreenState extends ConsumerState<BlueprintFilesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final projectAsync = ref.watch(projectDetailProvider(widget.projectId));
     final projectName = projectAsync.project?.name ?? 'Unknown Project';
 
@@ -215,7 +221,7 @@ class _BlueprintFilesScreenState extends ConsumerState<BlueprintFilesScreen> {
                           ElevatedButton.icon(
                             onPressed: _showUploadSheet,
                             icon: const Icon(Icons.upload_file),
-                            label: const Text('Upload First Blueprint'),
+                            label: Text(l10n.uploadFirstBlueprint),
                           ),
                         ],
                       ],
@@ -248,7 +254,7 @@ class _BlueprintFilesScreenState extends ConsumerState<BlueprintFilesScreen> {
                         if (isAdmin)
                           TextButton(
                             onPressed: _showUploadSheet,
-                            child: const Text('Create Folders'),
+                            child: Text(l10n.createFolders),
                           ),
                       ],
                     ),

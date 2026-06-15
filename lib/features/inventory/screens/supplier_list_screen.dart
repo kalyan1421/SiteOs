@@ -5,6 +5,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/loading_widget.dart';
 import '../data/models/supplier_model.dart';
 import '../providers/inventory_provider.dart';
+import '../../../l10n/app_localizations.dart';
 
 /// Supplier List Screen - Manage material vendors
 class SupplierListScreen extends ConsumerStatefulWidget {
@@ -26,11 +27,12 @@ class _SupplierListScreenState extends ConsumerState<SupplierListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final suppliersAsync = ref.watch(suppliersProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Suppliers'),
+        title: Text(l10n.suppliers),
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
@@ -203,12 +205,12 @@ class _SupplierListScreenState extends ConsumerState<SupplierListScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete Supplier?'),
+        title: Text(AppLocalizations.of(context)!.delete),
         content: Text('Are you sure you want to remove "${supplier.name}"?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           FilledButton(
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
@@ -227,7 +229,7 @@ class _SupplierListScreenState extends ConsumerState<SupplierListScreen> {
                 }
               }
             },
-            child: const Text('Delete'),
+            child: Text(AppLocalizations.of(context)!.delete),
           ),
         ],
       ),
@@ -402,28 +404,31 @@ class _SupplierCard extends StatelessWidget {
         ),
         isThreeLine: true,
         trailing: PopupMenuButton(
-          itemBuilder: (context) => [
-            const PopupMenuItem(
-              value: 'edit',
-              child: Row(
-                children: [
-                  Icon(Icons.edit, size: 20),
-                  SizedBox(width: 8),
-                  Text('Edit'),
-                ],
+          itemBuilder: (context) {
+            final l10n = AppLocalizations.of(context)!;
+            return [
+              PopupMenuItem(
+                value: 'edit',
+                child: Row(
+                  children: [
+                    const Icon(Icons.edit, size: 20),
+                    const SizedBox(width: 8),
+                    Text(l10n.edit),
+                  ],
+                ),
               ),
-            ),
-            const PopupMenuItem(
-              value: 'delete',
-              child: Row(
-                children: [
-                  Icon(Icons.delete, size: 20, color: Colors.red),
-                  SizedBox(width: 8),
-                  Text('Delete', style: TextStyle(color: Colors.red)),
-                ],
+              PopupMenuItem(
+                value: 'delete',
+                child: Row(
+                  children: [
+                    const Icon(Icons.delete, size: 20, color: Colors.red),
+                    const SizedBox(width: 8),
+                    Text(l10n.delete, style: const TextStyle(color: Colors.red)),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ];
+          },
           onSelected: (value) {
             if (value == 'edit') onEdit();
             if (value == 'delete') onDelete();
@@ -590,7 +595,7 @@ class _SupplierFormSheetState extends State<_SupplierFormSheet> {
               const SizedBox(height: 8),
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('Cancel'),
+                child: Text(AppLocalizations.of(context)!.cancel),
               ),
             ],
           ),

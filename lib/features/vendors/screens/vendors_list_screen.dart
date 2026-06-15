@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/widgets/error_widget.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../inventory/providers/inventory_provider.dart';
 import '../../inventory/data/models/supplier_model.dart';
 import '../providers/vendor_analytics_provider.dart';
@@ -12,11 +13,12 @@ class VendorsListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final overviewAsync = ref.watch(vendorOverviewProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Vendors'),
+        title: Text(l10n.vendors),
         actions: [
           PopupMenuButton<String>(
             onSelected: (value) async {
@@ -24,8 +26,8 @@ class VendorsListScreen extends ConsumerWidget {
                 ref.invalidate(vendorOverviewProvider);
               }
             },
-            itemBuilder: (context) => const [
-              PopupMenuItem(value: 'refresh', child: Text('Refresh')),
+            itemBuilder: (context) => [
+              PopupMenuItem(value: 'refresh', child: Text(l10n.refresh)),
             ],
           ),
         ],
@@ -235,19 +237,20 @@ class VendorsListScreen extends ConsumerWidget {
     WidgetRef ref,
     String vendorId,
   ) async {
+    final l10n = AppLocalizations.of(context)!;
     final ok = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Delete vendor'),
-        content: const Text('Are you sure you want to delete this vendor?'),
+        title: Text(l10n.deleteVendor),
+        content: Text(l10n.areYouSureCannotBeUndone),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Delete'),
+            child: Text(l10n.delete),
           ),
         ],
       ),
@@ -259,7 +262,7 @@ class VendorsListScreen extends ConsumerWidget {
         if (context.mounted) {
           ScaffoldMessenger.of(
             context,
-          ).showSnackBar(const SnackBar(content: Text('Vendor deleted')));
+          ).showSnackBar(SnackBar(content: Text(l10n.vendorDeleted)));
         }
       } catch (e) {
         if (context.mounted) {
@@ -287,6 +290,7 @@ class _VendorCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       elevation: 1,
@@ -312,10 +316,10 @@ class _VendorCard extends StatelessWidget {
                 break;
             }
           },
-          itemBuilder: (context) => const [
-            PopupMenuItem(value: 'open', child: Text('View')),
-            PopupMenuItem(value: 'edit', child: Text('Edit')),
-            PopupMenuItem(value: 'delete', child: Text('Delete')),
+          itemBuilder: (context) => [
+            PopupMenuItem(value: 'open', child: Text(l10n.view)),
+            PopupMenuItem(value: 'edit', child: Text(l10n.edit)),
+            PopupMenuItem(value: 'delete', child: Text(l10n.delete)),
           ],
         ),
         onTap: onOpen,

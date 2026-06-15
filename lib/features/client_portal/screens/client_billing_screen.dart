@@ -9,6 +9,7 @@ import '../data/models/client_bill.dart';
 import '../providers/client_portal_providers.dart';
 import '../widgets/client_state_views.dart';
 import '../widgets/client_status_chip.dart';
+import '../../../l10n/app_localizations.dart';
 
 /// Read-only RA / progress bill status for an assigned project. Shows each
 /// bill's title, amount, and status — no payment actions (clients are viewers).
@@ -21,11 +22,12 @@ class ClientBillingScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final billsAsync = ref.watch(clientBillsProvider(projectId));
 
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(title: const Text('Billing')),
+      appBar: AppBar(title: Text(l10n.billing)),
       body: billsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (_, _) => ClientErrorState(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/text_styles.dart';
 import '../data/models/purchase_order.dart';
@@ -17,15 +18,16 @@ class PoListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final asyncPos = ref.watch(purchaseOrdersProvider);
 
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(title: const Text('Purchase Orders')),
+      appBar: AppBar(title: Text(l10n.purchaseOrders)),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _openForm(context, ref),
         icon: const Icon(Icons.add),
-        label: const Text('New PO'),
+        label: Text(l10n.newPo),
       ),
       body: asyncPos.when(
         loading: () => const Center(child: CircularProgressIndicator()),
@@ -43,7 +45,7 @@ class PoListScreen extends ConsumerWidget {
                 const SizedBox(height: AppSpacing.s5),
                 FilledButton(
                   onPressed: () => ref.invalidate(purchaseOrdersProvider),
-                  child: const Text('Retry'),
+                  child: Text(l10n.retry),
                 ),
               ],
             ),
@@ -96,7 +98,7 @@ class PoListScreen extends ConsumerWidget {
       ref.invalidate(purchaseOrdersProvider);
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('PO approved.')),
+          SnackBar(content: Text(AppLocalizations.of(context)!.poApproved)),
         );
       }
     } catch (e) {
@@ -133,6 +135,7 @@ class _PoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final itemCount = po.items.length;
     return Container(
       decoration: BoxDecoration(
@@ -165,7 +168,7 @@ class _PoCard extends StatelessWidget {
               Text('$itemCount line${itemCount == 1 ? '' : 's'}',
                   style: AppTextStyles.bodySmall),
               const Spacer(),
-              Text('Total', style: AppTextStyles.bodySmall),
+              Text(l10n.total, style: AppTextStyles.bodySmall),
               const SizedBox(width: AppSpacing.s2),
               Text(
                 PurchaseFormat.money(po.total),
@@ -192,30 +195,30 @@ class _PoCard extends StatelessWidget {
             ),
           ],
           const Divider(height: AppSpacing.s6),
-          Align(alignment: Alignment.centerRight, child: _actions()),
+          Align(alignment: Alignment.centerRight, child: _actions(l10n)),
         ],
       ),
     );
   }
 
-  Widget _actions() {
+  Widget _actions(AppLocalizations l10n) {
     switch (po.status) {
       case PoStatus.draft:
         return FilledButton(
           onPressed: onApprove,
-          child: const Text('Approve'),
+          child: Text(l10n.approve),
         );
       case PoStatus.approved:
         return FilledButton.icon(
           onPressed: onMatch,
           icon: const Icon(Icons.fact_check_outlined, size: 18),
-          label: const Text('Receive / Match'),
+          label: Text(l10n.receiveMatch),
         );
       case PoStatus.received:
         return TextButton.icon(
           onPressed: onMatch,
           icon: const Icon(Icons.visibility_outlined, size: 18),
-          label: const Text('View Match'),
+          label: Text(l10n.viewMatch),
         );
       case PoStatus.cancelled:
         return const SizedBox.shrink();

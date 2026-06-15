@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import '../../../l10n/app_localizations.dart';
 
 import '../../../core/config/supabase_client.dart';
 import '../../../core/widgets/loading_widget.dart';
@@ -78,6 +79,7 @@ class _BlueprintViewerScreenState extends State<BlueprintViewerScreen> {
   }
 
   Widget _buildBody(bool isPdf) {
+    final l10n = AppLocalizations.of(context)!;
     if (_isLoading) {
       return const LoadingWidget(message: 'Loading file...');
     }
@@ -94,7 +96,7 @@ class _BlueprintViewerScreenState extends State<BlueprintViewerScreen> {
               style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: 8),
-            TextButton(onPressed: _loadSignedUrl, child: const Text('Retry')),
+            TextButton(onPressed: _loadSignedUrl, child: Text(l10n.retry)),
           ],
         ),
       );

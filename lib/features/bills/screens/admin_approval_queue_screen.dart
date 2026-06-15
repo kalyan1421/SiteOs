@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/widgets/error_widget.dart';
 import '../../../core/widgets/loading_widget.dart';
 import '../../auth/data/models/user_profile_model.dart';
@@ -58,6 +59,7 @@ class _AdminApprovalQueueScreenState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final authState = ref.watch(authProvider);
     final isAdmin =
         authState.role == UserRole.admin ||
@@ -65,8 +67,8 @@ class _AdminApprovalQueueScreenState
 
     if (!isAdmin) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Approval Queue')),
-        body: const Center(child: Text('Only admin can access this screen.')),
+        appBar: AppBar(title: Text(l10n.approvalQueue)),
+        body: Center(child: Text(l10n.onlyAdminAccess)),
       );
     }
 
@@ -76,7 +78,7 @@ class _AdminApprovalQueueScreenState
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Approval Queue'),
+        title: Text(l10n.approvalQueue),
         bottom: TabBar(
           controller: _tabController,
           labelColor: AppColors.primary,
@@ -136,6 +138,7 @@ class _AdminApprovalQueueScreenState
     ProjectListState projectsState,
     AsyncValue<List<UserProfileModel>> managersAsync,
   ) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       margin: const EdgeInsets.fromLTRB(12, 12, 12, 8),
       padding: const EdgeInsets.all(12),
@@ -153,9 +156,9 @@ class _AdminApprovalQueueScreenState
               prefixIcon: Icon(Icons.business),
             ),
             items: [
-              const DropdownMenuItem<String?>(
+              DropdownMenuItem<String?>(
                 value: null,
-                child: Text('All Projects'),
+                child: Text(l10n.allProjects),
               ),
               ...projectsState.projects.map(
                 (project) => DropdownMenuItem<String?>(
@@ -178,9 +181,9 @@ class _AdminApprovalQueueScreenState
                   prefixIcon: Icon(Icons.person_outline),
                 ),
                 items: [
-                  const DropdownMenuItem<String?>(
+                  DropdownMenuItem<String?>(
                     value: null,
-                    child: Text('All Site Managers'),
+                    child: Text(l10n.allSiteManagers),
                   ),
                   ...managers.map(
                     (manager) => DropdownMenuItem<String?>(
@@ -290,6 +293,7 @@ class _ApprovalQueueCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       child: Padding(
@@ -350,7 +354,7 @@ class _ApprovalQueueCard extends StatelessWidget {
                   OutlinedButton.icon(
                     onPressed: onReview,
                     icon: const Icon(Icons.edit_outlined, size: 16),
-                    label: const Text('Review'),
+                    label: Text(l10n.review),
                   ),
               ],
             ),

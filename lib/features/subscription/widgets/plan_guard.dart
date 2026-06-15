@@ -6,6 +6,7 @@ import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/text_styles.dart';
 import '../data/models/plan.dart';
 import '../providers/plan_provider.dart';
+import '../../../l10n/app_localizations.dart';
 
 /// Wraps a premium screen. Renders [child] only when the current company's
 /// plan unlocks [feature]; otherwise shows an [UpgradePaywall]. Never crashes —
@@ -141,6 +142,7 @@ class _PlanError extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       body: Center(
         child: Padding(
@@ -158,7 +160,7 @@ class _PlanError extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: AppSpacing.s4),
-              OutlinedButton(onPressed: onRetry, child: const Text('Retry')),
+              OutlinedButton(onPressed: onRetry, child: Text(l10n.retry)),
             ],
           ),
         ),

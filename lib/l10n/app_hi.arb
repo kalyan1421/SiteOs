@@ -96,6 +96,7 @@
   "createProject": "परियोजना बनाएँ",
   "deleteProject": "परियोजना हटाएँ",
   "projectDeleted": "परियोजना हटाई गई",
+  "quality": "गुणवत्ता",
   "qualityChecklists": "गुणवत्ता जाँचसूचियाँ",
   "snags": "दोष",
   "statusUpdatedSuccessfully": "स्थिति सफलतापूर्वक अपडेट की गई",

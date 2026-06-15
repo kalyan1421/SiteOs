@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/text_styles.dart';
 import '../data/models/ra_bill.dart';
@@ -18,10 +19,11 @@ class RaBillListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final billsAsync = ref.watch(raBillsProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('RA Bills'),
+        title: Text(l10n.raBills),
         actions: [
           IconButton(
             tooltip: 'Clients',
@@ -38,7 +40,7 @@ class RaBillListScreen extends ConsumerWidget {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _openNew(context),
         icon: const Icon(Icons.add),
-        label: const Text('New RA bill'),
+        label: Text(l10n.newRaBill),
       ),
       body: billsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
@@ -57,7 +59,7 @@ class RaBillListScreen extends ConsumerWidget {
               action: FilledButton.icon(
                 onPressed: () => _openNew(context),
                 icon: const Icon(Icons.add),
-                label: const Text('Create RA bill'),
+                label: Text(l10n.createRaBill),
               ),
             );
           }
@@ -112,6 +114,7 @@ class _BillTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final df = DateFormat('dd MMM yyyy');
     return InkWell(
       borderRadius: BorderRadius.circular(AppRadius.lg),
@@ -153,14 +156,14 @@ class _BillTile extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Taxable', style: AppTextStyles.labelSmall),
+                    Text(l10n.taxable, style: AppTextStyles.labelSmall),
                     MoneyText(bill.taxableValue),
                   ],
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('GST', style: AppTextStyles.labelSmall),
+                    Text(l10n.gst, style: AppTextStyles.labelSmall),
                     MoneyText(bill.totalGst,
                         color: AppColors.secondary),
                   ],
@@ -168,7 +171,7 @@ class _BillTile extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text('Net payable', style: AppTextStyles.labelSmall),
+                    Text(l10n.netPayable, style: AppTextStyles.labelSmall),
                     MoneyText(bill.netPayable,
                         style: AppTextStyles.price,
                         color: AppColors.primary),

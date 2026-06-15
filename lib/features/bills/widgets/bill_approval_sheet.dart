@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 import '../data/models/bill_model.dart';
 import '../providers/bill_provider.dart';
 
@@ -77,7 +78,7 @@ class _BillApprovalSheetState extends ConsumerState<BillApprovalSheet> {
         widget.onSuccess();
         Navigator.of(context).pop();
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Bill updated successfully')),
+          SnackBar(content: Text(AppLocalizations.of(context)!.billUpdatedSuccessfully)),
         );
       } else {
         final ctrlState = ref.read(billControllerProvider);

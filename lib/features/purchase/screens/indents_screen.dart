@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/text_styles.dart';
 import '../data/models/purchase_indent.dart';
@@ -16,15 +17,16 @@ class IndentsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final asyncIndents = ref.watch(indentsProvider);
 
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(title: const Text('Purchase Indents')),
+      appBar: AppBar(title: Text(l10n.purchaseIndents)),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _openForm(context, ref),
         icon: const Icon(Icons.add),
-        label: const Text('New Indent'),
+        label: Text(l10n.newIndent),
       ),
       body: asyncIndents.when(
         loading: () => const Center(child: CircularProgressIndicator()),
@@ -106,6 +108,7 @@ class _IndentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final itemCount = indent.items.length;
     return Container(
       decoration: BoxDecoration(
@@ -153,20 +156,20 @@ class _IndentCard extends StatelessWidget {
           const Divider(height: AppSpacing.s6),
           Align(
             alignment: Alignment.centerRight,
-            child: _statusActions(),
+            child: _statusActions(l10n),
           ),
         ],
       ),
     );
   }
 
-  Widget _statusActions() {
+  Widget _statusActions(AppLocalizations l10n) {
     switch (indent.status) {
       case IndentStatus.draft:
         return TextButton.icon(
           onPressed: () => onStatusChange(IndentStatus.submitted),
           icon: const Icon(Icons.send_outlined, size: 18),
-          label: const Text('Submit'),
+          label: Text(l10n.submit),
         );
       case IndentStatus.submitted:
         return Wrap(
@@ -175,11 +178,11 @@ class _IndentCard extends StatelessWidget {
             TextButton(
               onPressed: () => onStatusChange(IndentStatus.rejected),
               style: TextButton.styleFrom(foregroundColor: AppColors.error),
-              child: const Text('Reject'),
+              child: Text(l10n.reject),
             ),
             FilledButton(
               onPressed: () => onStatusChange(IndentStatus.approved),
-              child: const Text('Approve'),
+              child: Text(l10n.approve),
             ),
           ],
         );
@@ -187,7 +190,7 @@ class _IndentCard extends StatelessWidget {
         return TextButton.icon(
           onPressed: () => onStatusChange(IndentStatus.closed),
           icon: const Icon(Icons.check_circle_outline, size: 18),
-          label: const Text('Close'),
+          label: Text(l10n.close),
         );
       case IndentStatus.rejected:
       case IndentStatus.closed:
@@ -204,6 +207,7 @@ class _ErrorView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.s8),
@@ -212,12 +216,12 @@ class _ErrorView extends StatelessWidget {
           children: [
             Icon(Icons.error_outline, size: 48, color: AppColors.error),
             const SizedBox(height: AppSpacing.s4),
-            Text('Something went wrong', style: AppTextStyles.titleMedium),
+            Text(l10n.somethingWentWrong, style: AppTextStyles.titleMedium),
             const SizedBox(height: AppSpacing.s2),
             Text(message,
                 textAlign: TextAlign.center, style: AppTextStyles.bodySmall),
             const SizedBox(height: AppSpacing.s5),
-            FilledButton(onPressed: onRetry, child: const Text('Retry')),
+            FilledButton(onPressed: onRetry, child: Text(l10n.retry)),
           ],
         ),
       ),

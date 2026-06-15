@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/text_styles.dart';
 import '../../auth/providers/auth_provider.dart';
@@ -24,6 +25,7 @@ class ChecklistDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final items = ref.watch(checklistItemsProvider(checklistId));
 
     return Scaffold(
@@ -33,7 +35,7 @@ class ChecklistDetailScreen extends ConsumerWidget {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _showAddItemSheet(context, ref),
         icon: const Icon(Icons.add),
-        label: const Text('Add Item'),
+        label: Text(l10n.addItem),
       ),
       body: RefreshIndicator(
         onRefresh: () async => ref.invalidate(checklistItemsProvider(checklistId)),
@@ -102,6 +104,7 @@ class ChecklistDetailScreen extends ConsumerWidget {
       context: context,
       isScrollControlled: true,
       builder: (sheetContext) {
+        final l10n = AppLocalizations.of(sheetContext)!;
         return Padding(
           padding: EdgeInsets.only(
             left: AppSpacing.s4,
@@ -114,7 +117,7 @@ class ChecklistDetailScreen extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Add Item', style: AppTextStyles.titleLarge),
+              Text(l10n.addItem, style: AppTextStyles.titleLarge),
               const SizedBox(height: AppSpacing.s4),
               TextField(
                 controller: titleController,
@@ -161,7 +164,7 @@ class ChecklistDetailScreen extends ConsumerWidget {
                       }
                     }
                   },
-                  child: const Text('Add'),
+                  child: Text(l10n.add),
                 ),
               ),
             ],

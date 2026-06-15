@@ -11,6 +11,7 @@ import '../../../core/widgets/error_widget.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../data/models/project_model.dart';
 import '../providers/project_provider.dart';
+import '../../../l10n/app_localizations.dart';
 
 class ProjectListScreen extends ConsumerStatefulWidget {
   const ProjectListScreen({super.key});
@@ -295,7 +296,7 @@ class _ProjectListScreenState extends ConsumerState<ProjectListScreen> {
             ? ElevatedButton.icon(
                 onPressed: () => context.push('/projects/create'),
                 icon: const Icon(Icons.add),
-                label: const Text('Create Project'),
+                label: Text(AppLocalizations.of(context)!.createProject),
               )
             : null,
       );

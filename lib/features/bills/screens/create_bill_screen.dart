@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 import '../data/models/bill_model.dart';
 import '../providers/bill_provider.dart';
 import '../../projects/providers/project_provider.dart';
@@ -47,11 +48,12 @@ class _CreateBillScreenState extends ConsumerState<CreateBillScreen> {
   }
 
   Future<void> _submit() async {
+    final l10n = AppLocalizations.of(context)!;
     if (!_formKey.currentState!.validate()) return;
     if (_selectedProjectId == null) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Please select a project')));
+      ).showSnackBar(SnackBar(content: Text(l10n.pleaseSelectProject)));
       return;
     }
 
@@ -80,12 +82,12 @@ class _CreateBillScreenState extends ConsumerState<CreateBillScreen> {
       if (success) {
         context.pop();
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Bill created successfully')),
+          SnackBar(content: Text(l10n.billCreatedSuccessfully)),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Failed to create bill. Please try again.'),
+          SnackBar(
+            content: Text(l10n.failedToCreateBill),
             backgroundColor: Colors.red,
           ),
         );
@@ -95,12 +97,13 @@ class _CreateBillScreenState extends ConsumerState<CreateBillScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final projectState = ref.watch(projectListProvider);
     final createBillState = ref.watch(billControllerProvider);
     final suppliersAsync = ref.watch(suppliersProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Bill Request')),
+      appBar: AppBar(title: Text(l10n.billRequest)),
       body: LayoutBuilder(
         builder: (context, constraints) {
           return SingleChildScrollView(
@@ -214,9 +217,9 @@ class _CreateBillScreenState extends ConsumerState<CreateBillScreen> {
                             prefixIcon: Icon(Icons.store),
                           ),
                           items: [
-                            const DropdownMenuItem<String>(
+                            DropdownMenuItem<String>(
                               value: '',
-                              child: Text('Select a Vendor'),
+                              child: Text(l10n.selectVendor),
                             ),
                             ...suppliers.map((supplier) {
                               return DropdownMenuItem<String>(
@@ -316,7 +319,7 @@ class _CreateBillScreenState extends ConsumerState<CreateBillScreen> {
                               children: [
                                 ListTile(
                                   leading: const Icon(Icons.camera_alt_outlined, color: AppColors.primary),
-                                  title: const Text('Take Photo'),
+                                  title: Text(l10n.takePhoto),
                                   onTap: () async {
                                     Navigator.pop(ctx);
                                     final picked = await ImagePicker().pickImage(source: ImageSource.camera, imageQuality: 85);
@@ -331,7 +334,7 @@ class _CreateBillScreenState extends ConsumerState<CreateBillScreen> {
                                 ),
                                 ListTile(
                                   leading: const Icon(Icons.photo_library_outlined, color: AppColors.primary),
-                                  title: const Text('Choose from Gallery'),
+                                  title: Text(l10n.chooseFromGallery),
                                   onTap: () async {
                                     Navigator.pop(ctx);
                                     final picked = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 85);
@@ -346,7 +349,7 @@ class _CreateBillScreenState extends ConsumerState<CreateBillScreen> {
                                 ),
                                 ListTile(
                                   leading: const Icon(Icons.attach_file_outlined, color: AppColors.primary),
-                                  title: const Text('Browse Files (PDF / Image)'),
+                                  title: Text(l10n.browseFilesPdfImage),
                                   onTap: () async {
                                     Navigator.pop(ctx);
                                     final result = await FilePicker.platform.pickFiles(
@@ -433,7 +436,7 @@ class _CreateBillScreenState extends ConsumerState<CreateBillScreen> {
                       ),
                       child: _isSubmitting || createBillState.isLoading
                           ? const CircularProgressIndicator(color: Colors.white)
-                          : const Text('ADD BILL'),
+                          : Text(l10n.addBill),
                     ),
                   ],
                 ),

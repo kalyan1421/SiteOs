@@ -8,6 +8,7 @@ import '../data/models/subcontractor_model.dart';
 import '../providers/subcontractor_providers.dart';
 import 'subcontractor_form.dart';
 import 'work_order_screen.dart';
+import '../../../l10n/app_localizations.dart';
 
 /// Directory of all subcontractors for the tenant. Tap a card to view that
 /// subcontractor's work orders; the + button creates a new one.
@@ -16,10 +17,11 @@ class SubcontractorsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final asyncSubs = ref.watch(subcontractorsProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Subcontractors')),
+      appBar: AppBar(title: Text(l10n.subcontractors)),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _openForm(context, ref),
         icon: const Icon(Icons.add),
@@ -209,6 +211,7 @@ class _Error extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.s6),
@@ -225,7 +228,7 @@ class _Error extends StatelessWidget {
                   .copyWith(color: AppColors.textSecondary),
             ),
             const SizedBox(height: AppSpacing.s4),
-            OutlinedButton(onPressed: onRetry, child: const Text('Retry')),
+            OutlinedButton(onPressed: onRetry, child: Text(l10n.retry)),
           ],
         ),
       ),

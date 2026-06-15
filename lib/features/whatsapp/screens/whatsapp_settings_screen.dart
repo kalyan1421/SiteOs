@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/text_styles.dart';
 import '../data/models/whatsapp_preferences.dart';
@@ -47,8 +48,9 @@ class _WhatsAppSettingsScreenState
     if (!mounted) return;
     if (ok) {
       setState(() => _dirty = false);
+      final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Preferences saved')),
+        SnackBar(content: Text(l10n.preferencesSaved)),
       );
     } else {
       final err = ref.read(whatsAppControllerProvider).error;
@@ -64,8 +66,9 @@ class _WhatsAppSettingsScreenState
   Future<void> _sendTest() async {
     final recipients = _draft?.recipients ?? const [];
     if (recipients.isEmpty) {
+      final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Add a recipient first to send a test.')),
+        SnackBar(content: Text(l10n.addRecipientFirst)),
       );
       return;
     }
@@ -103,43 +106,47 @@ class _WhatsAppSettingsScreenState
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: AppRadius.xlR),
       ),
-      builder: (_) => SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(AppSpacing.s4),
-              child: Text('Send test to…', style: AppTextStyles.titleMedium),
-            ),
-            for (final r in recipients)
-              ListTile(
-                leading: const Icon(Icons.send_rounded,
-                    color: AppColors.primary),
-                title: Text(r.name, style: AppTextStyles.titleSmall),
-                subtitle: Text(r.phone, style: AppTextStyles.mono),
-                onTap: () => Navigator.of(context).pop(r),
+      builder: (ctx) {
+        final l10n = AppLocalizations.of(ctx)!;
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(AppSpacing.s4),
+                child: Text(l10n.sendTestTo, style: AppTextStyles.titleMedium),
               ),
-            const SizedBox(height: AppSpacing.s2),
-          ],
-        ),
-      ),
+              for (final r in recipients)
+                ListTile(
+                  leading: const Icon(Icons.send_rounded,
+                      color: AppColors.primary),
+                  title: Text(r.name, style: AppTextStyles.titleSmall),
+                  subtitle: Text(r.phone, style: AppTextStyles.mono),
+                  onTap: () => Navigator.of(context).pop(r),
+                ),
+              const SizedBox(height: AppSpacing.s2),
+            ],
+          ),
+        );
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final configAsync = ref.watch(whatsAppConfigProvider);
     final prefsAsync = ref.watch(whatsAppPreferencesProvider);
     final controllerState = ref.watch(whatsAppControllerProvider);
     final busy = controllerState.isLoading;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('WhatsApp Reports')),
+      appBar: AppBar(title: Text(l10n.whatsappReports)),
       floatingActionButton: _dirty
           ? FloatingActionButton.extended(
               onPressed: busy ? null : _save,
               icon: const Icon(Icons.save_rounded),
-              label: const Text('Save'),
+              label: Text(l10n.save),
             )
           : null,
       body: prefsAsync.when(
@@ -174,7 +181,7 @@ class _WhatsAppSettingsScreenState
                       value: draft.dailyReportEnabled,
                       onChanged: (v) => _updateDraft(
                           draft.copyWith(dailyReportEnabled: v)),
-                      title: Text('Daily progress report',
+                      title: Text(l10n.dailyProgressReport,
                           style: AppTextStyles.titleMedium),
                       subtitle: Text(
                         'Send a WhatsApp summary to recipients every evening.',
@@ -203,7 +210,7 @@ class _WhatsAppSettingsScreenState
                         recipients: [...draft.recipients, r])),
                   ),
                   icon: const Icon(Icons.add_rounded, size: 18),
-                  label: const Text('Add'),
+                  label: Text(l10n.add),
                 ),
               ),
               const SizedBox(height: AppSpacing.s2),
@@ -271,6 +278,7 @@ class _SendHourRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Opacity(
       opacity: enabled ? 1 : 0.5,
       child: Row(
@@ -279,7 +287,7 @@ class _SendHourRow extends StatelessWidget {
               size: 20, color: AppColors.textSecondary),
           const SizedBox(width: AppSpacing.s3),
           Expanded(
-            child: Text('Send time (IST)', style: AppTextStyles.bodyMedium),
+            child: Text(l10n.sendTimeIst, style: AppTextStyles.bodyMedium),
           ),
           DropdownButton<int>(
             value: sendHour,
@@ -460,6 +468,7 @@ class _ErrorState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.s6),
@@ -476,7 +485,7 @@ class _ErrorState extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: AppSpacing.s4),
-            OutlinedButton(onPressed: onRetry, child: const Text('Retry')),
+            OutlinedButton(onPressed: onRetry, child: Text(l10n.retry)),
           ],
         ),
       ),

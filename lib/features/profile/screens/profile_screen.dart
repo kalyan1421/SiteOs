@@ -8,6 +8,7 @@ import '../../../core/ui/responsive.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../../auth/providers/auth_repository_provider.dart';
 import '../../auth/data/models/user_profile_model.dart';
+import '../../../l10n/app_localizations.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
@@ -499,8 +500,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               if (ctx.mounted) {
                 Navigator.pop(ctx);
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                      content: Text('Profile updated successfully')),
+                  SnackBar(
+                      content: Text(AppLocalizations.of(context)!.profileUpdatedSuccessfully)),
                 );
               }
             } catch (e) {
@@ -593,7 +594,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                     color: Colors.white,
                                   ),
                                 )
-                              : const Text('Save Changes'),
+                              : Text(AppLocalizations.of(context)!.saveChanges),
                         ),
                       ),
                     ],

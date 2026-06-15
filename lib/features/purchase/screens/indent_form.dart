@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/text_styles.dart';
 import '../data/models/purchase_indent.dart';
@@ -61,9 +62,10 @@ class _IndentFormScreenState extends ConsumerState<IndentFormScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(title: const Text('New Indent')),
+      appBar: AppBar(title: Text(l10n.newIndent)),
       body: Form(
         key: _formKey,
         child: ListView(
@@ -110,12 +112,12 @@ class _IndentFormScreenState extends ConsumerState<IndentFormScreen> {
             const SizedBox(height: AppSpacing.s6),
             Row(
               children: [
-                Text('Items', style: AppTextStyles.titleSmall),
+                Text(l10n.items, style: AppTextStyles.titleSmall),
                 const Spacer(),
                 TextButton.icon(
                   onPressed: () => setState(() => _items.add(_ItemEntry())),
                   icon: const Icon(Icons.add, size: 18),
-                  label: const Text('Add item'),
+                  label: Text(l10n.addItem),
                 ),
               ],
             ),
@@ -138,7 +140,7 @@ class _IndentFormScreenState extends ConsumerState<IndentFormScreen> {
                       width: 20,
                       child: CircularProgressIndicator(strokeWidth: 2),
                     )
-                  : const Text('Create Indent'),
+                  : Text(l10n.createIndent),
             ),
           ],
         ),
@@ -211,10 +213,11 @@ class _IndentFormScreenState extends ConsumerState<IndentFormScreen> {
 
   Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
+    final l10n = AppLocalizations.of(context)!;
     final items = _items.map((e) => e.toModel()).whereType<IndentItem>().toList();
     if (items.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Add at least one valid item.')),
+        SnackBar(content: Text(l10n.fillAllRequiredFields)),
       );
       return;
     }

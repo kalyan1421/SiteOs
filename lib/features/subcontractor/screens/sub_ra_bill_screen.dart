@@ -11,6 +11,7 @@ import '../data/models/work_order_model.dart';
 import '../providers/subcontractor_providers.dart';
 import '../widgets/money_text.dart';
 import '../widgets/status_chip.dart';
+import '../../../l10n/app_localizations.dart';
 
 /// Running-account bills raised against a single work order.
 ///
@@ -27,6 +28,7 @@ class SubRaBillScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final asyncBills = ref.watch(raBillsProvider(workOrder.id));
 
     return Scaffold(
@@ -57,7 +59,7 @@ class SubRaBillScreen extends ConsumerWidget {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _openForm(context, ref),
         icon: const Icon(Icons.add),
-        label: const Text('New RA Bill'),
+        label: Text(l10n.newRaBill),
       ),
       body: asyncBills.when(
         data: (bills) => RefreshIndicator(
@@ -371,6 +373,7 @@ class _RaBillFormState extends ConsumerState<_RaBillForm> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final calc = SubRaBillModel.calc(
       value: _valueNum,
       tdsPct: _tdsNum,
@@ -402,7 +405,7 @@ class _RaBillFormState extends ConsumerState<_RaBillForm> {
                   ),
                 ),
                 const SizedBox(height: AppSpacing.s4),
-                Text('New RA Bill', style: AppTextStyles.headlineSmall),
+                Text(l10n.newRaBill, style: AppTextStyles.headlineSmall),
                 const SizedBox(height: AppSpacing.s5),
                 TextFormField(
                   controller: _number,
@@ -541,7 +544,7 @@ class _RaBillFormState extends ConsumerState<_RaBillForm> {
                               color: AppColors.textOnPrimary,
                             ),
                           )
-                        : Text('Save RA bill', style: AppTextStyles.button),
+                        : Text(l10n.saveRaBill, style: AppTextStyles.button),
                   ),
                 ),
               ],
@@ -567,6 +570,7 @@ class _RaBillFormState extends ConsumerState<_RaBillForm> {
 class _Empty extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.s6),
@@ -576,7 +580,7 @@ class _Empty extends StatelessWidget {
             const Icon(Icons.receipt_long_outlined,
                 size: 56, color: AppColors.textHint),
             const SizedBox(height: AppSpacing.s4),
-            Text('No RA bills yet',
+            Text(l10n.noRaBillsYet,
                 textAlign: TextAlign.center,
                 style: AppTextStyles.titleMedium),
             const SizedBox(height: AppSpacing.s2),
@@ -601,6 +605,7 @@ class _Error extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.s6),
@@ -614,7 +619,7 @@ class _Error extends StatelessWidget {
                 style: AppTextStyles.bodyMedium
                     .copyWith(color: AppColors.textSecondary)),
             const SizedBox(height: AppSpacing.s4),
-            OutlinedButton(onPressed: onRetry, child: const Text('Retry')),
+            OutlinedButton(onPressed: onRetry, child: Text(l10n.retry)),
           ],
         ),
       ),

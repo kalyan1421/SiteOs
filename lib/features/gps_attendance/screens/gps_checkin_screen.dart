@@ -9,6 +9,7 @@ import '../../auth/providers/auth_provider.dart';
 import '../data/models/project_geofence.dart';
 import '../data/services/location_service.dart';
 import '../providers/gps_attendance_providers.dart';
+import '../../../l10n/app_localizations.dart';
 
 /// Site screen: take a GPS reading, compute the distance to the selected
 /// project's geofence, and allow check-in only when inside the radius.
@@ -87,8 +88,8 @@ class _GpsCheckinScreenState extends ConsumerState<GpsCheckinScreen> {
       ref.invalidate(recentCheckinsProvider(geofence.projectId));
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Checked in successfully.'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.checkedInSuccessfully),
           backgroundColor: AppColors.success,
         ),
       );
@@ -124,11 +125,12 @@ class _GpsCheckinScreenState extends ConsumerState<GpsCheckinScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final projectsAsync = ref.watch(gpsProjectsProvider);
 
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(title: const Text('GPS Check-in')),
+      appBar: AppBar(title: Text(l10n.gpsCheckIn)),
       body: projectsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => _ErrorView(
@@ -146,12 +148,12 @@ class _GpsCheckinScreenState extends ConsumerState<GpsCheckinScreen> {
           return ListView(
             padding: const EdgeInsets.all(AppSpacing.s4),
             children: [
-              Text('Project', style: AppTextStyles.labelLarge),
+              Text(l10n.project, style: AppTextStyles.labelLarge),
               const SizedBox(height: AppSpacing.s2),
               DropdownButtonFormField<String>(
                 initialValue: _selectedProjectId,
                 isExpanded: true,
-                hint: const Text('Select a project'),
+                hint: Text(l10n.selectProject),
                 items: [
                   for (final p in projects)
                     DropdownMenuItem(value: p.id, child: Text(p.name)),
@@ -199,17 +201,17 @@ class _GpsCheckinScreenState extends ConsumerState<GpsCheckinScreen> {
                   : Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Labour (optional)',
+                        Text(AppLocalizations.of(context)!.labourOptional,
                             style: AppTextStyles.labelLarge),
                         const SizedBox(height: AppSpacing.s2),
                         DropdownButtonFormField<String>(
                           initialValue: _selectedLabourId,
                           isExpanded: true,
-                          hint: const Text('Checking in for myself'),
+                          hint: Text(AppLocalizations.of(context)!.checkingInForMyself),
                           items: [
-                            const DropdownMenuItem<String>(
+                            DropdownMenuItem<String>(
                               value: null,
-                              child: Text('Myself'),
+                              child: Text(AppLocalizations.of(context)!.myself),
                             ),
                             for (final l in labour)
                               DropdownMenuItem(
@@ -444,6 +446,7 @@ class _ErrorView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.s8),
       child: Center(
@@ -455,7 +458,7 @@ class _ErrorView extends StatelessWidget {
             const SizedBox(height: AppSpacing.s4),
             Text(message, style: AppTextStyles.bodyMedium),
             const SizedBox(height: AppSpacing.s4),
-            OutlinedButton(onPressed: onRetry, child: const Text('Retry')),
+            OutlinedButton(onPressed: onRetry, child: Text(l10n.retry)),
           ],
         ),
       ),

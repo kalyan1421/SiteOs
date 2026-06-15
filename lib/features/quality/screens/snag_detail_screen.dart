@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import '../../../l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
@@ -26,11 +27,12 @@ class SnagDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final snagAsync = ref.watch(snagDetailProvider(snagId));
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Snag'),
+        title: Text(l10n.snag),
       ),
       body: RefreshIndicator(
         onRefresh: () async => ref.invalidate(snagDetailProvider(snagId)),
@@ -74,6 +76,7 @@ class _SnagBodyState extends ConsumerState<_SnagBody> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final dateFmt = DateFormat('dd MMM yyyy, hh:mm a');
 
     return ListView(
@@ -123,7 +126,7 @@ class _SnagBodyState extends ConsumerState<_SnagBody> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Resolution notes',
+                Text(l10n.resolutionNotes,
                     style: AppTextStyles.labelMedium
                         .copyWith(color: AppColors.successDark)),
                 const SizedBox(height: AppSpacing.s1),
@@ -146,11 +149,11 @@ class _SnagBodyState extends ConsumerState<_SnagBody> {
           trailing: OutlinedButton.icon(
             onPressed: _busy ? null : _addAfterPhoto,
             icon: const Icon(Icons.add_a_photo_outlined, size: 18),
-            label: const Text('Add'),
+            label: Text(l10n.add),
           ),
         ),
         const SizedBox(height: AppSpacing.s6),
-        Text('Priority', style: AppTextStyles.labelMedium),
+        Text(l10n.priority, style: AppTextStyles.labelMedium),
         const SizedBox(height: AppSpacing.s2),
         Wrap(
           spacing: AppSpacing.s2,
@@ -164,7 +167,7 @@ class _SnagBodyState extends ConsumerState<_SnagBody> {
           }).toList(),
         ),
         const SizedBox(height: AppSpacing.s4),
-        Text('Status', style: AppTextStyles.labelMedium),
+        Text(l10n.status, style: AppTextStyles.labelMedium),
         const SizedBox(height: AppSpacing.s2),
         Wrap(
           spacing: AppSpacing.s2,
@@ -184,7 +187,7 @@ class _SnagBodyState extends ConsumerState<_SnagBody> {
             child: FilledButton.icon(
               onPressed: _busy ? null : _resolve,
               icon: const Icon(Icons.check),
-              label: const Text('Resolve Snag'),
+              label: Text(l10n.resolveSnag),
             ),
           ),
         if (_busy) ...[
@@ -265,6 +268,7 @@ class _SnagBodyState extends ConsumerState<_SnagBody> {
       context: context,
       isScrollControlled: true,
       builder: (sheetContext) {
+        final l10n = AppLocalizations.of(sheetContext)!;
         return Padding(
           padding: EdgeInsets.only(
             left: AppSpacing.s4,
@@ -277,7 +281,7 @@ class _SnagBodyState extends ConsumerState<_SnagBody> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Resolve Snag', style: AppTextStyles.titleLarge),
+              Text(l10n.resolveSnag, style: AppTextStyles.titleLarge),
               const SizedBox(height: AppSpacing.s4),
               TextField(
                 controller: notesController,
@@ -292,7 +296,7 @@ class _SnagBodyState extends ConsumerState<_SnagBody> {
                 width: double.infinity,
                 child: FilledButton(
                   onPressed: () => Navigator.of(sheetContext).pop(true),
-                  child: const Text('Mark Resolved'),
+                  child: Text(l10n.markResolved),
                 ),
               ),
             ],

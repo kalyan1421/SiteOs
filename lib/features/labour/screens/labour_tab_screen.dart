@@ -8,6 +8,7 @@ import '../data/models/daily_labour_log.dart';
 import '../data/models/labour_model.dart';
 import '../../common/widgets/searchable_dropdown_with_create.dart';
 import '../../projects/screens/project_operations_screen.dart';
+import '../../../l10n/app_localizations.dart';
 
 class LabourTabScreen extends ConsumerWidget {
   final String projectId;
@@ -729,7 +730,7 @@ class _LogLaborSheetState extends ConsumerState<_LogLaborSheet> {
     if (_nameController.text.trim().isEmpty) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Enter contractor name')));
+      ).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context)!.enterContractorName)));
       return;
     }
 
@@ -752,8 +753,8 @@ class _LogLaborSheetState extends ConsumerState<_LogLaborSheet> {
       if (mounted) {
         Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Log saved'),
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.logSaved),
             backgroundColor: Colors.green,
           ),
         );

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/text_styles.dart';
 import '../data/models/ra_bill.dart';
@@ -27,23 +28,24 @@ class _RaBillDetailScreenState extends ConsumerState<RaBillDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final billAsync = ref.watch(raBillProvider(widget.billId));
     return Scaffold(
       appBar: AppBar(
-        title: const Text('RA Bill'),
+        title: Text(l10n.raBill),
         actions: [
           billAsync.maybeWhen(
             data: (bill) => bill == null
                 ? const SizedBox.shrink()
                 : PopupMenuButton<String>(
                     onSelected: (v) => _onMenu(v, bill),
-                    itemBuilder: (_) => const [
+                    itemBuilder: (_) => [
                       PopupMenuItem(
-                          value: 'pdf', child: Text('Export PDF')),
+                          value: 'pdf', child: Text(l10n.exportPdf)),
                       PopupMenuItem(
-                          value: 'print', child: Text('Print preview')),
+                          value: 'print', child: Text(l10n.printPreview)),
                       PopupMenuItem(
-                          value: 'tally', child: Text('Export Tally XML')),
+                          value: 'tally', child: Text(l10n.exportTallyXml)),
                     ],
                   ),
             orElse: () => const SizedBox.shrink(),
@@ -170,6 +172,7 @@ class _RaBillDetailScreenState extends ConsumerState<RaBillDetailScreen> {
   }
 
   Widget _actionBar(RaBill bill) {
+    final l10n = AppLocalizations.of(context)!;
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.s4),
@@ -179,7 +182,7 @@ class _RaBillDetailScreenState extends ConsumerState<RaBillDetailScreen> {
               child: OutlinedButton.icon(
                 onPressed: _busy ? null : () => _exportTally(bill),
                 icon: const Icon(Icons.swap_horiz),
-                label: const Text('Tally XML'),
+                label: Text(l10n.tallyXml),
               ),
             ),
             const SizedBox(width: AppSpacing.s3),
@@ -187,7 +190,7 @@ class _RaBillDetailScreenState extends ConsumerState<RaBillDetailScreen> {
               child: FilledButton.icon(
                 onPressed: _busy ? null : () => _exportPdf(bill),
                 icon: const Icon(Icons.picture_as_pdf_outlined),
-                label: const Text('Export PDF'),
+                label: Text(l10n.exportPdf),
               ),
             ),
           ],

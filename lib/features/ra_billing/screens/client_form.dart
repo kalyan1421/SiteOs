@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_spacing.dart';
+import '../../../l10n/app_localizations.dart';
 import '../data/models/client.dart';
 import '../providers/ra_billing_providers.dart';
 
@@ -107,6 +108,7 @@ class _ClientFormState extends ConsumerState<ClientForm> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.fromLTRB(
           AppSpacing.s4, 0, AppSpacing.s4, AppSpacing.s4),
@@ -117,7 +119,7 @@ class _ClientFormState extends ConsumerState<ClientForm> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              widget.existing == null ? 'New client' : 'Edit client',
+              widget.existing == null ? l10n.newClient : l10n.edit,
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: AppSpacing.s4),
@@ -139,7 +141,7 @@ class _ClientFormState extends ConsumerState<ClientForm> {
                       height: 18,
                       width: 18,
                       child: CircularProgressIndicator(strokeWidth: 2))
-                  : Text(widget.existing == null ? 'Add client' : 'Save'),
+                  : Text(widget.existing == null ? l10n.add : l10n.save),
             ),
           ],
         ),

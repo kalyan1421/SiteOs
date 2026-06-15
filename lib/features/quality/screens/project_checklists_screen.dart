@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/text_styles.dart';
 import '../../auth/providers/auth_provider.dart';
@@ -19,14 +20,15 @@ class ProjectChecklistsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final checklists = ref.watch(projectChecklistsProvider(projectId));
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Quality Checklists')),
+      appBar: AppBar(title: Text(l10n.qualityChecklists)),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _showCreateSheet(context, ref),
         icon: const Icon(Icons.playlist_add),
-        label: const Text('New Checklist'),
+        label: Text(l10n.newChecklist),
       ),
       body: RefreshIndicator(
         onRefresh: () async =>
@@ -88,6 +90,7 @@ class ProjectChecklistsScreen extends ConsumerWidget {
       builder: (sheetContext) {
         return StatefulBuilder(
           builder: (sheetContext, setSheetState) {
+            final l10n = AppLocalizations.of(sheetContext)!;
             return Padding(
               padding: EdgeInsets.only(
                 left: AppSpacing.s4,
@@ -100,7 +103,7 @@ class ProjectChecklistsScreen extends ConsumerWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('New Checklist', style: AppTextStyles.titleLarge),
+                  Text(l10n.newChecklist, style: AppTextStyles.titleLarge),
                   const SizedBox(height: AppSpacing.s4),
                   TextField(
                     controller: nameController,
@@ -119,9 +122,9 @@ class ProjectChecklistsScreen extends ConsumerWidget {
                         labelText: 'Start from template (optional)',
                       ),
                       items: [
-                        const DropdownMenuItem<ChecklistTemplate?>(
+                        DropdownMenuItem<ChecklistTemplate?>(
                           value: null,
-                          child: Text('Blank checklist'),
+                          child: Text(l10n.blankChecklist),
                         ),
                         ...templates.map(
                           (t) => DropdownMenuItem<ChecklistTemplate?>(
@@ -174,7 +177,7 @@ class ProjectChecklistsScreen extends ConsumerWidget {
                           }
                         }
                       },
-                      child: const Text('Create'),
+                      child: Text(l10n.create),
                     ),
                   ),
                 ],
@@ -321,13 +324,14 @@ class _ErrorState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return ListView(
       children: [
         const SizedBox(height: 120),
         const Icon(Icons.error_outline, size: 48, color: AppColors.error),
         const SizedBox(height: AppSpacing.s4),
         Center(
-          child: Text('Something went wrong',
+          child: Text(l10n.somethingWentWrong,
               style: AppTextStyles.titleMedium),
         ),
         const SizedBox(height: AppSpacing.s2),
@@ -342,7 +346,7 @@ class _ErrorState extends StatelessWidget {
         ),
         const SizedBox(height: AppSpacing.s4),
         Center(
-          child: OutlinedButton(onPressed: onRetry, child: const Text('Retry')),
+          child: OutlinedButton(onPressed: onRetry, child: Text(l10n.retry)),
         ),
       ],
     );

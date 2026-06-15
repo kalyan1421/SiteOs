@@ -17,6 +17,7 @@ import '../../inventory/providers/inventory_provider.dart'
     show suppliersProvider, inventoryRepositoryProvider;
 import '../data/models/material_master_model.dart';
 import 'material_master_list_screen.dart' show allMaterialsProvider;
+import '../../../../l10n/app_localizations.dart';
 
 // Model to hold form state for each entry
 class MaterialEntryForm {
@@ -113,8 +114,8 @@ class _MaterialReceiveScreenState extends ConsumerState<MaterialReceiveScreen> {
       if (!entry.isValid()) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Please fill all required fields in all entries'),
+            SnackBar(
+              content: Text(AppLocalizations.of(context)!.fillAllRequiredFields),
             ),
           );
         }
@@ -192,7 +193,7 @@ class _MaterialReceiveScreenState extends ConsumerState<MaterialReceiveScreen> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Materials received successfully')),
+          SnackBar(content: Text(AppLocalizations.of(context)!.materialsReceivedSuccessfully)),
         );
 
         // Refresh the logs, stock, and material master providers
@@ -276,9 +277,9 @@ class _MaterialReceiveScreenState extends ConsumerState<MaterialReceiveScreen> {
                       ),
                     ),
                     onPressed: _addNewEntry,
-                    child: const Text(
-                      'Add New Material',
-                      style: TextStyle(
+                    child: Text(
+                      AppLocalizations.of(context)!.addNewMaterial,
+                      style: const TextStyle(
                         color: AppColors.primary,
                         fontWeight: FontWeight.bold,
                       ),
@@ -323,7 +324,7 @@ class _MaterialReceiveScreenState extends ConsumerState<MaterialReceiveScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Log Materials'), centerTitle: false),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.logMaterials), centerTitle: false),
       body: bodyContent,
     );
   }
@@ -416,7 +417,7 @@ class _EntryCardState extends ConsumerState<_EntryCard> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Text(
-                        'Add Vendor',
+                        AppLocalizations.of(context)!.newVendor,
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -534,7 +535,7 @@ class _EntryCardState extends ConsumerState<_EntryCard> {
                                   setState(() => saving = false);
                                 }
                               },
-                        child: Text(saving ? 'Saving...' : 'Save'),
+                        child: Text(saving ? 'Saving...' : AppLocalizations.of(context)!.save),
                       ),
                     ],
                   ),
@@ -549,6 +550,7 @@ class _EntryCardState extends ConsumerState<_EntryCard> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final entry = widget.entry;
     // Use the shared provider so all entry cards reuse one fetch, not N.
     final materialsAsync = ref.watch(allMaterialsProvider);
@@ -832,7 +834,7 @@ class _EntryCardState extends ConsumerState<_EntryCard> {
                       children: [
                         ListTile(
                           leading: const Icon(Icons.camera_alt_outlined, color: AppColors.primary),
-                          title: const Text('Take Photo'),
+                          title: Text(l10n.takePhoto),
                           onTap: () async {
                             Navigator.pop(ctx);
                             final picked = await ImagePicker().pickImage(source: ImageSource.camera, imageQuality: 85);
@@ -846,7 +848,7 @@ class _EntryCardState extends ConsumerState<_EntryCard> {
                         ),
                         ListTile(
                           leading: const Icon(Icons.photo_library_outlined, color: AppColors.primary),
-                          title: const Text('Choose from Gallery'),
+                          title: Text(l10n.chooseFromGallery),
                           onTap: () async {
                             Navigator.pop(ctx);
                             final picked = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 85);
@@ -860,7 +862,7 @@ class _EntryCardState extends ConsumerState<_EntryCard> {
                         ),
                         ListTile(
                           leading: const Icon(Icons.attach_file_outlined, color: AppColors.primary),
-                          title: const Text('Browse Files (PDF / Image)'),
+                          title: Text(l10n.browseFilesPdfImage),
                           onTap: () async {
                             Navigator.pop(ctx);
                             final result = await FilePicker.platform.pickFiles(

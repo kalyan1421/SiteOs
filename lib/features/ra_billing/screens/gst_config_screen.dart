@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_spacing.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/text_styles.dart';
 import '../data/models/gst_config.dart';
 import '../providers/ra_billing_providers.dart';
@@ -110,9 +111,10 @@ class _GstConfigScreenState extends ConsumerState<GstConfigScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final configAsync = ref.watch(gstConfigProvider);
     return Scaffold(
-      appBar: AppBar(title: const Text('GST Settings')),
+      appBar: AppBar(title: Text(l10n.gstSettings)),
       body: configAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => BillingErrorState(
@@ -156,7 +158,7 @@ class _GstConfigScreenState extends ConsumerState<GstConfigScreen> {
                           width: 18,
                           child: CircularProgressIndicator(strokeWidth: 2),
                         )
-                      : const Text('Save GST settings'),
+                      : Text(l10n.saveGstSettings),
                 ),
                 const SizedBox(height: AppSpacing.s8),
               ],

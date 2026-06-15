@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import '../../../l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -50,37 +51,40 @@ class _BlueprintUploadScreenState extends ConsumerState<BlueprintUploadScreen> {
     if (!kIsWeb) {
       await showModalBottomSheet<void>(
         context: context,
-        builder: (ctx) => SafeArea(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                leading: const Icon(Icons.camera_alt_outlined, color: Colors.indigo),
-                title: const Text('Take Photo'),
-                onTap: () {
-                  Navigator.pop(ctx);
-                  _pickFromCamera();
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.photo_library_outlined, color: Colors.indigo),
-                title: const Text('Choose from Gallery'),
-                onTap: () {
-                  Navigator.pop(ctx);
-                  _pickFromGallery();
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.attach_file_outlined, color: Colors.indigo),
-                title: const Text('Browse Files (PDF/Image)'),
-                onTap: () {
-                  Navigator.pop(ctx);
-                  _pickFromFilePicker();
-                },
-              ),
-            ],
-          ),
-        ),
+        builder: (ctx) {
+          final l10n = AppLocalizations.of(ctx)!;
+          return SafeArea(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.camera_alt_outlined, color: Colors.indigo),
+                  title: Text(l10n.takePhoto),
+                  onTap: () {
+                    Navigator.pop(ctx);
+                    _pickFromCamera();
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.photo_library_outlined, color: Colors.indigo),
+                  title: Text(l10n.chooseFromGallery),
+                  onTap: () {
+                    Navigator.pop(ctx);
+                    _pickFromGallery();
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.attach_file_outlined, color: Colors.indigo),
+                  title: Text(l10n.browseFilesPdfImage),
+                  onTap: () {
+                    Navigator.pop(ctx);
+                    _pickFromFilePicker();
+                  },
+                ),
+              ],
+            ),
+          );
+        },
       );
     } else {
       await _pickFromFilePicker();
@@ -156,6 +160,7 @@ class _BlueprintUploadScreenState extends ConsumerState<BlueprintUploadScreen> {
   }
 
   Future<void> _handleUpload() async {
+    final l10n = AppLocalizations.of(context)!;
     if (!_formKey.currentState!.validate()) {
       return;
     }
@@ -167,7 +172,7 @@ class _BlueprintUploadScreenState extends ConsumerState<BlueprintUploadScreen> {
 
     if (!hasFile) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select a file to upload.')),
+        SnackBar(content: Text(l10n.pleaseSelectFile)),
       );
       return;
     }
@@ -215,8 +220,8 @@ class _BlueprintUploadScreenState extends ConsumerState<BlueprintUploadScreen> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Blueprint uploaded successfully!'),
+          SnackBar(
+            content: Text(l10n.blueprintUploadedSuccessfully),
             backgroundColor: AppColors.success,
           ),
         );
@@ -246,6 +251,7 @@ class _BlueprintUploadScreenState extends ConsumerState<BlueprintUploadScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
 
     return Container(
@@ -336,7 +342,7 @@ class _BlueprintUploadScreenState extends ConsumerState<BlueprintUploadScreen> {
                             role == UserRole.admin ||
                             role == UserRole.superAdmin;
                         return SwitchListTile(
-                          title: const Text('Admin Only'),
+                          title: Text(l10n.adminOnly),
                           subtitle: Text(
                             canToggleAdminOnly
                                 ? 'If enabled, only admins can see this file.'
@@ -356,7 +362,7 @@ class _BlueprintUploadScreenState extends ConsumerState<BlueprintUploadScreen> {
                     OutlinedButton.icon(
                       onPressed: _pickFile,
                       icon: const Icon(Icons.add_a_photo_outlined),
-                      label: const Text('Attach File (Camera / Gallery / PDF)'),
+                      label: Text(l10n.attachFileCameraGalleryPdf),
                       style: OutlinedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         side: BorderSide(color: theme.primaryColor),

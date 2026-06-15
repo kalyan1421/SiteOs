@@ -11,6 +11,7 @@ import '../providers/client_portal_providers.dart';
 import '../widgets/client_progress_bar.dart';
 import '../widgets/client_state_views.dart';
 import '../widgets/client_status_chip.dart';
+import '../../../l10n/app_localizations.dart';
 
 /// Landing screen for a `role='client'` user. Read-only list of the projects
 /// they have been granted access to, each linking into the project detail.
@@ -19,6 +20,7 @@ class ClientDashboard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final projectsAsync = ref.watch(clientProjectsProvider);
     final profile = ref.watch(userProfileProvider);
     final greetingName = profile?.fullName?.split(' ').first ?? 'there';
@@ -26,7 +28,7 @@ class ClientDashboard extends ConsumerWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('My Projects'),
+        title: Text(l10n.myProjects),
         actions: [
           IconButton(
             tooltip: 'Sign out',

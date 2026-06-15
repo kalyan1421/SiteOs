@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/machinery_provider.dart';
 import '../data/models/machinery_model.dart';
+import '../../../l10n/app_localizations.dart';
 
 /// Machinery master list with add/edit/delete via bottom sheets
 class MachineryMasterScreen extends ConsumerWidget {
@@ -9,11 +10,12 @@ class MachineryMasterScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final machineryListAsync = ref.watch(machineryListProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Machinery Master'),
+        title: Text(l10n.machineryMaster),
         actions: [
           PopupMenuButton<String>(
             onSelected: (value) {
@@ -21,8 +23,8 @@ class MachineryMasterScreen extends ConsumerWidget {
                 ref.invalidate(machineryListProvider);
               }
             },
-            itemBuilder: (context) => const [
-              PopupMenuItem(value: 'refresh', child: Text('Refresh')),
+            itemBuilder: (context) => [
+              PopupMenuItem(value: 'refresh', child: Text(l10n.refresh)),
             ],
           ),
         ],
@@ -30,7 +32,7 @@ class MachineryMasterScreen extends ConsumerWidget {
       body: machineryListAsync.when(
         data: (machinery) {
           if (machinery.isEmpty) {
-            return const Center(child: Text('No machinery added yet.'));
+            return Center(child: Text(l10n.noMachineryAdded));
           }
           return ListView.builder(
             itemCount: machinery.length,
@@ -62,9 +64,9 @@ class MachineryMasterScreen extends ConsumerWidget {
                           break;
                       }
                     },
-                    itemBuilder: (context) => const [
-                      PopupMenuItem(value: 'edit', child: Text('Edit')),
-                      PopupMenuItem(value: 'delete', child: Text('Delete')),
+                    itemBuilder: (context) => [
+                      PopupMenuItem(value: 'edit', child: Text(l10n.edit)),
+                      PopupMenuItem(value: 'delete', child: Text(l10n.delete)),
                     ],
                   ),
                   onTap: () => _showFormSheet(context, ref, existing: item),
@@ -88,6 +90,7 @@ class MachineryMasterScreen extends ConsumerWidget {
     WidgetRef ref, {
     MachineryModel? existing,
   }) {
+    final l10n = AppLocalizations.of(context)!;
     final nameController = TextEditingController(text: existing?.name ?? '');
     final typeController = TextEditingController(text: existing?.type ?? '');
     final regController = TextEditingController(
@@ -147,9 +150,9 @@ class MachineryMasterScreen extends ConsumerWidget {
                   DropdownButtonFormField<String>(
                     initialValue: ownership,
                     decoration: const InputDecoration(labelText: 'Ownership'),
-                    items: const [
-                      DropdownMenuItem(value: 'Own', child: Text('Own')),
-                      DropdownMenuItem(value: 'Rental', child: Text('Rental')),
+                    items: [
+                      DropdownMenuItem(value: 'Own', child: Text(l10n.own)),
+                      DropdownMenuItem(value: 'Rental', child: Text(l10n.rental)),
                     ],
                     onChanged: (v) => setState(() => ownership = v ?? 'Rental'),
                   ),
@@ -223,21 +226,22 @@ class MachineryMasterScreen extends ConsumerWidget {
     WidgetRef ref,
     String id,
   ) async {
+    final l10n = AppLocalizations.of(context)!;
     final ok = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Delete machinery'),
+        title: Text(l10n.deleteMachinery),
         content: const Text(
           'Are you sure you want to delete this machinery item?',
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Delete'),
+            child: Text(l10n.delete),
           ),
         ],
       ),
@@ -249,7 +253,7 @@ class MachineryMasterScreen extends ConsumerWidget {
       if (context.mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(const SnackBar(content: Text('Machinery deleted')));
+        ).showSnackBar(SnackBar(content: Text(l10n.machineryDeleted)));
       }
     }
   }

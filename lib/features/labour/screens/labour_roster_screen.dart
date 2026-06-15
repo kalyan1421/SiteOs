@@ -6,6 +6,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/loading_widget.dart';
 import '../data/models/labour_model.dart';
 import '../providers/labour_provider.dart';
+import '../../../l10n/app_localizations.dart';
 
 /// Labour Roster Screen - List all workers for a project
 class LabourRosterScreen extends ConsumerWidget {
@@ -20,6 +21,7 @@ class LabourRosterScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final labourAsync = ref.watch(projectLabourProvider(projectId));
 
     return Scaffold(
@@ -45,8 +47,8 @@ class LabourRosterScreen extends ConsumerWidget {
                 ref.invalidate(projectLabourProvider(projectId));
               }
             },
-            itemBuilder: (context) => const [
-              PopupMenuItem(value: 'refresh', child: Text('Refresh')),
+            itemBuilder: (context) => [
+              PopupMenuItem(value: 'refresh', child: Text(AppLocalizations.of(context)!.refresh)),
             ],
           ),
         ],
@@ -61,12 +63,13 @@ class LabourRosterScreen extends ConsumerWidget {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _showAddLabourDialog(context, ref),
         icon: const Icon(Icons.person_add),
-        label: const Text('Add Worker'),
+        label: Text(l10n.addWorker),
       ),
     );
   }
 
   Widget _buildEmptyState(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -78,7 +81,7 @@ class LabourRosterScreen extends ConsumerWidget {
             style: Theme.of(context).textTheme.titleMedium,
           ),
           const SizedBox(height: 8),
-          const Text('Add workers to track attendance'),
+          Text(l10n.addWorkersToMarkAttendance),
         ],
       ),
     );
@@ -202,16 +205,16 @@ class LabourRosterScreen extends ConsumerWidget {
     final ok = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Delete worker'),
+        title: Text(AppLocalizations.of(ctx)!.deleteWorker),
         content: const Text('This will mark the worker inactive. Continue?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(ctx)!.cancel),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Delete'),
+            child: Text(AppLocalizations.of(ctx)!.delete),
           ),
         ],
       ),
@@ -223,7 +226,7 @@ class LabourRosterScreen extends ConsumerWidget {
       if (context.mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(const SnackBar(content: Text('Worker removed')));
+        ).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context)!.workerRemoved)));
       }
     }
   }
@@ -366,8 +369,8 @@ class _LabourCard extends StatelessWidget {
                     : 'Mark Active',
               ),
             ),
-            const PopupMenuItem(value: 'edit', child: Text('Edit')),
-            const PopupMenuItem(value: 'delete', child: Text('Delete')),
+            PopupMenuItem(value: 'edit', child: Text(AppLocalizations.of(context)!.edit)),
+            PopupMenuItem(value: 'delete', child: Text(AppLocalizations.of(context)!.delete)),
           ],
         ),
       ),
@@ -423,6 +426,7 @@ class _AddLabourSheetState extends ConsumerState<_AddLabourSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,
@@ -437,7 +441,7 @@ class _AddLabourSheetState extends ConsumerState<_AddLabourSheet> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              _isEdit ? 'Edit Worker' : 'Add New Worker',
+              _isEdit ? l10n.edit : l10n.addWorker,
               style: Theme.of(
                 context,
               ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
@@ -495,7 +499,7 @@ class _AddLabourSheetState extends ConsumerState<_AddLabourSheet> {
                       height: 20,
                       child: CircularProgressIndicator(strokeWidth: 2),
                     )
-                  : Text(_isEdit ? 'Update Worker' : 'Add Worker'),
+                  : Text(_isEdit ? 'Update Worker' : l10n.addWorker),
             ),
             const SizedBox(height: 16),
           ],

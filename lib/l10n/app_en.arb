@@ -188,6 +188,8 @@
   "@deleteProject": { "description": "Button to delete a project." },
   "projectDeleted": "Project deleted",
   "@projectDeleted": { "description": "Snackbar confirmation after deleting a project." },
+  "quality": "Quality",
+  "@quality": { "description": "Generic quality label (e.g. step name in BOQ wizard)." },
   "qualityChecklists": "Quality Checklists",
   "@qualityChecklists": { "description": "Label for the QA/QC checklists section." },
   "snags": "Snags",

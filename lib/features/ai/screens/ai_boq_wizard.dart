@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import '../../../l10n/app_localizations.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
@@ -106,6 +107,7 @@ class _AiBoqWizardState extends ConsumerState<AiBoqWizard> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     if (_result != null) {
       return _BoqPreviewScreen(
         result: _result!,
@@ -118,7 +120,7 @@ class _AiBoqWizardState extends ConsumerState<AiBoqWizard> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('AI BOQ Estimator')),
+      appBar: AppBar(title: Text(l10n.aiBoqEstimator)),
       body: Stack(
         children: [
           Column(
@@ -149,7 +151,7 @@ class _AiBoqWizardState extends ConsumerState<AiBoqWizard> {
                             onPressed: _generating
                                 ? null
                                 : () => setState(() => _step--),
-                            child: const Text('Back'),
+                            child: Text(l10n.back),
                           ),
                         ),
                       if (_step > 0) const SizedBox(width: AppSpacing.s3),
@@ -186,6 +188,7 @@ class _AiBoqWizardState extends ConsumerState<AiBoqWizard> {
   }
 
   Widget _buildStep() {
+    final l10n = AppLocalizations.of(context)!;
     switch (_step) {
       case 0:
         return _StepCard(
@@ -224,7 +227,7 @@ class _AiBoqWizardState extends ConsumerState<AiBoqWizard> {
                 onChanged: (_) => setState(() {}),
               ),
               const SizedBox(height: AppSpacing.s4),
-              Text('Floors', style: AppTextStyles.labelLarge),
+              Text(l10n.floors, style: AppTextStyles.labelLarge),
               const SizedBox(height: AppSpacing.s2),
               Row(
                 children: [
@@ -257,7 +260,7 @@ class _AiBoqWizardState extends ConsumerState<AiBoqWizard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Quality', style: AppTextStyles.labelLarge),
+              Text(AppLocalizations.of(context)!.quality, style: AppTextStyles.labelLarge),
               const SizedBox(height: AppSpacing.s2),
               SegmentedButton<String>(
                 segments: _qualities
@@ -363,6 +366,7 @@ class _BoqPreviewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     // Group rows by category for a readable preview.
     final byCategory = <String, List<BoqRow>>{};
     for (final r in result.rows) {
@@ -371,14 +375,14 @@ class _BoqPreviewScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('BOQ Preview'),
+        title: Text(l10n.boqPreview),
         actions: [
           IconButton(
             tooltip: 'Copy',
             onPressed: () {
               Clipboard.setData(ClipboardData(text: _asText()));
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('BOQ copied to clipboard')),
+                SnackBar(content: Text(l10n.boqCopiedToClipboard)),
               );
             },
             icon: const Icon(Icons.copy_rounded),
@@ -402,7 +406,7 @@ class _BoqPreviewScreen extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Estimated total', style: AppTextStyles.titleMedium),
+                Text(l10n.estimatedTotal, style: AppTextStyles.titleMedium),
                 Text(
                   currency.format(result.grandTotal),
                   style: AppTextStyles.headlineSmall.copyWith(
@@ -421,7 +425,7 @@ class _BoqPreviewScreen extends StatelessWidget {
               )),
           if (result.assumptions.isNotEmpty) ...[
             const SizedBox(height: AppSpacing.s6),
-            Text('ASSUMPTIONS', style: AppTextStyles.labelSmall),
+            Text(l10n.assumptions, style: AppTextStyles.labelSmall),
             const SizedBox(height: AppSpacing.s2),
             ...result.assumptions.map((a) => Padding(
                   padding: const EdgeInsets.only(bottom: AppSpacing.s1),
@@ -439,7 +443,7 @@ class _BoqPreviewScreen extends StatelessWidget {
           OutlinedButton.icon(
             onPressed: onRestart,
             icon: const Icon(Icons.refresh_rounded),
-            label: const Text('Start over'),
+            label: Text(l10n.startOver),
           ),
         ],
       ),

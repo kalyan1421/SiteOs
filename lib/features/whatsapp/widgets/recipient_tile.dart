@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/text_styles.dart';
 import '../data/models/whatsapp_recipient.dart';
@@ -139,6 +140,7 @@ class _AddRecipientSheetState extends State<AddRecipientSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.all(AppSpacing.s6),
       child: Form(
@@ -183,7 +185,7 @@ class _AddRecipientSheetState extends State<AddRecipientSheet> {
               width: double.infinity,
               child: TextButton(
                 onPressed: () => Navigator.of(context).maybePop(),
-                child: const Text('Cancel'),
+                child: Text(l10n.cancel),
               ),
             ),
           ],

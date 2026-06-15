@@ -5,6 +5,7 @@ import '../../../../core/widgets/error_widget.dart';
 import '../providers/stock_provider.dart';
 import '../data/models/stock_item.dart';
 import '../data/models/material_log.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class MaterialsTabScreen extends ConsumerStatefulWidget {
   final String projectId;
@@ -19,6 +20,7 @@ class _MaterialsTabScreenState extends ConsumerState<MaterialsTabScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final stockAsync = ref
         .watch(stockRepositoryProvider)
         .getStockItemsByProject(widget.projectId);
@@ -29,7 +31,7 @@ class _MaterialsTabScreenState extends ConsumerState<MaterialsTabScreen> {
     return Scaffold(
       backgroundColor: AppColors.scaffoldBackground,
       appBar: AppBar(
-        title: const Text('Material Details'),
+        title: Text(l10n.materialDetails),
         backgroundColor: AppColors.scaffoldBackground,
         elevation: 0,
         leading: IconButton(
@@ -59,7 +61,7 @@ class _MaterialsTabScreenState extends ConsumerState<MaterialsTabScreen> {
           final logs = snapshot.data![1] as List<MaterialLog>;
 
           if (stockItems.isEmpty) {
-            return const Center(child: Text('No materials found'));
+            return Center(child: Text(l10n.noMaterialsFound));
           }
 
           // 1. Group Logic
@@ -105,9 +107,9 @@ class _MaterialsTabScreenState extends ConsumerState<MaterialsTabScreen> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
                 child: SegmentedButton<bool>(
-                  segments: const [
-                    ButtonSegment(value: false, label: Text('By Material')),
-                    ButtonSegment(value: true, label: Text('By Vendor')),
+                  segments: [
+                    ButtonSegment(value: false, label: Text(l10n.byMaterial)),
+                    ButtonSegment(value: true, label: Text(l10n.byVendor)),
                   ],
                   selected: {_showByVendor},
                   onSelectionChanged: (v) =>
@@ -128,7 +130,7 @@ class _MaterialsTabScreenState extends ConsumerState<MaterialsTabScreen> {
                             ),
                             child: ListTile(
                               title: Text(vendor.supplierName),
-                              subtitle: const Text('Inward quantity'),
+                              subtitle: Text(l10n.inwardQuantity),
                               trailing: Text(
                                 vendor.totalQuantity.toStringAsFixed(2),
                               ),

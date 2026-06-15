@@ -11,6 +11,7 @@ import '../../bills/data/models/bill_model.dart';
 import '../../bills/providers/bill_provider.dart';
 import '../providers/dashboard_provider.dart';
 import '../data/models/dashboard_models.dart';
+import '../../../l10n/app_localizations.dart';
 
 class AdminDashboard extends ConsumerWidget {
   const AdminDashboard({super.key});
@@ -411,10 +412,10 @@ class AdminDashboard extends ConsumerWidget {
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: const [
-                    Text('View all'),
-                    SizedBox(width: 4),
-                    Icon(Icons.arrow_forward_rounded, size: 14),
+                  children: [
+                    Text(AppLocalizations.of(context)!.viewAll),
+                    const SizedBox(width: 4),
+                    const Icon(Icons.arrow_forward_rounded, size: 14),
                   ],
                 ),
               ),
@@ -764,7 +765,7 @@ class AdminDashboard extends ConsumerWidget {
               minimumSize: Size.zero,
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
-            child: const Text('Retry', style: TextStyle(fontSize: 13)),
+            child: Text(AppLocalizations.of(context)!.retry, style: const TextStyle(fontSize: 13)),
           ),
         ],
       ),

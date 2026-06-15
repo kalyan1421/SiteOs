@@ -8,6 +8,7 @@ import '../../../core/theme/text_styles.dart';
 import '../data/models/rera_report.dart';
 import '../providers/rera_providers.dart';
 import '../widgets/rera_widgets.dart';
+import '../../../l10n/app_localizations.dart';
 
 /// Create or edit a RERA quarterly report.
 ///
@@ -143,13 +144,14 @@ class _ReraReportFormState extends ConsumerState<ReraReportForm> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     if (widget.isEditing) {
       final existing = ref.watch(reraReportProvider(widget.reportId!));
       return existing.when(
         loading: () => const Scaffold(
             body: Center(child: CircularProgressIndicator())),
         error: (e, _) => Scaffold(
-          appBar: AppBar(title: const Text('Edit RERA report')),
+          appBar: AppBar(title: Text(l10n.editReraReport)),
           body: ReraPlaceholder(
             icon: Icons.cloud_off_rounded,
             title: "Couldn't load report",
@@ -159,7 +161,7 @@ class _ReraReportFormState extends ConsumerState<ReraReportForm> {
         data: (report) {
           if (report == null) {
             return Scaffold(
-              appBar: AppBar(title: const Text('Edit RERA report')),
+              appBar: AppBar(title: Text(l10n.editReraReport)),
               body: const ReraPlaceholder(
                 icon: Icons.search_off_rounded,
                 title: 'Report not found',
@@ -305,15 +307,15 @@ class _ReraReportFormState extends ConsumerState<ReraReportForm> {
             const SizedBox(height: AppSpacing.s5),
             _label('Filing status'),
             SegmentedButton<ReraReportStatus>(
-              segments: const [
+              segments: [
                 ButtonSegment(
-                    value: ReraReportStatus.draft, label: Text('Draft')),
+                    value: ReraReportStatus.draft, label: Text(AppLocalizations.of(context)!.draft)),
                 ButtonSegment(
                     value: ReraReportStatus.submitted,
-                    label: Text('Submitted')),
+                    label: Text(AppLocalizations.of(context)!.submitted)),
                 ButtonSegment(
                     value: ReraReportStatus.approved,
-                    label: Text('Approved')),
+                    label: Text(AppLocalizations.of(context)!.approved)),
               ],
               selected: {_status},
               onSelectionChanged: (s) =>

@@ -9,6 +9,7 @@ import '../data/models/rera_report.dart';
 import '../data/repositories/rera_pdf_export.dart';
 import '../providers/rera_providers.dart';
 import '../widgets/rera_widgets.dart';
+import '../../../l10n/app_localizations.dart';
 
 /// RERA Quarterly Reporting dashboard.
 ///
@@ -20,13 +21,14 @@ class ReraDashboardScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final reportsAsync = ref.watch(reraReportsProvider);
     final stats = ref.watch(reraDashboardStatsProvider);
 
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('RERA Reporting'),
+        title: Text(l10n.reraReporting),
         actions: [
           IconButton(
             tooltip: 'Refresh',
@@ -41,7 +43,7 @@ class ReraDashboardScreen extends ConsumerWidget {
           ref.invalidate(reraReportsProvider);
         },
         icon: const Icon(Icons.add_rounded),
-        label: const Text('New report'),
+        label: Text(l10n.newReport),
       ),
       body: RefreshIndicator(
         onRefresh: () async => ref.invalidate(reraReportsProvider),
@@ -57,7 +59,7 @@ class ReraDashboardScreen extends ConsumerWidget {
                   message: e.toString(),
                   action: OutlinedButton(
                     onPressed: () => ref.invalidate(reraReportsProvider),
-                    child: const Text('Retry'),
+                    child: Text(l10n.retry),
                   ),
                 ),
               ),
@@ -86,7 +88,7 @@ class ReraDashboardScreen extends ConsumerWidget {
                         ref.invalidate(reraReportsProvider);
                       },
                       icon: const Icon(Icons.add_rounded),
-                      label: const Text('New report'),
+                      label: Text(l10n.newReport),
                     ),
                   ),
                 )
@@ -190,6 +192,7 @@ class _ReportCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       decoration: BoxDecoration(
         color: AppColors.surface,
@@ -269,7 +272,7 @@ class _ReportCard extends ConsumerWidget {
                     onChanged();
                   },
                   icon: const Icon(Icons.edit_outlined, size: 18),
-                  label: const Text('Edit'),
+                  label: Text(l10n.edit),
                 ),
                 TextButton.icon(
                   onPressed: () => context.pushNamed(
@@ -281,7 +284,7 @@ class _ReportCard extends ConsumerWidget {
                     },
                   ),
                   icon: const Icon(Icons.photo_library_outlined, size: 18),
-                  label: const Text('Photos'),
+                  label: Text(l10n.photos),
                 ),
                 const Spacer(),
                 FilledButton.tonalIcon(

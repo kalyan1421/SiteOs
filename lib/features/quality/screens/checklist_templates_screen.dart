@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/text_styles.dart';
 import '../../auth/providers/auth_provider.dart';
@@ -16,14 +17,15 @@ class ChecklistTemplatesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final templates = ref.watch(checklistTemplatesProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Checklist Templates')),
+      appBar: AppBar(title: Text(l10n.checklistTemplates)),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _showCreateSheet(context, ref),
         icon: const Icon(Icons.add),
-        label: const Text('New Template'),
+        label: Text(l10n.newTemplate),
       ),
       body: RefreshIndicator(
         onRefresh: () async => ref.invalidate(checklistTemplatesProvider),
@@ -73,20 +75,23 @@ class ChecklistTemplatesScreen extends ConsumerWidget {
   ) async {
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('Delete template?'),
-        content: Text('Delete "${template.name}" and its items?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(false),
-            child: const Text('Cancel'),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.of(ctx).pop(true),
-            child: const Text('Delete'),
-          ),
-        ],
-      ),
+      builder: (ctx) {
+        final l10n = AppLocalizations.of(ctx)!;
+        return AlertDialog(
+          title: const Text('Delete template?'),
+          content: Text('Delete "${template.name}" and its items?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(ctx).pop(false),
+              child: Text(l10n.cancel),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.of(ctx).pop(true),
+              child: Text(l10n.delete),
+            ),
+          ],
+        );
+      },
     );
     if (confirmed != true) return;
     try {
@@ -110,6 +115,7 @@ class ChecklistTemplatesScreen extends ConsumerWidget {
       context: context,
       isScrollControlled: true,
       builder: (sheetContext) {
+        final l10n = AppLocalizations.of(sheetContext)!;
         return Padding(
           padding: EdgeInsets.only(
             left: AppSpacing.s4,
@@ -122,7 +128,7 @@ class ChecklistTemplatesScreen extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('New Template', style: AppTextStyles.titleLarge),
+              Text(l10n.newTemplate, style: AppTextStyles.titleLarge),
               const SizedBox(height: AppSpacing.s4),
               TextField(
                 controller: nameController,
@@ -187,7 +193,7 @@ class ChecklistTemplatesScreen extends ConsumerWidget {
                       }
                     }
                   },
-                  child: const Text('Create'),
+                  child: Text(l10n.create),
                 ),
               ),
             ],
@@ -276,6 +282,7 @@ class _TemplateItemsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final items = ref.watch(templateItemsProvider(template.id));
 
     return Scaffold(
@@ -285,7 +292,7 @@ class _TemplateItemsScreen extends ConsumerWidget {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _showAddItemSheet(context, ref),
         icon: const Icon(Icons.add),
-        label: const Text('Add Item'),
+        label: Text(l10n.addItem),
       ),
       body: RefreshIndicator(
         onRefresh: () async => ref.invalidate(templateItemsProvider(template.id)),
@@ -371,6 +378,7 @@ class _TemplateItemsScreen extends ConsumerWidget {
       context: context,
       isScrollControlled: true,
       builder: (sheetContext) {
+        final l10n = AppLocalizations.of(sheetContext)!;
         return Padding(
           padding: EdgeInsets.only(
             left: AppSpacing.s4,
@@ -383,7 +391,7 @@ class _TemplateItemsScreen extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Add Item', style: AppTextStyles.titleLarge),
+              Text(l10n.addItem, style: AppTextStyles.titleLarge),
               const SizedBox(height: AppSpacing.s4),
               TextField(
                 controller: titleController,
@@ -429,7 +437,7 @@ class _TemplateItemsScreen extends ConsumerWidget {
                       }
                     }
                   },
-                  child: const Text('Add'),
+                  child: Text(l10n.add),
                 ),
               ),
             ],

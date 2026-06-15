@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/text_styles.dart';
 import '../providers/boq_providers.dart';
@@ -73,6 +74,7 @@ class _BoqFormState extends ConsumerState<BoqForm> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return SafeArea(
       top: false,
       child: Padding(
@@ -95,7 +97,7 @@ class _BoqFormState extends ConsumerState<BoqForm> {
                 ),
               ),
               const SizedBox(height: AppSpacing.s4),
-              Text('New BOQ', style: AppTextStyles.headlineSmall),
+              Text(l10n.newBoq, style: AppTextStyles.headlineSmall),
               const SizedBox(height: AppSpacing.s1),
               Text(
                 'Give this estimate a name and version.',
@@ -151,7 +153,7 @@ class _BoqFormState extends ConsumerState<BoqForm> {
                           child: CircularProgressIndicator(
                               strokeWidth: 2, color: Colors.white),
                         )
-                      : const Text('Create BOQ'),
+                      : Text(l10n.createBoq),
                 ),
               ),
             ],

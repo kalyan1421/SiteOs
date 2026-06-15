@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/text_styles.dart';
 import '../data/models/ra_bill.dart';
@@ -158,6 +159,7 @@ class BillingErrorState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.s6),
@@ -168,7 +170,7 @@ class BillingErrorState extends StatelessWidget {
                 size: 40, color: AppColors.error),
             const SizedBox(height: AppSpacing.s4),
             Text(
-              'Something went wrong',
+              l10n.somethingWentWrong,
               style: AppTextStyles.titleMedium,
               textAlign: TextAlign.center,
             ),
@@ -179,7 +181,7 @@ class BillingErrorState extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: AppSpacing.s4),
-            OutlinedButton(onPressed: onRetry, child: const Text('Retry')),
+            OutlinedButton(onPressed: onRetry, child: Text(l10n.retry)),
           ],
         ),
       ),

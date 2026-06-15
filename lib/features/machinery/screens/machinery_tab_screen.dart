@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 import '../providers/machinery_provider.dart';
 import '../data/models/machinery_model.dart';
 import '../data/models/machinery_log_model.dart';
@@ -236,6 +237,7 @@ class _MachineryCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final dateStr = log.logDate != null
         ? DateFormat('MMM dd, yyyy').format(log.logDate!)
         : DateFormat('MMM dd, yyyy').format(log.loggedAt);
@@ -310,7 +312,7 @@ class _MachineryCard extends ConsumerWidget {
                   final confirmed = await showDialog<bool>(
                     context: context,
                     builder: (ctx) => AlertDialog(
-                      title: const Text('Delete machinery log'),
+                      title: Text(l10n.deleteMachineryLog),
                       content: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -329,7 +331,7 @@ class _MachineryCard extends ConsumerWidget {
                       actions: [
                         TextButton(
                           onPressed: () => Navigator.pop(ctx, false),
-                          child: const Text('Cancel'),
+                          child: Text(l10n.cancel),
                         ),
                         TextButton(
                           onPressed: () {
@@ -339,9 +341,9 @@ class _MachineryCard extends ConsumerWidget {
                             }
                             Navigator.pop(ctx, true);
                           },
-                          child: const Text(
-                            'Delete',
-                            style: TextStyle(color: Colors.red),
+                          child: Text(
+                            l10n.delete,
+                            style: const TextStyle(color: Colors.red),
                           ),
                         ),
                       ],
@@ -967,11 +969,12 @@ class _LogMachinerySheetState extends ConsumerState<_LogMachinerySheet> {
   }
 
   Future<void> _submit() async {
+    final l10n = AppLocalizations.of(context)!;
     if (!_formKey.currentState!.validate()) return;
     if (_selectedMachine == null) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Please select a machine')));
+      ).showSnackBar(SnackBar(content: Text(l10n.pleaseSelectMachine)));
       return;
     }
 
@@ -984,7 +987,7 @@ class _LogMachinerySheetState extends ConsumerState<_LogMachinerySheet> {
       if (_isTimeBased) {
         if (_startTime == null || _endTime == null) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Please select Start and End time')),
+            SnackBar(content: Text(l10n.pleaseSelectStartEndTime)),
           );
           setState(() => _isLoading = false);
           return;
@@ -1027,8 +1030,8 @@ class _LogMachinerySheetState extends ConsumerState<_LogMachinerySheet> {
           ref.invalidate(machineryLogsProvider(widget.projectId));
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Log saved successfully'),
+            SnackBar(
+              content: Text(l10n.logSaved),
               backgroundColor: Colors.green,
             ),
           );
@@ -1060,6 +1063,7 @@ class _LogMachinerySheetState extends ConsumerState<_LogMachinerySheet> {
     BuildContext context,
     String name,
   ) async {
+    final l10n = AppLocalizations.of(context)!;
     // Placeholder for quick create - can be expanded effectively
     // For now returning null doesn't block "create" if user really wants,
     // but without backend "create" logic here we just return null.
@@ -1090,7 +1094,7 @@ class _LogMachinerySheetState extends ConsumerState<_LogMachinerySheet> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
           TextButton(
             onPressed: () async {
@@ -1105,7 +1109,7 @@ class _LogMachinerySheetState extends ConsumerState<_LogMachinerySheet> {
                   );
               if (context.mounted) Navigator.pop(context, success);
             },
-            child: const Text('Add'),
+            child: Text(l10n.add),
           ),
         ],
       ),

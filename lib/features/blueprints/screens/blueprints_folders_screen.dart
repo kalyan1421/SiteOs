@@ -1,5 +1,6 @@
 import 'package:siteos/features/blueprints/widgets/folder_grid_tile.dart';
 import 'package:flutter/material.dart';
+import '../../../l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/widgets/error_widget.dart';
@@ -16,6 +17,7 @@ class BlueprintsFoldersScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     // Watch project for name
     final projectAsync = ref.watch(projectDetailProvider(projectId));
     final projectName = projectAsync.project?.name ?? 'Unknown Project';
@@ -55,7 +57,7 @@ class BlueprintsFoldersScreen extends ConsumerWidget {
                     ElevatedButton.icon(
                       onPressed: () => _showUploadSheet(context),
                       icon: const Icon(Icons.upload_file),
-                      label: const Text('Upload First Blueprint'),
+                      label: Text(l10n.uploadFirstBlueprint),
                     ),
                   ],
                 ],

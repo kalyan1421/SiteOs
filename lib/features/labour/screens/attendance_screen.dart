@@ -8,6 +8,7 @@ import '../../auth/providers/auth_provider.dart';
 import '../data/models/labour_model.dart';
 import '../data/models/labour_attendance_model.dart';
 import '../providers/labour_provider.dart';
+import '../../../l10n/app_localizations.dart';
 
 /// Daily Attendance Screen - Mark attendance for all workers
 class AttendanceScreen extends ConsumerStatefulWidget {
@@ -31,6 +32,7 @@ class _AttendanceScreenState extends ConsumerState<AttendanceScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final labourWithAttendance = ref.watch(
       labourWithAttendanceProvider((
         projectId: widget.projectId,
@@ -48,7 +50,7 @@ class _AttendanceScreenState extends ConsumerState<AttendanceScreen> {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Attendance'),
+            Text(l10n.attendance),
             Text(
               DateFormat('dd MMM yyyy').format(_selectedDate),
               style: const TextStyle(
@@ -81,15 +83,16 @@ class _AttendanceScreenState extends ConsumerState<AttendanceScreen> {
   }
 
   Widget _buildEmptyState() {
+    final l10n = AppLocalizations.of(context)!;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(Icons.people_outline, size: 64, color: AppColors.textHint),
           const SizedBox(height: 16),
-          const Text('No active workers'),
+          Text(l10n.noActiveWorkers),
           const SizedBox(height: 8),
-          const Text('Add workers to mark attendance'),
+          Text(l10n.addWorkersToMarkAttendance),
         ],
       ),
     );
@@ -141,6 +144,7 @@ class _AttendanceScreenState extends ConsumerState<AttendanceScreen> {
   }
 
   Widget _buildSaveButton() {
+    final l10n = AppLocalizations.of(context)!;
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -155,7 +159,7 @@ class _AttendanceScreenState extends ConsumerState<AttendanceScreen> {
                   height: 20,
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
-              : const Text('Save Attendance'),
+              : Text(l10n.saveAttendance),
         ),
       ),
     );
@@ -220,8 +224,8 @@ class _AttendanceScreenState extends ConsumerState<AttendanceScreen> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Attendance saved successfully'),
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.attendanceSavedSuccessfully),
             backgroundColor: Colors.green,
           ),
         );

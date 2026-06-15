@@ -10,6 +10,7 @@ import '../../materials/screens/material_consume_screen.dart';
 
 import '../../machinery/screens/machinery_tab_screen.dart';
 import '../../labour/screens/labour_tab_screen.dart';
+import '../../../l10n/app_localizations.dart';
 
 /// Global provider for the date range filter across operations tabs
 final projectDateRangeProvider = StateProvider.autoDispose<DateTimeRange?>(
@@ -302,7 +303,7 @@ class _MaterialsTabState extends ConsumerState<_MaterialsTab> {
                   'Receive Material',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                subtitle: const Text('Log newly arrived supplies to site'),
+                subtitle: Text(AppLocalizations.of(context)!.logMaterials),
                 onTap: () {
                   Navigator.pop(ctx);
                   showModalBottomSheet(
@@ -340,7 +341,7 @@ class _MaterialsTabState extends ConsumerState<_MaterialsTab> {
                   'Consume Material',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                subtitle: const Text('Log material usage for activities'),
+                subtitle: Text(AppLocalizations.of(context)!.logConsumption),
                 onTap: () {
                   Navigator.pop(ctx);
                   showModalBottomSheet(
@@ -375,8 +376,8 @@ class _MaterialsTabState extends ConsumerState<_MaterialsTab> {
                   child: const Icon(Icons.list_alt_rounded,
                       color: AppColors.primary),
                 ),
-                title: const Text('BOQ & Estimation',
-                    style: TextStyle(fontWeight: FontWeight.bold)),
+                title: Text(AppLocalizations.of(context)!.boqEstimation,
+                    style: const TextStyle(fontWeight: FontWeight.bold)),
                 subtitle: const Text('Bill of quantities & BOQ-vs-actual'),
                 onTap: () {
                   Navigator.pop(ctx);
@@ -394,8 +395,8 @@ class _MaterialsTabState extends ConsumerState<_MaterialsTab> {
                   child: const Icon(Icons.checklist_rounded,
                       color: AppColors.secondary),
                 ),
-                title: const Text('Quality Checklists',
-                    style: TextStyle(fontWeight: FontWeight.bold)),
+                title: Text(AppLocalizations.of(context)!.qualityChecklists,
+                    style: const TextStyle(fontWeight: FontWeight.bold)),
                 subtitle: const Text('QA/QC checklists for this project'),
                 onTap: () {
                   Navigator.pop(ctx);
@@ -414,8 +415,8 @@ class _MaterialsTabState extends ConsumerState<_MaterialsTab> {
                   child: const Icon(Icons.report_problem_rounded,
                       color: AppColors.warning),
                 ),
-                title: const Text('Snags',
-                    style: TextStyle(fontWeight: FontWeight.bold)),
+                title: Text(AppLocalizations.of(context)!.snags,
+                    style: const TextStyle(fontWeight: FontWeight.bold)),
                 subtitle: const Text('Defects & punch list with photos'),
                 onTap: () {
                   Navigator.pop(ctx);

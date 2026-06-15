@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/vendor_analytics_provider.dart';
 import '../data/models/vendor_summary_models.dart';
+import '../../../l10n/app_localizations.dart';
 
 class VendorDetailTotalsScreen extends ConsumerWidget {
   final String vendorId;
@@ -15,6 +16,7 @@ class VendorDetailTotalsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final totalsAsync = ref.watch(
       vendorMaterialTotalsProvider(VendorTotalsRequest(vendorId)),
     );
@@ -24,8 +26,8 @@ class VendorDetailTotalsScreen extends ConsumerWidget {
       body: totalsAsync.when(
         data: (rows) {
           if (rows.isEmpty) {
-            return const Center(
-              child: Text('No material data for this vendor yet'),
+            return Center(
+              child: Text(l10n.noMaterialDataForVendor),
             );
           }
 

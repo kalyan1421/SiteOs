@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/utils/currency_formatter.dart';
 import '../../../core/widgets/error_widget.dart';
 import '../../../core/widgets/loading_widget.dart';
@@ -15,6 +16,7 @@ class BillsBinScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final billsAsync = ref.watch(deletedBillsProvider);
 
     return Scaffold(
@@ -62,7 +64,7 @@ class BillsBinScreen extends ConsumerWidget {
                         size: 30, color: AppColors.textHint),
                   ),
                   const SizedBox(height: 16),
-                  Text('Bin is empty',
+                  Text(l10n.binIsEmpty,
                       style: GoogleFonts.plusJakartaSans(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -108,6 +110,7 @@ class BillsBinScreen extends ConsumerWidget {
 
   Future<void> _restoreBill(
       BuildContext context, WidgetRef ref, BillModel bill) async {
+    final l10n = AppLocalizations.of(context)!;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -116,10 +119,10 @@ class BillsBinScreen extends ConsumerWidget {
         actions: [
           TextButton(
               onPressed: () => Navigator.pop(ctx, false),
-              child: const Text('Cancel')),
+              child: Text(l10n.cancel)),
           ElevatedButton(
               onPressed: () => Navigator.pop(ctx, true),
-              child: const Text('Restore')),
+              child: Text(l10n.restore)),
         ],
       ),
     );
@@ -141,20 +144,21 @@ class BillsBinScreen extends ConsumerWidget {
 
   Future<void> _permanentlyDelete(
       BuildContext context, WidgetRef ref, BillModel bill) async {
+    final l10n = AppLocalizations.of(context)!;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Permanently Delete?'),
+        title: Text(l10n.permanentlyDeleteConfirm),
         content: Text(
             '"${bill.title}" will be removed forever and cannot be recovered.'),
         actions: [
           TextButton(
               onPressed: () => Navigator.pop(ctx, false),
-              child: const Text('Cancel')),
+              child: Text(l10n.cancel)),
           ElevatedButton(
             onPressed: () => Navigator.pop(ctx, true),
             style: ElevatedButton.styleFrom(backgroundColor: AppColors.error),
-            child: const Text('Delete Forever'),
+            child: Text(l10n.deleteForever),
           ),
         ],
       ),
@@ -166,7 +170,7 @@ class BillsBinScreen extends ConsumerWidget {
       if (context.mounted) {
         ref.invalidate(deletedBillsProvider);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Bill permanently deleted')),
+          SnackBar(content: Text(l10n.billPermanentlyDeleted)),
         );
       }
     } catch (e) {

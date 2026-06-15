@@ -284,6 +284,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String get projectDeleted => 'परियोजना हटाई गई';
 
   @override
+  String get quality => 'गुणवत्ता';
+
+  @override
   String get qualityChecklists => 'गुणवत्ता जाँचसूचियाँ';
 
   @override

@@ -283,6 +283,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get projectDeleted => 'Project deleted';
 
   @override
+  String get quality => 'Quality';
+
+  @override
   String get qualityChecklists => 'Quality Checklists';
 
   @override

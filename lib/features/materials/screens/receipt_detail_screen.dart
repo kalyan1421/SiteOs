@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import '../../../core/theme/app_colors.dart';
 import '../data/models/material_receipt_model.dart';
 import '../providers/repository_providers.dart';
+import '../../../l10n/app_localizations.dart';
 
 final _receiptDetailProvider =
     FutureProvider.autoDispose.family<MaterialReceiptModel, String>(
@@ -17,6 +18,7 @@ class ReceiptDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final receiptAsync = ref.watch(_receiptDetailProvider(receiptId));
 
     return Scaffold(
@@ -44,7 +46,7 @@ class ReceiptDetailScreen extends ConsumerWidget {
               TextButton(
                 onPressed: () =>
                     ref.invalidate(_receiptDetailProvider(receiptId)),
-                child: const Text('Retry'),
+                child: Text(l10n.retry),
               ),
             ],
           ),

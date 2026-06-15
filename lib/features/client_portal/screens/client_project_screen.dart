@@ -11,6 +11,7 @@ import '../providers/client_portal_providers.dart';
 import '../widgets/client_progress_bar.dart';
 import '../widgets/client_state_views.dart';
 import '../widgets/client_status_chip.dart';
+import '../../../l10n/app_localizations.dart';
 
 /// Read-only detail for one assigned project: completion %, key info, and
 /// milestone timeline derived from the project's dates and progress.
@@ -20,11 +21,12 @@ class ClientProjectScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final projectAsync = ref.watch(clientProjectProvider(projectId));
 
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(title: const Text('Project Details')),
+      appBar: AppBar(title: Text(l10n.projectDetails)),
       body: projectAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (_, _) => ClientErrorState(
@@ -172,6 +174,7 @@ class _InfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final df = DateFormat('d MMM yyyy');
     final rows = <(String, String)>[
       if (project.clientName != null) ('Client', project.clientName!),
@@ -186,7 +189,7 @@ class _InfoCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Overview', style: AppTextStyles.titleSmall),
+          Text(l10n.overview, style: AppTextStyles.titleSmall),
           const SizedBox(height: AppSpacing.s3),
           for (final r in rows) ...[
             _InfoRow(label: r.$1, value: r.$2),
@@ -241,12 +244,13 @@ class _MilestonesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final milestones = _deriveMilestones(project);
     return _Panel(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Milestones', style: AppTextStyles.titleSmall),
+          Text(l10n.milestones, style: AppTextStyles.titleSmall),
           const SizedBox(height: AppSpacing.s4),
           for (var i = 0; i < milestones.length; i++)
             _MilestoneRow(

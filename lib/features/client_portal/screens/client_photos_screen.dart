@@ -8,6 +8,7 @@ import '../../../core/theme/text_styles.dart';
 import '../data/models/client_photo.dart';
 import '../providers/client_portal_providers.dart';
 import '../widgets/client_state_views.dart';
+import '../../../l10n/app_localizations.dart';
 
 /// Read-only progress-photo / document timeline for an assigned project.
 class ClientPhotosScreen extends ConsumerWidget {
@@ -16,11 +17,12 @@ class ClientPhotosScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final photosAsync = ref.watch(clientPhotosProvider(projectId));
 
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(title: const Text('Progress Photos')),
+      appBar: AppBar(title: Text(l10n.progressPhotos)),
       body: photosAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (_, _) => ClientErrorState(

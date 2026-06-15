@@ -8,6 +8,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/config/app_constants.dart';
 import '../../../core/config/supabase_client.dart' show logger;
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 
 class ProjectSitePhotosScreen extends StatefulWidget {
   final String projectId;
@@ -246,12 +247,12 @@ class _ProjectSitePhotosScreenState extends State<ProjectSitePhotosScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           FilledButton(
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Delete'),
+            child: Text(AppLocalizations.of(context)!.delete),
           ),
         ],
       ),
@@ -279,6 +280,7 @@ class _ProjectSitePhotosScreenState extends State<ProjectSitePhotosScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: AppColors.scaffoldBackground,
       appBar: AppBar(
@@ -331,7 +333,7 @@ class _ProjectSitePhotosScreenState extends State<ProjectSitePhotosScreen> {
                         const SizedBox(height: 16),
                         FilledButton(
                           onPressed: _loadPhotos,
-                          child: const Text('Retry'),
+                          child: Text(l10n.retry),
                         ),
                       ],
                     ),

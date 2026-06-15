@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/text_styles.dart';
 import '../data/models/purchase_order.dart';
@@ -53,11 +54,12 @@ class _PoGrnMatchScreenState extends ConsumerState<PoGrnMatchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final asyncPo = ref.watch(purchaseOrderDetailProvider(widget.poId));
 
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(title: const Text('GRN Match')),
+      appBar: AppBar(title: Text(l10n.grnMatch)),
       body: asyncPo.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(
@@ -76,7 +78,7 @@ class _PoGrnMatchScreenState extends ConsumerState<PoGrnMatchScreen> {
                   children: [
                     _header(po),
                     const SizedBox(height: AppSpacing.s4),
-                    Text('Line items', style: AppTextStyles.titleSmall),
+                    Text(l10n.lineItems, style: AppTextStyles.titleSmall),
                     const SizedBox(height: AppSpacing.s2),
                     ...po.items.map(_lineCard),
                   ],
@@ -114,7 +116,7 @@ class _PoGrnMatchScreenState extends ConsumerState<PoGrnMatchScreen> {
           ),
           const SizedBox(height: AppSpacing.s3),
           DetailRow(
-            label: 'PO Total',
+            label: AppLocalizations.of(context)!.poTotal,
             value: PurchaseFormat.money(po.total),
             mono: true,
           ),
@@ -276,7 +278,7 @@ class _PoGrnMatchScreenState extends ConsumerState<PoGrnMatchScreen> {
                       width: 20,
                       child: CircularProgressIndicator(strokeWidth: 2),
                     )
-                  : const Text('Save GRN'),
+                  : Text(AppLocalizations.of(context)!.saveGrn),
             ),
           ],
         ),

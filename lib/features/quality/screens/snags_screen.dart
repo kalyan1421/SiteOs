@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import '../../../l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
@@ -36,11 +37,12 @@ class _SnagsScreenState extends ConsumerState<SnagsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final snags = ref.watch(projectSnagsProvider(widget.projectId));
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Snags'),
+        title: Text(l10n.snags),
         actions: [
           IconButton(
             tooltip: 'Export PDF',
@@ -60,7 +62,7 @@ class _SnagsScreenState extends ConsumerState<SnagsScreen> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _showRaiseSnagSheet(context),
         icon: const Icon(Icons.report_problem_outlined),
-        label: const Text('Raise Snag'),
+        label: Text(l10n.raiseSnag),
       ),
       body: RefreshIndicator(
         onRefresh: () async =>
@@ -139,6 +141,7 @@ class _SnagsScreenState extends ConsumerState<SnagsScreen> {
       context: context,
       isScrollControlled: true,
       builder: (sheetContext) {
+        final l10n = AppLocalizations.of(sheetContext)!;
         return StatefulBuilder(
           builder: (sheetContext, setSheetState) {
             Future<void> pickPhoto() async {
@@ -168,7 +171,7 @@ class _SnagsScreenState extends ConsumerState<SnagsScreen> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Raise Snag', style: AppTextStyles.titleLarge),
+                    Text(l10n.raiseSnag, style: AppTextStyles.titleLarge),
                     const SizedBox(height: AppSpacing.s4),
                     TextField(
                       controller: titleController,
@@ -192,7 +195,7 @@ class _SnagsScreenState extends ConsumerState<SnagsScreen> {
                       textCapitalization: TextCapitalization.words,
                     ),
                     const SizedBox(height: AppSpacing.s4),
-                    Text('Priority', style: AppTextStyles.labelMedium),
+                    Text(l10n.priority, style: AppTextStyles.labelMedium),
                     const SizedBox(height: AppSpacing.s2),
                     Wrap(
                       spacing: AppSpacing.s2,
@@ -285,7 +288,7 @@ class _SnagsScreenState extends ConsumerState<SnagsScreen> {
                                 child:
                                     CircularProgressIndicator(strokeWidth: 2),
                               )
-                            : const Text('Raise Snag'),
+                            : Text(l10n.raiseSnag),
                       ),
                     ),
                   ],
@@ -314,6 +317,7 @@ class _BeforePhotoPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     if (bytes != null) {
       return Row(
         children: [
@@ -345,7 +349,7 @@ class _BeforePhotoPicker extends StatelessWidget {
     return OutlinedButton.icon(
       onPressed: onPick,
       icon: const Icon(Icons.add_a_photo_outlined),
-      label: const Text('Add before photo'),
+      label: Text(l10n.addBeforePhoto),
     );
   }
 }

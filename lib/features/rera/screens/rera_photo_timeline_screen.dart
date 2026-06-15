@@ -8,6 +8,7 @@ import '../../../core/theme/text_styles.dart';
 import '../data/models/rera_report.dart';
 import '../providers/rera_providers.dart';
 import '../widgets/rera_widgets.dart';
+import '../../../l10n/app_localizations.dart';
 
 /// Geotagged photo timeline for a project's RERA filing.
 ///
@@ -28,12 +29,13 @@ class ReraPhotoTimelineScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final photosAsync = ref.watch(reraTimelinePhotosProvider(projectId));
 
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('Photo timeline'),
+        title: Text(l10n.photoTimeline),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(28),
           child: Padding(
@@ -59,7 +61,7 @@ class ReraPhotoTimelineScreen extends ConsumerWidget {
           action: OutlinedButton(
             onPressed: () =>
                 ref.invalidate(reraTimelinePhotosProvider(projectId)),
-            child: const Text('Retry'),
+            child: Text(l10n.retry),
           ),
         ),
         data: (photos) {

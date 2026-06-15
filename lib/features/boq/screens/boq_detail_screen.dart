@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/text_styles.dart';
 import '../data/models/boq_category_group.dart';
@@ -40,6 +41,7 @@ class _BoqDetailScreenState extends ConsumerState<BoqDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final itemsAsync = ref.watch(boqItemsProvider(widget.boqId));
     final headerAsync = ref.watch(boqHeaderProvider(widget.boqId));
 
@@ -78,7 +80,7 @@ class _BoqDetailScreenState extends ConsumerState<BoqDetailScreen> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _openAddItem(itemsAsync.valueOrNull ?? const []),
         icon: const Icon(Icons.add_rounded),
-        label: const Text('Add item'),
+        label: Text(l10n.addItem),
       ),
       body: RefreshIndicator(
         onRefresh: () async {
@@ -120,6 +122,7 @@ class _BoqDetailScreenState extends ConsumerState<BoqDetailScreen> {
   }
 
   Widget _empty() {
+    final l10n = AppLocalizations.of(context)!;
     return ListView(
       padding: const EdgeInsets.all(AppSpacing.s8),
       children: [
@@ -127,7 +130,7 @@ class _BoqDetailScreenState extends ConsumerState<BoqDetailScreen> {
         const Icon(Icons.playlist_add_rounded,
             size: 56, color: AppColors.textDisabled),
         const SizedBox(height: AppSpacing.s4),
-        Text('No line items yet',
+        Text(l10n.noLineItemsYet,
             style: AppTextStyles.titleLarge, textAlign: TextAlign.center),
         const SizedBox(height: AppSpacing.s2),
         Text(
@@ -142,7 +145,7 @@ class _BoqDetailScreenState extends ConsumerState<BoqDetailScreen> {
           child: FilledButton.icon(
             onPressed: () => _openAddItem(const []),
             icon: const Icon(Icons.add_rounded),
-            label: const Text('Add first item'),
+            label: Text(l10n.addFirstItem),
           ),
         ),
       ],
@@ -150,6 +153,7 @@ class _BoqDetailScreenState extends ConsumerState<BoqDetailScreen> {
   }
 
   Widget _error(String message) {
+    final l10n = AppLocalizations.of(context)!;
     return ListView(
       padding: const EdgeInsets.all(AppSpacing.s8),
       children: [
@@ -168,7 +172,7 @@ class _BoqDetailScreenState extends ConsumerState<BoqDetailScreen> {
         Center(
           child: OutlinedButton(
             onPressed: () => ref.invalidate(boqItemsProvider(widget.boqId)),
-            child: const Text('Retry'),
+            child: Text(l10n.retry),
           ),
         ),
       ],
@@ -203,6 +207,7 @@ class _BoqDetailScreenState extends ConsumerState<BoqDetailScreen> {
   }
 
   Future<void> _deleteItem(BoqItemModel item) async {
+    final l10n = AppLocalizations.of(context)!;
     final confirm = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -211,13 +216,13 @@ class _BoqDetailScreenState extends ConsumerState<BoqDetailScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(false),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
           FilledButton(
             style:
                 FilledButton.styleFrom(backgroundColor: AppColors.error),
             onPressed: () => Navigator.of(ctx).pop(true),
-            child: const Text('Delete'),
+            child: Text(l10n.delete),
           ),
         ],
       ),
@@ -271,6 +276,7 @@ class _CategoryAccordion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       margin: const EdgeInsets.only(bottom: AppSpacing.s3),
       decoration: BoxDecoration(
@@ -300,7 +306,7 @@ class _CategoryAccordion extends StatelessWidget {
             padding: const EdgeInsets.only(top: 4),
             child: Row(
               children: [
-                Text('Subtotal  ',
+                Text('${l10n.subtotal}  ',
                     style: AppTextStyles.bodySmall
                         .copyWith(color: AppColors.textSecondary)),
                 BoqMoneyText(
@@ -393,6 +399,7 @@ class _GrandTotalBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.fromLTRB(
           AppSpacing.s5, AppSpacing.s4, AppSpacing.s5, AppSpacing.s5),
@@ -409,7 +416,7 @@ class _GrandTotalBar extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('GRAND TOTAL', style: AppTextStyles.overline),
+                Text(l10n.grandTotal, style: AppTextStyles.overline),
                 const SizedBox(height: 2),
                 Text('$lineCount line item${lineCount == 1 ? '' : 's'}',
                     style: AppTextStyles.bodySmall

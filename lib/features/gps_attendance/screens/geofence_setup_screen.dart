@@ -8,6 +8,7 @@ import '../../auth/providers/auth_provider.dart';
 import '../data/models/project_geofence.dart';
 import '../data/services/location_service.dart';
 import '../providers/gps_attendance_providers.dart';
+import '../../../l10n/app_localizations.dart';
 
 /// Admin screen: set the geofence (centre + radius) for a project.
 ///
@@ -114,7 +115,7 @@ class _GeofenceSetupScreenState extends ConsumerState<GeofenceSetupScreen> {
       ref.invalidate(geofencesProvider);
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Geofence saved.')),
+        SnackBar(content: Text(AppLocalizations.of(context)!.geofenceSaved)),
       );
     } catch (e) {
       if (mounted) _showError('Failed to save geofence: $e');
@@ -142,11 +143,12 @@ class _GeofenceSetupScreenState extends ConsumerState<GeofenceSetupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final projectsAsync = ref.watch(gpsProjectsProvider);
 
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(title: const Text('Geofence Setup')),
+      appBar: AppBar(title: Text(l10n.geofenceSetup)),
       body: projectsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => _ErrorView(
@@ -181,12 +183,12 @@ class _GeofenceSetupScreenState extends ConsumerState<GeofenceSetupScreen> {
             child: ListView(
               padding: const EdgeInsets.all(AppSpacing.s4),
               children: [
-                Text('Project', style: AppTextStyles.labelLarge),
+                Text(l10n.project, style: AppTextStyles.labelLarge),
                 const SizedBox(height: AppSpacing.s2),
                 DropdownButtonFormField<String>(
                   initialValue: _selectedProjectId,
                   isExpanded: true,
-                  hint: const Text('Select a project'),
+                  hint: Text(l10n.selectProject),
                   items: [
                     for (final p in projects)
                       DropdownMenuItem(value: p.id, child: Text(p.name)),
@@ -269,11 +271,12 @@ class _CoordinatesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return _Card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Centre coordinates', style: AppTextStyles.titleMedium),
+          Text(l10n.centreCoordinates, style: AppTextStyles.titleMedium),
           const SizedBox(height: AppSpacing.s3),
           Row(
             children: [
@@ -335,6 +338,7 @@ class _RadiusCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return _Card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -342,7 +346,7 @@ class _RadiusCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Allowed radius', style: AppTextStyles.titleMedium),
+              Text(l10n.allowedRadius, style: AppTextStyles.titleMedium),
               Text(
                 '${radius.round()} m',
                 style: AppTextStyles.price.copyWith(color: AppColors.primary),
@@ -428,6 +432,7 @@ class _ErrorView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.s6),
@@ -439,7 +444,7 @@ class _ErrorView extends StatelessWidget {
             const SizedBox(height: AppSpacing.s4),
             Text(message, style: AppTextStyles.bodyMedium),
             const SizedBox(height: AppSpacing.s4),
-            OutlinedButton(onPressed: onRetry, child: const Text('Retry')),
+            OutlinedButton(onPressed: onRetry, child: Text(l10n.retry)),
           ],
         ),
       ),

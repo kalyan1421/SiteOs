@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/text_styles.dart';
 import '../data/models/purchase_indent.dart';
@@ -76,12 +77,13 @@ class _PoFormScreenState extends ConsumerState<PoFormScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final suppliers = ref.watch(supplierOptionsProvider);
     final approvedIndents = ref.watch(approvedIndentsProvider);
 
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(title: const Text('New Purchase Order')),
+      appBar: AppBar(title: Text(l10n.newPurchaseOrder)),
       bottomNavigationBar: _buildBottomBar(),
       body: Form(
         key: _formKey,
@@ -143,12 +145,12 @@ class _PoFormScreenState extends ConsumerState<PoFormScreen> {
             const SizedBox(height: AppSpacing.s6),
             Row(
               children: [
-                Text('Line items', style: AppTextStyles.titleSmall),
+                Text(l10n.lineItems, style: AppTextStyles.titleSmall),
                 const Spacer(),
                 TextButton.icon(
                   onPressed: () => setState(() => _lines.add(_PoLine())),
                   icon: const Icon(Icons.add, size: 18),
-                  label: const Text('Add line'),
+                  label: Text(l10n.addLine),
                 ),
               ],
             ),
@@ -229,7 +231,7 @@ class _PoFormScreenState extends ConsumerState<PoFormScreen> {
           const SizedBox(height: AppSpacing.s2),
           Row(
             children: [
-              Text('Amount', style: AppTextStyles.bodySmall),
+              Text(AppLocalizations.of(context)!.amount, style: AppTextStyles.bodySmall),
               const SizedBox(width: AppSpacing.s2),
               Text(
                 PurchaseFormat.money(l.amount),
@@ -265,7 +267,7 @@ class _PoFormScreenState extends ConsumerState<PoFormScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('PO Total', style: AppTextStyles.bodySmall),
+                Text(AppLocalizations.of(context)!.poTotal, style: AppTextStyles.bodySmall),
                 Text(
                   PurchaseFormat.money(_total),
                   style: AppTextStyles.price,
@@ -281,7 +283,7 @@ class _PoFormScreenState extends ConsumerState<PoFormScreen> {
                       width: 20,
                       child: CircularProgressIndicator(strokeWidth: 2),
                     )
-                  : const Text('Create PO'),
+                  : Text(AppLocalizations.of(context)!.createPo),
             ),
           ],
         ),
@@ -319,7 +321,7 @@ class _PoFormScreenState extends ConsumerState<PoFormScreen> {
     final items = _lines.map((l) => l.toModel()).whereType<PoItem>().toList();
     if (items.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Add at least one valid line item.')),
+        SnackBar(content: Text(AppLocalizations.of(context)!.fillAllRequiredFields)),
       );
       return;
     }

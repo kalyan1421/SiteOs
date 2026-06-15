@@ -7,6 +7,7 @@ import '../../../../core/widgets/custom_text_field.dart';
 import '../providers/master_data_provider.dart';
 import '../data/models/material_master_model.dart';
 import '../data/models/material_grade_model.dart';
+import '../../../../l10n/app_localizations.dart';
 
 final allMaterialsProvider = FutureProvider.autoDispose<List<MaterialMaster>>((
   ref,
@@ -26,8 +27,9 @@ class MaterialMasterListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: const Text('Material Master List')),
+      appBar: AppBar(title: Text(l10n.materialMasterList)),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showAddMaterialDialog(context, ref),
         backgroundColor: AppColors.primary,
@@ -38,7 +40,7 @@ class MaterialMasterListScreen extends ConsumerWidget {
           .when(
             data: (materials) {
               if (materials.isEmpty) {
-                return const Center(child: Text('No master materials found.'));
+                return Center(child: Text(l10n.noMasterMaterialsFound));
               }
 
               return ListView.builder(
@@ -73,8 +75,9 @@ class MaterialMasterListScreen extends ConsumerWidget {
       builder: (ctx) {
         return StatefulBuilder(
           builder: (context, setState) {
+            final l10n = AppLocalizations.of(context)!;
             return AlertDialog(
-              title: const Text('Add Master Material'),
+              title: Text(l10n.addMasterMaterial),
               content: Form(
                 key: formKey,
                 child: CustomTextField(
@@ -87,7 +90,7 @@ class MaterialMasterListScreen extends ConsumerWidget {
               actions: [
                 TextButton(
                   onPressed: saving ? null : () => Navigator.pop(ctx),
-                  child: const Text('Cancel'),
+                  child: Text(l10n.cancel),
                 ),
                 FilledButton(
                   onPressed: saving
@@ -129,7 +132,7 @@ class MaterialMasterListScreen extends ConsumerWidget {
                             color: Colors.white,
                           ),
                         )
-                      : const Text('Add'),
+                      : Text(l10n.add),
                 ),
               ],
             );
@@ -253,6 +256,7 @@ class _MaterialItemCardState extends ConsumerState<_MaterialItemCard> {
   }
 
   Future<void> _showGradeOptions(BuildContext context, MaterialGrade grade) async {
+    final l10n = AppLocalizations.of(context)!;
     await showModalBottomSheet(
       context: context,
       builder: (ctx) => SafeArea(
@@ -261,7 +265,7 @@ class _MaterialItemCardState extends ConsumerState<_MaterialItemCard> {
           children: [
             ListTile(
               leading: const Icon(Icons.edit),
-              title: const Text('Rename Grade'),
+              title: Text(l10n.renameGrade),
               onTap: () {
                 Navigator.pop(ctx);
                 _showEditGradeDialog(context, grade);
@@ -269,23 +273,23 @@ class _MaterialItemCardState extends ConsumerState<_MaterialItemCard> {
             ),
             ListTile(
               leading: const Icon(Icons.delete, color: Colors.red),
-              title: const Text('Delete Grade', style: TextStyle(color: Colors.red)),
+              title: Text(l10n.deleteGrade, style: const TextStyle(color: Colors.red)),
               onTap: () async {
                 Navigator.pop(ctx);
                 final confirmed = await showDialog<bool>(
                   context: context,
                   builder: (d) => AlertDialog(
-                    title: const Text('Delete Grade?'),
+                    title: Text(l10n.deleteGrade),
                     content: Text('Remove "${grade.gradeName}" from ${widget.material.name}?'),
                     actions: [
                       TextButton(
                         onPressed: () => Navigator.pop(d, false),
-                        child: const Text('Cancel'),
+                        child: Text(l10n.cancel),
                       ),
                       FilledButton(
                         style: FilledButton.styleFrom(backgroundColor: Colors.red),
                         onPressed: () => Navigator.pop(d, true),
-                        child: const Text('Delete'),
+                        child: Text(l10n.delete),
                       ),
                     ],
                   ),
@@ -320,7 +324,7 @@ class _MaterialItemCardState extends ConsumerState<_MaterialItemCard> {
       barrierDismissible: false,
       builder: (ctx) => StatefulBuilder(
         builder: (context, setState) => AlertDialog(
-          title: const Text('Rename Grade'),
+          title: Text(AppLocalizations.of(context)!.renameGrade),
           content: Form(
             key: formKey,
             child: CustomTextField(
@@ -332,7 +336,7 @@ class _MaterialItemCardState extends ConsumerState<_MaterialItemCard> {
           actions: [
             TextButton(
               onPressed: saving ? null : () => Navigator.pop(ctx),
-              child: const Text('Cancel'),
+              child: Text(AppLocalizations.of(context)!.cancel),
             ),
             FilledButton(
               onPressed: saving
@@ -365,7 +369,7 @@ class _MaterialItemCardState extends ConsumerState<_MaterialItemCard> {
                       height: 16,
                       child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                     )
-                  : const Text('Save'),
+                  : Text(AppLocalizations.of(context)!.save),
             ),
           ],
         ),
@@ -398,7 +402,7 @@ class _MaterialItemCardState extends ConsumerState<_MaterialItemCard> {
               actions: [
                 TextButton(
                   onPressed: saving ? null : () => Navigator.pop(ctx),
-                  child: const Text('Cancel'),
+                  child: Text(AppLocalizations.of(context)!.cancel),
                 ),
                 FilledButton(
                   onPressed: saving
@@ -441,7 +445,7 @@ class _MaterialItemCardState extends ConsumerState<_MaterialItemCard> {
                             color: Colors.white,
                           ),
                         )
-                      : const Text('Add'),
+                      : Text(AppLocalizations.of(context)!.add),
                 ),
               ],
             );

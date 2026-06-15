@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/text_styles.dart';
 import '../data/models/boq_header_model.dart';
@@ -26,6 +27,7 @@ class BoqListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final headers = ref.watch(boqHeadersProvider(projectId));
 
     return Scaffold(
@@ -35,7 +37,7 @@ class BoqListScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Bill of Quantities', style: AppTextStyles.titleLarge),
+            Text(l10n.billOfQuantities, style: AppTextStyles.titleLarge),
             if (projectName != null && projectName!.isNotEmpty)
               Text(
                 projectName!,
@@ -48,7 +50,7 @@ class BoqListScreen extends ConsumerWidget {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _openCreate(context, ref),
         icon: const Icon(Icons.add_rounded),
-        label: const Text('New BOQ'),
+        label: Text(l10n.newBoq),
       ),
       body: RefreshIndicator(
         onRefresh: () async => ref.invalidate(boqHeadersProvider(projectId)),
@@ -111,6 +113,7 @@ class _BoqCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final dateStr = header.createdAt != null
         ? DateFormat('dd MMM yyyy').format(header.createdAt!)
         : '—';
@@ -169,7 +172,7 @@ class _BoqCard extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text('TOTAL', style: AppTextStyles.overline),
+                  Text(l10n.total, style: AppTextStyles.overline),
                   const SizedBox(height: 2),
                   BoqMoneyText(
                     header.total ?? 0,
@@ -214,6 +217,7 @@ class _Empty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return ListView(
       padding: const EdgeInsets.all(AppSpacing.s8),
       children: [
@@ -221,7 +225,7 @@ class _Empty extends StatelessWidget {
         const Icon(Icons.calculate_outlined,
             size: 56, color: AppColors.textDisabled),
         const SizedBox(height: AppSpacing.s4),
-        Text('No estimates yet',
+        Text(l10n.noEstimatesYet,
             style: AppTextStyles.titleLarge, textAlign: TextAlign.center),
         const SizedBox(height: AppSpacing.s2),
         Text(
@@ -236,7 +240,7 @@ class _Empty extends StatelessWidget {
           child: FilledButton.icon(
             onPressed: onCreate,
             icon: const Icon(Icons.add_rounded),
-            label: const Text('Create BOQ'),
+            label: Text(l10n.createBoq),
           ),
         ),
       ],
@@ -251,6 +255,7 @@ class _ErrorState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return ListView(
       padding: const EdgeInsets.all(AppSpacing.s8),
       children: [
@@ -268,7 +273,7 @@ class _ErrorState extends StatelessWidget {
         const SizedBox(height: AppSpacing.s4),
         Center(
           child: OutlinedButton(
-              onPressed: onRetry, child: const Text('Retry')),
+              onPressed: onRetry, child: Text(l10n.retry)),
         ),
       ],
     );

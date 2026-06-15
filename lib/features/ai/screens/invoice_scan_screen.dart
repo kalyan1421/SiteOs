@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import '../../../l10n/app_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -86,8 +87,9 @@ class _InvoiceScanScreenState extends ConsumerState<InvoiceScanScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: const Text('Scan Invoice')),
+      appBar: AppBar(title: Text(l10n.scanInvoice)),
       body: Stack(
         children: [
           ListView(
@@ -117,7 +119,7 @@ class _InvoiceScanScreenState extends ConsumerState<InvoiceScanScreen> {
                       onPressed:
                           (_imageBytes == null || _scanning) ? null : _scan,
                       icon: const Icon(Icons.auto_awesome_rounded),
-                      label: const Text('Scan'),
+                      label: Text(l10n.scan),
                     ),
                   ),
                 ],
@@ -150,6 +152,7 @@ class _ImagePreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return GestureDetector(
       onTap: onPick,
       child: Container(
@@ -168,7 +171,7 @@ class _ImagePreview extends StatelessWidget {
                   const Icon(Icons.receipt_long_rounded,
                       size: 44, color: AppColors.textHint),
                   const SizedBox(height: AppSpacing.s2),
-                  Text('Tap to select an invoice photo',
+                  Text(l10n.tapToSelectInvoicePhoto,
                       style: AppTextStyles.bodyMedium
                           .copyWith(color: AppColors.textHint)),
                 ],
@@ -187,6 +190,7 @@ class _ResultCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.all(AppSpacing.s4),
       decoration: BoxDecoration(
@@ -203,7 +207,7 @@ class _ResultCard extends StatelessWidget {
               const Icon(Icons.check_circle_rounded,
                   color: AppColors.success, size: 20),
               const SizedBox(width: AppSpacing.s2),
-              Text('Parsed invoice', style: AppTextStyles.titleMedium),
+              Text(l10n.parsedInvoice, style: AppTextStyles.titleMedium),
             ],
           ),
           const Divider(height: AppSpacing.s6),
@@ -226,7 +230,7 @@ class _ResultCard extends StatelessWidget {
           ),
           if (result.lineItems.isNotEmpty) ...[
             const SizedBox(height: AppSpacing.s3),
-            Text('LINE ITEMS', style: AppTextStyles.labelSmall),
+            Text(l10n.lineItems, style: AppTextStyles.labelSmall),
             const SizedBox(height: AppSpacing.s2),
             ...result.lineItems.map((li) => _LineItemRow(li: li, money: money)),
           ],
@@ -242,11 +246,11 @@ class _ResultCard extends StatelessWidget {
                 Clipboard.setData(
                     ClipboardData(text: _asText(result, money)));
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Copied to clipboard')),
+                  SnackBar(content: Text(l10n.copiedToClipboard)),
                 );
               },
               icon: const Icon(Icons.copy_rounded, size: 18),
-              label: const Text('Copy details'),
+              label: Text(l10n.copyDetails),
             ),
           ),
         ],

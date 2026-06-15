@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/ui/responsive.dart';
 import '../../../core/widgets/custom_app_bar.dart';
 import '../data/models/vendor_summary_models.dart';
@@ -510,9 +511,9 @@ class _SupplierChartCard extends StatelessWidget {
           SizedBox(
             height: 200,
             child: vendors.isEmpty
-                ? const Center(
-                    child: Text('No chart data',
-                        style: TextStyle(color: Colors.white70)),
+                ? Center(
+                    child: Text(AppLocalizations.of(context)!.noChartData,
+                        style: const TextStyle(color: Colors.white70)),
                   )
                 : BarChart(
                     BarChartData(
@@ -1052,8 +1053,8 @@ class _ProjectSupplyCard extends StatelessWidget {
                 alignment: Alignment.center,
                 child: TextButton(
                   onPressed: onOpenDailyLogs,
-                  child: const Text('View All',
-                      style: TextStyle(fontWeight: FontWeight.w700)),
+                  child: Text(AppLocalizations.of(context)!.viewAll,
+                      style: const TextStyle(fontWeight: FontWeight.w700)),
                 ),
               ),
             ],

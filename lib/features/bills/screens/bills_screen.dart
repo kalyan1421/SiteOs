@@ -8,6 +8,8 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
+import '../../../l10n/app_localizations.dart';
+
 import '../../../core/config/app_constants.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/ui/responsive.dart';
@@ -83,6 +85,7 @@ class _BillsScreenState extends ConsumerState<BillsScreen>
   }
 
   Future<void> _showFilterSheet() async {
+    final l10n = AppLocalizations.of(context)!;
     BillType? tmpType = _filterType;
     PaymentStatus? tmpPaymentStatus = _filterPaymentStatus;
 
@@ -101,7 +104,7 @@ class _BillsScreenState extends ConsumerState<BillsScreen>
             children: [
               Row(
                 children: [
-                  Text('Filter Bills',
+                  Text(l10n.filterBills,
                       style: Theme.of(ctx).textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.w700)),
                   const Spacer(),
@@ -112,12 +115,12 @@ class _BillsScreenState extends ConsumerState<BillsScreen>
                         tmpPaymentStatus = null;
                       });
                     },
-                    child: const Text('Clear All'),
+                    child: Text(l10n.clearAll),
                   ),
                 ],
               ),
               const SizedBox(height: 16),
-              Text('Bill Type',
+              Text(l10n.billType,
                   style: Theme.of(ctx)
                       .textTheme
                       .labelMedium
@@ -145,7 +148,7 @@ class _BillsScreenState extends ConsumerState<BillsScreen>
                 }).toList(),
               ),
               const SizedBox(height: 20),
-              Text('Payment Status',
+              Text(l10n.paymentStatus,
                   style: Theme.of(ctx)
                       .textTheme
                       .labelMedium
@@ -183,7 +186,7 @@ class _BillsScreenState extends ConsumerState<BillsScreen>
                     });
                     Navigator.pop(ctx);
                   },
-                  child: const Text('Apply Filters'),
+                  child: Text(l10n.applyFilters),
                 ),
               ),
             ],
@@ -652,6 +655,7 @@ class _BillsScreenState extends ConsumerState<BillsScreen>
   // ── Dialogs (unchanged logic) ──
 
   Future<void> _showEditBillDialog(BillModel bill) async {
+    final l10n = AppLocalizations.of(context)!;
     final titleController = TextEditingController(text: bill.title);
     final amountController = TextEditingController(
       text: bill.amount.toStringAsFixed(2),
@@ -683,8 +687,8 @@ class _BillsScreenState extends ConsumerState<BillsScreen>
                 final amount = double.tryParse(amountController.text.trim());
                 if (title.isEmpty || amount == null || amount <= 0) {
                   ScaffoldMessenger.of(this.context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Enter valid title and amount'),
+                    SnackBar(
+                      content: Text(l10n.enterValidTitleAndAmount),
                     ),
                   );
                   return;
@@ -755,8 +759,8 @@ class _BillsScreenState extends ConsumerState<BillsScreen>
                   _refreshBillData();
                   if (mounted) {
                     ScaffoldMessenger.of(this.context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Bill updated successfully'),
+                      SnackBar(
+                        content: Text(l10n.billUpdatedSuccessfully),
                       ),
                     );
                   }
@@ -928,7 +932,7 @@ class _BillsScreenState extends ConsumerState<BillsScreen>
                                       children: [
                                         ListTile(
                                           leading: const Icon(Icons.camera_alt_outlined, color: AppColors.primary),
-                                          title: const Text('Take Photo'),
+                                          title: Text(l10n.takePhoto),
                                           onTap: () async {
                                             Navigator.pop(ctx);
                                             final picked = await ImagePicker().pickImage(source: ImageSource.camera, imageQuality: 85);
@@ -942,7 +946,7 @@ class _BillsScreenState extends ConsumerState<BillsScreen>
                                         ),
                                         ListTile(
                                           leading: const Icon(Icons.photo_library_outlined, color: AppColors.primary),
-                                          title: const Text('Choose from Gallery'),
+                                          title: Text(l10n.chooseFromGallery),
                                           onTap: () async {
                                             Navigator.pop(ctx);
                                             final picked = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 85);
@@ -956,7 +960,7 @@ class _BillsScreenState extends ConsumerState<BillsScreen>
                                         ),
                                         ListTile(
                                           leading: const Icon(Icons.attach_file_outlined, color: AppColors.primary),
-                                          title: const Text('Browse Files (PDF / Image)'),
+                                          title: Text(l10n.browseFilesPdfImage),
                                           onTap: () async {
                                             Navigator.pop(ctx);
                                             final result = await FilePicker.platform.pickFiles(
@@ -1088,7 +1092,7 @@ class _BillsScreenState extends ConsumerState<BillsScreen>
                                   child: CircularProgressIndicator(
                                       strokeWidth: 2),
                                 )
-                              : const Text('Save Changes'),
+                              : Text(l10n.saveChanges),
                         ),
                       ),
                     ],
@@ -1108,20 +1112,21 @@ class _BillsScreenState extends ConsumerState<BillsScreen>
   }
 
   Future<void> _confirmDeleteBill(BillModel bill) async {
+    final l10n = AppLocalizations.of(context)!;
     final shouldDelete = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete Bill'),
+        title: Text(l10n.deleteBill),
         content: Text('Delete "${bill.title}"? This action cannot be undone.'),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
           ElevatedButton(
             onPressed: () => Navigator.of(context).pop(true),
             style: ElevatedButton.styleFrom(backgroundColor: AppColors.error),
-            child: const Text('Delete'),
+            child: Text(l10n.delete),
           ),
         ],
       ),
@@ -1171,6 +1176,7 @@ class _BillCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isCompleted = bill.status.isCompleted;
     final statusColor =
         isCompleted ? AppColors.success : AppColors.warning;
@@ -1276,14 +1282,14 @@ class _BillCard extends StatelessWidget {
                                 final items =
                                     <PopupMenuEntry<_BillMenuAction>>[];
                                 if (canEdit) {
-                                  items.add(const PopupMenuItem(
+                                  items.add(PopupMenuItem(
                                       value: _BillMenuAction.edit,
-                                      child: Text('Edit')));
+                                      child: Text(l10n.edit)));
                                 }
                                 if (canDelete) {
-                                  items.add(const PopupMenuItem(
+                                  items.add(PopupMenuItem(
                                       value: _BillMenuAction.delete,
-                                      child: Text('Delete')));
+                                      child: Text(l10n.delete)));
                                 }
                                 return items;
                               },
@@ -1372,6 +1378,7 @@ class _DateRangeChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final active = dateRange != null;
     return Material(
       color: active ? AppColors.primary : AppColors.surface,
@@ -1398,7 +1405,7 @@ class _DateRangeChip extends StatelessWidget {
               Text(
                 active
                     ? '${DateFormat('dd MMM').format(dateRange!.start)} – ${DateFormat('dd MMM').format(dateRange!.end)}'
-                    : 'Date',
+                    : l10n.date,
                 style: GoogleFonts.plusJakartaSans(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,

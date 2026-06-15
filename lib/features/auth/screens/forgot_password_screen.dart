@@ -6,6 +6,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/ui/responsive.dart';
 import '../../../core/ui/responsive_scaffold.dart';
 import '../../../core/widgets/app_button.dart';
+import '../../../l10n/app_localizations.dart';
 import '../providers/auth_provider.dart';
 
 /// Forgot password screen
@@ -59,11 +60,11 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
-              title: const Row(
+              title: Row(
                 children: [
-                  Icon(Icons.wifi_off, color: AppColors.error),
-                  SizedBox(width: 8),
-                  Text('Connection Error'),
+                  const Icon(Icons.wifi_off, color: AppColors.error),
+                  const SizedBox(width: 8),
+                  Text(AppLocalizations.of(context)!.connectionError),
                 ],
               ),
               content: const Text(
@@ -72,7 +73,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: const Text('OK'),
+                  child: Text(AppLocalizations.of(context)!.ok),
                 ),
               ],
             ),
@@ -113,7 +114,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
     return ResponsiveScaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('Reset Password'),
+        title: Text(AppLocalizations.of(context)!.resetPassword),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => context.go('/login'),
@@ -215,7 +216,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
               _emailController.clear();
             });
           },
-          child: const Text('Try a different email'),
+          child: Text(AppLocalizations.of(context)!.tryDifferentEmail),
         ),
       ],
     );
@@ -270,8 +271,8 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.done,
             onFieldSubmitted: (_) => _handleResetPassword(),
-            decoration: const InputDecoration(
-              labelText: 'Email',
+            decoration: InputDecoration(
+              labelText: AppLocalizations.of(context)!.email,
               hintText: 'Enter your email address',
               prefixIcon: Icon(Icons.email_outlined),
             ),
@@ -308,7 +309,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
               ),
               TextButton(
                 onPressed: () => context.go('/login'),
-                child: const Text('Sign In'),
+                child: Text(AppLocalizations.of(context)!.signIn),
               ),
             ],
           ),

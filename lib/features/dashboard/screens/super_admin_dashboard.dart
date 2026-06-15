@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../features/auth/providers/auth_provider.dart';
+import '../../../l10n/app_localizations.dart';
 
 /// Super Admin Dashboard
 class SuperAdminDashboard extends ConsumerWidget {
@@ -10,11 +11,12 @@ class SuperAdminDashboard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final user = ref.watch(currentUserProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Super Admin Dashboard'),
+        title: Text(l10n.superAdminDashboard),
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),

@@ -11,6 +11,7 @@ import '../data/models/material_log_model.dart';
 import '../data/models/supplier_model.dart';
 import '../providers/inventory_provider.dart';
 import '../../auth/providers/auth_provider.dart';
+import '../../../l10n/app_localizations.dart';
 
 /// Daily Material Log screen with Inward/Outward tabs for Site Managers
 class DailyMaterialLogScreen extends ConsumerStatefulWidget {
@@ -46,6 +47,7 @@ class _DailyMaterialLogScreenState extends ConsumerState<DailyMaterialLogScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return ResponsiveScaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -60,16 +62,16 @@ class _DailyMaterialLogScreenState extends ConsumerState<DailyMaterialLogScreen>
         ),
         bottom: TabBar(
           controller: _tabController,
-          tabs: const [
-            Tab(icon: Icon(Icons.arrow_downward), text: 'Received'),
-            Tab(icon: Icon(Icons.arrow_upward), text: 'Used'),
+          tabs: [
+            Tab(icon: const Icon(Icons.arrow_downward), text: l10n.received),
+            Tab(icon: const Icon(Icons.arrow_upward), text: l10n.used),
           ],
         ),
       ),
       fab: FloatingActionButton.extended(
         onPressed: () => _showAddLogDialog(context),
         icon: const Icon(Icons.add),
-        label: const Text('Add Entry'),
+        label: Text(l10n.addEntry),
       ),
       builder: (context, r) {
         return Column(
@@ -144,6 +146,7 @@ class _SupplierPicker extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final suppliersAsync = ref.watch(suppliersProvider);
 
     return suppliersAsync.when(
@@ -175,7 +178,7 @@ class _SupplierPicker extends ConsumerWidget {
             TextButton.icon(
               onPressed: () => _showAddSupplierDialog(context, ref),
               icon: const Icon(Icons.add),
-              label: const Text('Add new vendor'),
+              label: Text(l10n.addNewVendor),
             ),
           ],
         );
@@ -190,7 +193,7 @@ class _SupplierPicker extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('New Vendor'),
+        title: Text(AppLocalizations.of(ctx)!.newVendor),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -213,7 +216,7 @@ class _SupplierPicker extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(ctx)!.cancel),
           ),
           FilledButton(
             onPressed: () async {
@@ -251,7 +254,7 @@ class _SupplierPicker extends ConsumerWidget {
                 }
               }
             },
-            child: const Text('Save'),
+            child: Text(AppLocalizations.of(ctx)!.save),
           ),
         ],
       ),
@@ -347,6 +350,7 @@ class _MaterialLogCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final dateFormat = DateFormat('dd MMM, hh:mm a');
     final role = ref.read(userRoleProvider);
 
@@ -407,7 +411,7 @@ class _MaterialLogCard extends ConsumerWidget {
                     final confirmed = await showDialog<bool>(
                       context: context,
                       builder: (ctx) => AlertDialog(
-                        title: const Text('Delete Material Log'),
+                        title: Text(l10n.deleteMaterialLog),
                         content: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -426,7 +430,7 @@ class _MaterialLogCard extends ConsumerWidget {
                         actions: [
                           TextButton(
                             onPressed: () => Navigator.pop(ctx, false),
-                            child: const Text('Cancel'),
+                            child: Text(l10n.cancel),
                           ),
                           TextButton(
                             onPressed: () {
@@ -436,9 +440,9 @@ class _MaterialLogCard extends ConsumerWidget {
                               }
                               Navigator.pop(ctx, true);
                             },
-                            child: const Text(
-                              'Delete',
-                              style: TextStyle(color: Colors.red),
+                            child: Text(
+                              l10n.delete,
+                              style: const TextStyle(color: Colors.red),
                             ),
                           ),
                         ],
@@ -542,6 +546,7 @@ class _AddLogBottomSheetState extends ConsumerState<_AddLogBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: EdgeInsets.only(
         left: 16,
@@ -562,9 +567,9 @@ class _AddLogBottomSheetState extends ConsumerState<_AddLogBottomSheet> {
 
             // Log Type Toggle
             SegmentedButton<LogType>(
-              segments: const [
-                ButtonSegment(value: LogType.inward, label: Text('Received')),
-                ButtonSegment(value: LogType.outward, label: Text('Used')),
+              segments: [
+                ButtonSegment(value: LogType.inward, label: Text(l10n.received)),
+                ButtonSegment(value: LogType.outward, label: Text(l10n.used)),
               ],
               selected: {_selectedLogType},
               onSelectionChanged: (v) =>
@@ -607,7 +612,7 @@ class _AddLogBottomSheetState extends ConsumerState<_AddLogBottomSheet> {
               alignment: Alignment.centerLeft,
               child: TextButton.icon(
                 icon: const Icon(Icons.add),
-                label: const Text('Add new material'),
+                label: Text(l10n.addNewMaterial),
                 onPressed: _showAddMaterialDialog,
               ),
             ),
@@ -681,14 +686,14 @@ class _AddLogBottomSheetState extends ConsumerState<_AddLogBottomSheet> {
                   labelText: 'Payment Type',
                   border: OutlineInputBorder(),
                 ),
-                items: const [
-                  DropdownMenuItem(value: 'cash', child: Text('Cash')),
-                  DropdownMenuItem(value: 'upi', child: Text('Online/UPI')),
+                items: [
+                  DropdownMenuItem(value: 'cash', child: Text(l10n.paymentCash)),
+                  DropdownMenuItem(value: 'upi', child: Text(l10n.paymentOnlineUpi)),
                   DropdownMenuItem(
                     value: 'bank_transfer',
-                    child: Text('Bank Transfer'),
+                    child: Text(l10n.paymentBankTransfer),
                   ),
-                  DropdownMenuItem(value: 'cheque', child: Text('Cheque')),
+                  DropdownMenuItem(value: 'cheque', child: Text(l10n.paymentCheque)),
                 ],
                 onChanged: (v) => setState(() => _paymentType = v),
               ),
@@ -718,7 +723,7 @@ class _AddLogBottomSheetState extends ConsumerState<_AddLogBottomSheet> {
                       width: 20,
                       child: CircularProgressIndicator(strokeWidth: 2),
                     )
-                  : const Text('Save Entry'),
+                  : Text(l10n.saveEntry),
             ),
           ],
         ),
@@ -731,7 +736,7 @@ class _AddLogBottomSheetState extends ConsumerState<_AddLogBottomSheet> {
     final quantity = double.tryParse(_quantityController.text);
     if (quantity == null || quantity <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter a valid quantity')),
+        SnackBar(content: Text(AppLocalizations.of(context)!.pleaseEnterValidQuantity)),
       );
       return;
     }
@@ -779,7 +784,7 @@ class _AddLogBottomSheetState extends ConsumerState<_AddLogBottomSheet> {
           billAmount != null &&
           _paymentType == null) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Select payment type for this bill')),
+          SnackBar(content: Text(AppLocalizations.of(context)!.selectPaymentType)),
         );
         setState(() => _isSubmitting = false);
         return;
@@ -833,15 +838,15 @@ class _AddLogBottomSheetState extends ConsumerState<_AddLogBottomSheet> {
             const SizedBox(height: 8),
             DropdownButtonFormField<String>(
               initialValue: unit,
-              items: const [
-                DropdownMenuItem(value: 'bags', child: Text('Bags')),
-                DropdownMenuItem(value: 'kg', child: Text('Kg')),
-                DropdownMenuItem(value: 'tons', child: Text('Tons')),
+              items: [
+                DropdownMenuItem(value: 'bags', child: Text(AppLocalizations.of(ctx)!.unitBags)),
+                DropdownMenuItem(value: 'kg', child: Text(AppLocalizations.of(ctx)!.unitKg)),
+                DropdownMenuItem(value: 'tons', child: Text(AppLocalizations.of(ctx)!.unitTons)),
                 DropdownMenuItem(
                   value: 'cubic_meter',
-                  child: Text('Cubic Meter'),
+                  child: Text(AppLocalizations.of(ctx)!.unitCubicMeter),
                 ),
-                DropdownMenuItem(value: 'units', child: Text('Units')),
+                DropdownMenuItem(value: 'units', child: Text(AppLocalizations.of(ctx)!.unitUnits)),
               ],
               onChanged: (v) => unit = v ?? unit,
               decoration: const InputDecoration(labelText: 'Unit'),
@@ -851,7 +856,7 @@ class _AddLogBottomSheetState extends ConsumerState<_AddLogBottomSheet> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(ctx)!.cancel),
           ),
           FilledButton(
             onPressed: () async {
@@ -887,7 +892,7 @@ class _AddLogBottomSheetState extends ConsumerState<_AddLogBottomSheet> {
                 }
               }
             },
-            child: const Text('Save'),
+            child: Text(AppLocalizations.of(ctx)!.save),
           ),
         ],
       ),

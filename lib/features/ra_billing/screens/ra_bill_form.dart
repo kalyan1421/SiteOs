@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/text_styles.dart';
 import '../data/gst_calculator.dart';
@@ -167,9 +168,10 @@ class _RaBillFormState extends ConsumerState<RaBillForm> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final contractsAsync = ref.watch(contractsProvider);
     return Scaffold(
-      appBar: AppBar(title: const Text('New RA Bill')),
+      appBar: AppBar(title: Text(l10n.newRaBill)),
       body: contractsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => BillingErrorState(
@@ -270,7 +272,7 @@ class _RaBillFormState extends ConsumerState<RaBillForm> {
                           height: 18,
                           width: 18,
                           child: CircularProgressIndicator(strokeWidth: 2))
-                      : const Text('Create RA bill'),
+                      : Text(l10n.createRaBill),
                 ),
                 const SizedBox(height: AppSpacing.s8),
               ],
@@ -282,6 +284,7 @@ class _RaBillFormState extends ConsumerState<RaBillForm> {
   }
 
   Widget _preview() {
+    final l10n = AppLocalizations.of(context)!;
     final b = _breakdown();
     return Container(
       padding: const EdgeInsets.all(AppSpacing.s4),
@@ -295,7 +298,7 @@ class _RaBillFormState extends ConsumerState<RaBillForm> {
         children: [
           Row(
             children: [
-              Text('LIVE PREVIEW', style: AppTextStyles.overline),
+              Text(l10n.livePreview, style: AppTextStyles.overline),
               const Spacer(),
               Container(
                 padding: const EdgeInsets.symmetric(

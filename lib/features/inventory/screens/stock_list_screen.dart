@@ -5,6 +5,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/loading_widget.dart';
 import '../data/models/stock_item_model.dart';
 import '../providers/inventory_provider.dart';
+import '../../../l10n/app_localizations.dart';
 
 /// Stock list screen for Admin - shows all materials for a project
 class StockListScreen extends ConsumerWidget {
@@ -99,7 +100,7 @@ class StockListScreen extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Add Stock Item'),
+        title: Text(AppLocalizations.of(context)!.addStockItem),
         content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -162,7 +163,7 @@ class StockListScreen extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           FilledButton(
             onPressed: () async {
@@ -182,7 +183,7 @@ class StockListScreen extends ConsumerWidget {
               ref.invalidate(stockItemsProvider(projectId));
               if (context.mounted) Navigator.pop(context);
             },
-            child: const Text('Add'),
+            child: Text(AppLocalizations.of(context)!.add),
           ),
         ],
       ),

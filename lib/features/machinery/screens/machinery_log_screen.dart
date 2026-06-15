@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:intl/intl.dart';
 import '../providers/machinery_provider.dart';
+import '../../../l10n/app_localizations.dart';
 
 
 class MachineryLogScreen extends ConsumerStatefulWidget {
@@ -38,10 +39,11 @@ class _MachineryLogScreenState extends ConsumerState<MachineryLogScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final machineryListAsync = ref.watch(machineryListProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Log Machinery Usage')),
+      appBar: AppBar(title: Text(l10n.logMachineryUsage)),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -51,7 +53,7 @@ class _MachineryLogScreenState extends ConsumerState<MachineryLogScreen> {
             children: [
               // 1. Log Date
               ListTile(
-                title: const Text('Date'),
+                title: Text(l10n.date),
                 subtitle: Text(
                   DateFormat('EEE, dd MMM yyyy').format(_selectedDate),
                 ),
@@ -162,7 +164,7 @@ class _MachineryLogScreenState extends ConsumerState<MachineryLogScreen> {
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                 ),
-                child: const Text('SAVE LOG'),
+                child: Text(l10n.saveLog),
               ),
             ],
           ),
@@ -205,12 +207,13 @@ class _MachineryLogScreenState extends ConsumerState<MachineryLogScreen> {
   }
 
   Future<void> _submit() async {
+    final l10n = AppLocalizations.of(context)!;
     if (!_formKey.currentState!.validate()) return;
 
     if (_startTime == null || _endTime == null) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Please select times')));
+      ).showSnackBar(SnackBar(content: Text(l10n.pleaseSelectStartEndTime)));
       return;
     }
 
@@ -243,7 +246,7 @@ class _MachineryLogScreenState extends ConsumerState<MachineryLogScreen> {
       ref.invalidate(machineryLogsProvider(widget.projectId));
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Log Saved')));
+      ).showSnackBar(SnackBar(content: Text(l10n.logSaved)));
     } else if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(

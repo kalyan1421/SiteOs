@@ -11,6 +11,7 @@ import '../widgets/money_text.dart';
 import '../widgets/status_chip.dart';
 import 'sub_ra_bill_screen.dart';
 import 'work_order_form.dart';
+import '../../../l10n/app_localizations.dart';
 
 /// Work orders awarded to a single subcontractor. Tap a WO to open its RA
 /// bills; the + button raises a new work order.
@@ -21,6 +22,7 @@ class WorkOrderScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final asyncWos = ref.watch(workOrdersProvider(subcontractor.id));
 
     return Scaffold(
@@ -47,7 +49,7 @@ class WorkOrderScreen extends ConsumerWidget {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _openForm(context, ref),
         icon: const Icon(Icons.add),
-        label: const Text('New WO'),
+        label: Text(l10n.newWo),
       ),
       body: asyncWos.when(
         data: (wos) => RefreshIndicator(
@@ -114,6 +116,7 @@ class _WorkOrderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final wo = workOrder;
     return Material(
       color: AppColors.surface,
@@ -186,7 +189,7 @@ class _WorkOrderCard extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Order value',
+                      Text(l10n.orderValue,
                           style: AppTextStyles.labelSmall
                               .copyWith(color: AppColors.textHint)),
                       MoneyText(wo.value),
@@ -220,13 +223,14 @@ class _WorkOrderCard extends StatelessWidget {
 class _Empty extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return ListView(
       children: [
         const SizedBox(height: AppSpacing.s16),
         const Icon(Icons.assignment_outlined,
             size: 56, color: AppColors.textHint),
         const SizedBox(height: AppSpacing.s4),
-        Text('No work orders yet',
+        Text(l10n.noWorkOrdersYet,
             textAlign: TextAlign.center, style: AppTextStyles.titleMedium),
         const SizedBox(height: AppSpacing.s2),
         Text(
@@ -247,6 +251,7 @@ class _Error extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.s6),
@@ -260,7 +265,7 @@ class _Error extends StatelessWidget {
                 style: AppTextStyles.bodyMedium
                     .copyWith(color: AppColors.textSecondary)),
             const SizedBox(height: AppSpacing.s4),
-            OutlinedButton(onPressed: onRetry, child: const Text('Retry')),
+            OutlinedButton(onPressed: onRetry, child: Text(l10n.retry)),
           ],
         ),
       ),

@@ -644,6 +644,12 @@ abstract class AppLocalizations {
   /// **'Project deleted'**
   String get projectDeleted;
 
+  /// Generic quality label (e.g. step name in BOQ wizard).
+  ///
+  /// In en, this message translates to:
+  /// **'Quality'**
+  String get quality;
+
   /// Label for the QA/QC checklists section.
   ///
   /// In en, this message translates to:

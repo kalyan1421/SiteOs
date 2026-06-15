@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/text_styles.dart';
 import '../data/models/chat_message.dart';
@@ -59,21 +60,24 @@ class _AiChatScreenState extends ConsumerState<AiChatScreen> {
   Future<void> _confirmClear() async {
     final ok = await showDialog<bool>(
       context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('Clear chat history?'),
-        content: const Text(
-            'This permanently deletes your assistant conversation.'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(false),
-            child: const Text('Cancel'),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.of(ctx).pop(true),
-            child: const Text('Clear'),
-          ),
-        ],
-      ),
+      builder: (ctx) {
+        final l10n = AppLocalizations.of(ctx)!;
+        return AlertDialog(
+          title: Text(l10n.clearChatHistoryConfirm),
+          content: const Text(
+              'This permanently deletes your assistant conversation.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(ctx).pop(false),
+              child: Text(l10n.cancel),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.of(ctx).pop(true),
+              child: Text(l10n.clear),
+            ),
+          ],
+        );
+      },
     );
     if (ok == true) {
       await ref.read(chatProvider.notifier).clear();
@@ -82,6 +86,7 @@ class _AiChatScreenState extends ConsumerState<AiChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final state = ref.watch(chatProvider);
 
     // Auto-scroll as new messages arrive.
@@ -93,7 +98,7 @@ class _AiChatScreenState extends ConsumerState<AiChatScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('SiteOS Assistant'),
+        title: Text(l10n.siteOsAssistant),
         actions: [
           if (state.messages.isNotEmpty)
             IconButton(
@@ -164,6 +169,7 @@ class _EmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return ListView(
       padding: const EdgeInsets.all(AppSpacing.s6),
       children: [
@@ -181,7 +187,7 @@ class _EmptyState extends StatelessWidget {
           ),
         ),
         const SizedBox(height: AppSpacing.s4),
-        Text('Ask about your sites',
+        Text(l10n.askAboutYourSites,
             style: AppTextStyles.headlineSmall, textAlign: TextAlign.center),
         const SizedBox(height: AppSpacing.s2),
         Text(
@@ -268,6 +274,7 @@ class _TypingIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -277,7 +284,7 @@ class _TypingIndicator extends StatelessWidget {
           child: CircularProgressIndicator(strokeWidth: 2),
         ),
         const SizedBox(width: AppSpacing.s2),
-        Text('Thinking…',
+        Text(l10n.thinking,
             style: AppTextStyles.bodySmall
                 .copyWith(color: AppColors.textSecondary)),
       ],

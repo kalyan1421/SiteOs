@@ -12,6 +12,7 @@ import '../../../../core/widgets/custom_text_field.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/error_widget.dart';
 import '../providers/stock_provider.dart';
+import '../../../../l10n/app_localizations.dart';
 
 
 // Provider imported from stock_provider.dart
@@ -112,7 +113,7 @@ class _MaterialConsumeScreenState extends ConsumerState<MaterialConsumeScreen> {
           children: [
             ListTile(
               leading: const Icon(Icons.camera_alt_outlined, color: AppColors.primary),
-              title: const Text('Take Photo'),
+              title: Text(AppLocalizations.of(context)!.takePhoto),
               onTap: () {
                 Navigator.pop(ctx);
                 _pickAttachment('camera');
@@ -120,7 +121,7 @@ class _MaterialConsumeScreenState extends ConsumerState<MaterialConsumeScreen> {
             ),
             ListTile(
               leading: const Icon(Icons.photo_library_outlined, color: AppColors.primary),
-              title: const Text('Choose from Gallery'),
+              title: Text(AppLocalizations.of(context)!.chooseFromGallery),
               onTap: () {
                 Navigator.pop(ctx);
                 _pickAttachment('gallery');
@@ -128,7 +129,7 @@ class _MaterialConsumeScreenState extends ConsumerState<MaterialConsumeScreen> {
             ),
             ListTile(
               leading: const Icon(Icons.attach_file_outlined, color: AppColors.primary),
-              title: const Text('Browse Files (PDF/Image)'),
+              title: Text(AppLocalizations.of(context)!.browseFilesPdfImage),
               onTap: () {
                 Navigator.pop(ctx);
                 _pickAttachment('file');
@@ -198,7 +199,7 @@ class _MaterialConsumeScreenState extends ConsumerState<MaterialConsumeScreen> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Consumption logged successfully')),
+          SnackBar(content: Text(AppLocalizations.of(context)!.consumptionLoggedSuccessfully)),
         );
         ref.invalidate(materialLogsProvider(widget.projectId));
         ref.invalidate(stockBalanceProvider(widget.projectId));
@@ -341,7 +342,7 @@ class _MaterialConsumeScreenState extends ConsumerState<MaterialConsumeScreen> {
                     OutlinedButton.icon(
                       onPressed: _showAttachmentPicker,
                       icon: const Icon(Icons.attach_file_outlined),
-                      label: const Text('Attach Challan / Photo'),
+                      label: Text(AppLocalizations.of(context)!.attachChallanPhoto),
                       style: OutlinedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 14),
                         foregroundColor: AppColors.primary,
@@ -388,7 +389,7 @@ class _MaterialConsumeScreenState extends ConsumerState<MaterialConsumeScreen> {
                   SizedBox(
                     width: double.infinity,
                     child: AppButton(
-                      text: 'Log Consumption',
+                      text: AppLocalizations.of(context)!.logConsumption,
                       isLoading: _isLoading,
                       onPressed: _submit,
                     ),
@@ -436,7 +437,7 @@ class _MaterialConsumeScreenState extends ConsumerState<MaterialConsumeScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Log Consumption')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.logConsumption)),
       body: bodyContent,
     );
   }

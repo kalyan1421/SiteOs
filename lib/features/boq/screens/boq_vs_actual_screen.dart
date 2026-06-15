@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/text_styles.dart';
 import '../data/models/boq_vs_actual_row.dart';
@@ -31,6 +32,7 @@ class BoqVsActualScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final args = BoqVsActualArgs(boqId: boqId, projectId: projectId);
     final rowsAsync = ref.watch(boqVsActualProvider(args));
 
@@ -41,7 +43,7 @@ class BoqVsActualScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('BOQ vs Actual', style: AppTextStyles.titleLarge),
+            Text(l10n.boqVsActual, style: AppTextStyles.titleLarge),
             if ((boqName ?? '').isNotEmpty)
               Text(
                 boqName!,
@@ -54,9 +56,10 @@ class BoqVsActualScreen extends ConsumerWidget {
       body: RefreshIndicator(
         onRefresh: () async => ref.invalidate(boqVsActualProvider(args)),
         child: rowsAsync.when(
-          data: (rows) => rows.isEmpty ? _empty() : _content(rows),
+          data: (rows) => rows.isEmpty ? _empty(context) : _content(context, rows),
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (e, _) => _error(
+            context,
             e.toString(),
             () => ref.invalidate(boqVsActualProvider(args)),
           ),
@@ -65,7 +68,8 @@ class BoqVsActualScreen extends ConsumerWidget {
     );
   }
 
-  Widget _content(List<BoqVsActualRow> rows) {
+  Widget _content(BuildContext context, List<BoqVsActualRow> rows) {
+    final l10n = AppLocalizations.of(context)!;
     final estimateTotal =
         rows.fold<double>(0, (sum, r) => sum + r.estimateAmount);
     final actualTotal = rows.fold<double>(
@@ -85,7 +89,7 @@ class BoqVsActualScreen extends ConsumerWidget {
           const _ActualTodoBanner(),
           const SizedBox(height: AppSpacing.s4),
         ],
-        Text('BY CATEGORY', style: AppTextStyles.overline),
+        Text(l10n.byCategory, style: AppTextStyles.overline),
         const SizedBox(height: AppSpacing.s2),
         for (final row in rows) ...[
           _CategoryComparisonCard(row: row),
@@ -95,7 +99,8 @@ class BoqVsActualScreen extends ConsumerWidget {
     );
   }
 
-  Widget _empty() {
+  Widget _empty(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return ListView(
       padding: const EdgeInsets.all(AppSpacing.s8),
       children: [
@@ -103,7 +108,7 @@ class BoqVsActualScreen extends ConsumerWidget {
         const Icon(Icons.compare_arrows_rounded,
             size: 56, color: AppColors.textDisabled),
         const SizedBox(height: AppSpacing.s4),
-        Text('Nothing to compare yet',
+        Text(l10n.nothingToCompareYet,
             style: AppTextStyles.titleLarge, textAlign: TextAlign.center),
         const SizedBox(height: AppSpacing.s2),
         Text(
@@ -117,7 +122,8 @@ class BoqVsActualScreen extends ConsumerWidget {
     );
   }
 
-  Widget _error(String message, VoidCallback onRetry) {
+  Widget _error(BuildContext context, String message, VoidCallback onRetry) {
+    final l10n = AppLocalizations.of(context)!;
     return ListView(
       padding: const EdgeInsets.all(AppSpacing.s8),
       children: [
@@ -134,7 +140,7 @@ class BoqVsActualScreen extends ConsumerWidget {
             textAlign: TextAlign.center),
         const SizedBox(height: AppSpacing.s4),
         Center(
-          child: OutlinedButton(onPressed: onRetry, child: const Text('Retry')),
+          child: OutlinedButton(onPressed: onRetry, child: Text(l10n.retry)),
         ),
       ],
     );
@@ -152,6 +158,7 @@ class _SummaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final variance =
         actualTotal == null ? null : actualTotal! - estimateTotal;
     final over = variance != null && variance > 0;
@@ -187,7 +194,7 @@ class _SummaryCard extends StatelessWidget {
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('ACTUAL', style: AppTextStyles.overline),
+                          Text(l10n.actual, style: AppTextStyles.overline),
                           const SizedBox(height: 4),
                           Text('—',
                               style: AppTextStyles.price
@@ -195,7 +202,7 @@ class _SummaryCard extends StatelessWidget {
                         ],
                       )
                     : _TotalBlock(
-                        label: 'ACTUAL',
+                        label: l10n.actual,
                         value: actualTotal!,
                         color: AppColors.secondaryDark,
                       ),

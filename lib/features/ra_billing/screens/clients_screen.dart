@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/text_styles.dart';
 import '../data/models/client.dart';
@@ -15,13 +16,14 @@ class ClientsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final clientsAsync = ref.watch(clientsProvider);
     return Scaffold(
-      appBar: AppBar(title: const Text('Clients')),
+      appBar: AppBar(title: Text(l10n.clients)),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => ClientForm.show(context),
         icon: const Icon(Icons.add),
-        label: const Text('New client'),
+        label: Text(l10n.newClient),
       ),
       body: clientsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
@@ -40,7 +42,7 @@ class ClientsScreen extends ConsumerWidget {
               action: FilledButton.icon(
                 onPressed: () => ClientForm.show(context),
                 icon: const Icon(Icons.add),
-                label: const Text('Add your first client'),
+                label: Text(l10n.addFirstClient),
               ),
             );
           }
@@ -67,6 +69,7 @@ class _ClientTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       decoration: BoxDecoration(
         color: AppColors.surface,
@@ -104,9 +107,9 @@ class _ClientTile extends ConsumerWidget {
               }
             }
           },
-          itemBuilder: (_) => const [
-            PopupMenuItem(value: 'edit', child: Text('Edit')),
-            PopupMenuItem(value: 'delete', child: Text('Delete')),
+          itemBuilder: (_) => [
+            PopupMenuItem(value: 'edit', child: Text(l10n.edit)),
+            PopupMenuItem(value: 'delete', child: Text(l10n.delete)),
           ],
         ),
         onTap: () => ClientForm.show(context, existing: client),
@@ -115,6 +118,7 @@ class _ClientTile extends ConsumerWidget {
   }
 
   Future<bool?> _confirmDelete(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return showDialog<bool>(
       context: context,
       builder: (_) => AlertDialog(
@@ -123,11 +127,11 @@ class _ClientTile extends ConsumerWidget {
         actions: [
           TextButton(
               onPressed: () => Navigator.of(context).pop(false),
-              child: const Text('Cancel')),
+              child: Text(l10n.cancel)),
           FilledButton(
             style: FilledButton.styleFrom(backgroundColor: AppColors.error),
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Delete'),
+            child: Text(l10n.delete),
           ),
         ],
       ),

@@ -7,6 +7,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/ui/responsive_scaffold.dart';
 import '../../../core/widgets/loading_widget.dart';
 import '../../../core/widgets/error_widget.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../data/models/project_model.dart';
 import '../providers/project_provider.dart';
@@ -149,7 +150,7 @@ class _ProjectDetailScreenState extends ConsumerState<ProjectDetailScreen> {
                               const SizedBox(height: 20),
                               FilledButton(
                                 onPressed: () => _navigateBack(userRole),
-                                child: const Text('Back to dashboard'),
+                                child: Text(AppLocalizations.of(context)!.backToDashboard),
                               ),
                             ],
                           ),
@@ -234,8 +235,8 @@ class _ProjectDetailScreenState extends ConsumerState<ProjectDetailScreen> {
                       if (context.mounted) {
                         if (success) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Status updated successfully'),
+                            SnackBar(
+                              content: Text(AppLocalizations.of(context)!.statusUpdatedSuccessfully),
                             ),
                           );
                         } else {
@@ -270,7 +271,7 @@ class _ProjectDetailScreenState extends ConsumerState<ProjectDetailScreen> {
       context: context,
       builder: (ctx) => StatefulBuilder(
         builder: (context, setState) => AlertDialog(
-          title: const Text('Update Completion %'),
+          title: Text(AppLocalizations.of(context)!.updateCompletionPct),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -304,7 +305,7 @@ class _ProjectDetailScreenState extends ConsumerState<ProjectDetailScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(ctx),
-              child: const Text('Cancel'),
+              child: Text(AppLocalizations.of(context)!.cancel),
             ),
             FilledButton(
               onPressed: () async {
@@ -327,7 +328,7 @@ class _ProjectDetailScreenState extends ConsumerState<ProjectDetailScreen> {
                   );
                 }
               },
-              child: const Text('Save'),
+              child: Text(AppLocalizations.of(context)!.save),
             ),
           ],
         ),
@@ -339,19 +340,19 @@ class _ProjectDetailScreenState extends ConsumerState<ProjectDetailScreen> {
     final shouldDelete = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Delete Project'),
+        title: Text(AppLocalizations.of(context)!.deleteProject),
         content: const Text(
           'This will mark the project as deleted. You can restore it later from the backend if needed.',
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           FilledButton(
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Delete'),
+            child: Text(AppLocalizations.of(context)!.delete),
           ),
         ],
       ),
@@ -367,7 +368,7 @@ class _ProjectDetailScreenState extends ConsumerState<ProjectDetailScreen> {
       if (context.mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(const SnackBar(content: Text('Project deleted')));
+        ).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context)!.projectDeleted)));
         context.go('/admin/dashboard');
       }
     } else {

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/text_styles.dart';
 import '../providers/boq_providers.dart';
@@ -117,6 +118,7 @@ class _BoqItemFormState extends ConsumerState<BoqItemForm> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return SafeArea(
       top: false,
       child: SingleChildScrollView(
@@ -139,7 +141,7 @@ class _BoqItemFormState extends ConsumerState<BoqItemForm> {
                 ),
               ),
               const SizedBox(height: AppSpacing.s4),
-              Text('Add line item', style: AppTextStyles.headlineSmall),
+              Text(l10n.addLineItem, style: AppTextStyles.headlineSmall),
               const SizedBox(height: AppSpacing.s5),
 
               TextFormField(
@@ -246,7 +248,7 @@ class _BoqItemFormState extends ConsumerState<BoqItemForm> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Line amount', style: AppTextStyles.labelMedium),
+                    Text(l10n.lineAmount, style: AppTextStyles.labelMedium),
                     BoqMoneyText(
                       _previewAmount,
                       weight: FontWeight.w700,
@@ -272,7 +274,7 @@ class _BoqItemFormState extends ConsumerState<BoqItemForm> {
                           child: CircularProgressIndicator(
                               strokeWidth: 2, color: Colors.white),
                         )
-                      : const Text('Add item'),
+                      : Text(l10n.addItem),
                 ),
               ),
             ],

@@ -6,6 +6,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/text_styles.dart';
 import '../../auth/providers/auth_provider.dart';
+import '../../../l10n/app_localizations.dart';
 
 /// Central hub that surfaces every global SiteOS module (Phase 1–3 features)
 /// without crowding the bottom navigation. Project-scoped tools (BOQ, QA/QC)
@@ -15,6 +16,7 @@ class MoreToolsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final role = ref.watch(userRoleProvider);
     final isAdmin = role == UserRole.admin || role == UserRole.superAdmin;
 
@@ -56,7 +58,7 @@ class MoreToolsScreen extends ConsumerWidget {
         .toList();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Tools')),
+      appBar: AppBar(title: Text(l10n.tools)),
       body: ListView.builder(
         padding: const EdgeInsets.fromLTRB(
             AppSpacing.s4, AppSpacing.s4, AppSpacing.s4, AppSpacing.s10),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_colors.dart';
 import '../providers/stock_provider.dart';
+import '../../../l10n/app_localizations.dart';
 
 class StockLedgerScreen extends ConsumerWidget {
   final String? projectId;
@@ -9,10 +10,11 @@ class StockLedgerScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     if (projectId == null) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Stock Ledger')),
-        body: const Center(child: Text('No project selected')),
+        appBar: AppBar(title: Text(l10n.stockLedger)),
+        body: Center(child: Text(l10n.noProjectSelected)),
       );
     }
 
@@ -23,9 +25,9 @@ class StockLedgerScreen extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: AppColors.surface,
         elevation: 0,
-        title: const Text(
-          'Stock Ledger',
-          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
+        title: Text(
+          l10n.stockLedger,
+          style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
         ),
       ),
       body: balanceAsync.when(
@@ -43,7 +45,7 @@ class StockLedgerScreen extends ConsumerWidget {
               TextButton(
                 onPressed: () =>
                     ref.invalidate(stockBalanceProvider(projectId!)),
-                child: const Text('Retry'),
+                child: Text(l10n.retry),
               ),
             ],
           ),
