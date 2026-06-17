@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../core/router/route_names.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/text_styles.dart';
@@ -107,7 +109,7 @@ class UpgradePaywall extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: FilledButton(
-                    onPressed: onUpgrade ?? () => _defaultUpgrade(context, required),
+                    onPressed: onUpgrade ?? () => _defaultUpgrade(context),
                     child: Text(
                       required.isCustomPriced
                           ? 'Talk to us'
@@ -128,11 +130,8 @@ class UpgradePaywall extends StatelessWidget {
     );
   }
 
-  void _defaultUpgrade(BuildContext context, SiteOsPlan required) {
-    // TODO(AKS-66): navigate to the Razorpay plans/checkout screen.
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Upgrade to ${required.label} — coming soon.')),
-    );
+  void _defaultUpgrade(BuildContext context) {
+    context.pushNamed(RouteNames.subscriptionPlans);
   }
 }
 
