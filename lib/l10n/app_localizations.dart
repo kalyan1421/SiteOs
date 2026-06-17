@@ -2005,6 +2005,156 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Hindi'**
   String get languageHindi;
+
+  /// Title of the subscription plans screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Plans'**
+  String get subscriptionPlans;
+
+  /// Heading on the plans screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your plan'**
+  String get choosePlan;
+
+  /// Subtitle under the plans heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade anytime. Cancel anytime.'**
+  String get choosePlanSubtitle;
+
+  /// Fine print on the plans screen about billing.
+  ///
+  /// In en, this message translates to:
+  /// **'Billed monthly in INR. GST applies as per Indian regulations.'**
+  String get billedMonthlyInr;
+
+  /// Badge on the recommended plan card.
+  ///
+  /// In en, this message translates to:
+  /// **'Most popular'**
+  String get mostPopular;
+
+  /// Badge / button label for the plan the company is already on.
+  ///
+  /// In en, this message translates to:
+  /// **'Current plan'**
+  String get currentPlan;
+
+  /// Price label for the Enterprise plan.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom pricing'**
+  String get customPricing;
+
+  /// Suffix after a monthly price, e.g. ₹1999/mo.
+  ///
+  /// In en, this message translates to:
+  /// **'/mo'**
+  String get perMonth;
+
+  /// Button to subscribe to a paid plan.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribe'**
+  String get subscribe;
+
+  /// Button on the Enterprise plan card.
+  ///
+  /// In en, this message translates to:
+  /// **'Talk to us'**
+  String get talkToUs;
+
+  /// Snackbar shown when the user taps the Enterprise plan.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll reach out about Enterprise. Email support@siteos.in'**
+  String get enterpriseContact;
+
+  /// Title of the billing history / invoices screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Billing history'**
+  String get billingHistory;
+
+  /// Empty-state title on the billing history screen.
+  ///
+  /// In en, this message translates to:
+  /// **'No invoices yet'**
+  String get noInvoicesYet;
+
+  /// Empty-state subtitle on the billing history screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Your paid invoices will appear here.'**
+  String get noInvoicesSubtitle;
+
+  /// Status label for a successful invoice.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid'**
+  String get paid;
+
+  /// Hint shown when a list failed to load and supports pull-to-refresh.
+  ///
+  /// In en, this message translates to:
+  /// **'Pull down to retry.'**
+  String get pullToRetry;
+
+  /// Title of the payment / checkout screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Checkout'**
+  String get checkout;
+
+  /// Heading of the order summary card on checkout.
+  ///
+  /// In en, this message translates to:
+  /// **'Order summary'**
+  String get orderSummary;
+
+  /// The word 'plan' used after a plan name, e.g. 'Professional plan'.
+  ///
+  /// In en, this message translates to:
+  /// **'plan'**
+  String get plan;
+
+  /// Label for the amount payable now on checkout.
+  ///
+  /// In en, this message translates to:
+  /// **'Due today'**
+  String get dueToday;
+
+  /// Reassurance note under the checkout summary.
+  ///
+  /// In en, this message translates to:
+  /// **'Payments are processed securely by Razorpay. Cancel anytime.'**
+  String get securePaymentNote;
+
+  /// Primary checkout button label.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay with Razorpay'**
+  String get payWithRazorpay;
+
+  /// Snackbar after a successful payment while the webhook activates the plan.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment received — activating your plan…'**
+  String get paymentSuccessActivating;
+
+  /// Snackbar when a payment fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment failed. Please try again.'**
+  String get paymentFailed;
+
+  /// Snackbar when the user cancels the payment sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment cancelled.'**
+  String get paymentCancelled;
 }
 
 class _AppLocalizationsDelegate

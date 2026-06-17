@@ -966,4 +966,83 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get languageHindi => 'Hindi';
+
+  @override
+  String get subscriptionPlans => 'Plans';
+
+  @override
+  String get choosePlan => 'Choose your plan';
+
+  @override
+  String get choosePlanSubtitle => 'Upgrade anytime. Cancel anytime.';
+
+  @override
+  String get billedMonthlyInr =>
+      'Billed monthly in INR. GST applies as per Indian regulations.';
+
+  @override
+  String get mostPopular => 'Most popular';
+
+  @override
+  String get currentPlan => 'Current plan';
+
+  @override
+  String get customPricing => 'Custom pricing';
+
+  @override
+  String get perMonth => '/mo';
+
+  @override
+  String get subscribe => 'Subscribe';
+
+  @override
+  String get talkToUs => 'Talk to us';
+
+  @override
+  String get enterpriseContact =>
+      'We\'ll reach out about Enterprise. Email support@siteos.in';
+
+  @override
+  String get billingHistory => 'Billing history';
+
+  @override
+  String get noInvoicesYet => 'No invoices yet';
+
+  @override
+  String get noInvoicesSubtitle => 'Your paid invoices will appear here.';
+
+  @override
+  String get paid => 'Paid';
+
+  @override
+  String get pullToRetry => 'Pull down to retry.';
+
+  @override
+  String get checkout => 'Checkout';
+
+  @override
+  String get orderSummary => 'Order summary';
+
+  @override
+  String get plan => 'plan';
+
+  @override
+  String get dueToday => 'Due today';
+
+  @override
+  String get securePaymentNote =>
+      'Payments are processed securely by Razorpay. Cancel anytime.';
+
+  @override
+  String get payWithRazorpay => 'Pay with Razorpay';
+
+  @override
+  String get paymentSuccessActivating =>
+      'Payment received — activating your plan…';
+
+  @override
+  String get paymentFailed => 'Payment failed. Please try again.';
+
+  @override
+  String get paymentCancelled => 'Payment cancelled.';
 }

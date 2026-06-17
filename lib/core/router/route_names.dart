@@ -215,6 +215,22 @@ class RouteNames {
   static const String changePasswordPath = '/settings/change-password';
 
   // ============================================================
+  // SUBSCRIPTION / BILLING ROUTES (AKS-66)
+  // ============================================================
+
+  /// Plans / pricing screen
+  static const String subscriptionPlans = 'subscription-plans';
+  static const String subscriptionPlansPath = '/subscription/plans';
+
+  /// Razorpay checkout for a chosen plan (with :planKey param)
+  static const String subscriptionPayment = 'subscription-payment';
+  static const String subscriptionPaymentPath = '/subscription/payment/:planKey';
+
+  /// Billing history (invoices) screen
+  static const String billingHistory = 'billing-history';
+  static const String billingHistoryPath = '/subscription/billing-history';
+
+  // ============================================================
   // HELPER METHODS
   // ============================================================
 

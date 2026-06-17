@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../core/router/route_names.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/text_styles.dart';
@@ -53,13 +55,8 @@ class TrialExpiredScreen extends ConsumerWidget {
                   SizedBox(
                     width: double.infinity,
                     child: FilledButton(
-                      onPressed: () {
-                        // TODO(AKS-66): open the Razorpay plans/checkout screen.
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                              content: Text(AppLocalizations.of(context)!.plansComingSoon)),
-                        );
-                      },
+                      onPressed: () =>
+                          context.pushNamed(RouteNames.subscriptionPlans),
                       child: Text(plan == SiteOsPlan.trial
                           ? 'See plans'
                           : 'Upgrade plan'),

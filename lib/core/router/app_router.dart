@@ -6,6 +6,9 @@ import '../../features/auth/screens/splash_screen.dart';
 import '../../features/auth/screens/login_screen.dart';
 import '../../features/auth/screens/register_screen.dart';
 import '../../features/subscription/screens/trial_expired_screen.dart';
+import '../../features/subscription/screens/plans_screen.dart';
+import '../../features/subscription/screens/payment_screen.dart';
+import '../../features/subscription/screens/billing_history_screen.dart';
 import '../../features/dashboard/screens/site_manager_management_screen.dart';
 import '../../features/dashboard/screens/add_site_manager_screen.dart';
 import '../../features/dashboard/screens/staff_directory_screen.dart';
@@ -141,7 +144,10 @@ final routerProvider = Provider<GoRouter>((ref) {
 
         // Trial / subscription expired — redirect all staff (not super_admin)
         // to the upgrade wall. Super admins can still access to fix billing.
+        // The /subscription/* upgrade flow is exempt, otherwise an expired
+        // user could never reach checkout.
         if (path != '/trial-expired' &&
+            !path.startsWith('/subscription/') &&
             userRole != UserRole.superAdmin &&
             ref.read(isSubscriptionExpiredProvider)) {
           return '/trial-expired';
@@ -176,6 +182,25 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/forgot-password',
         name: 'forgot-password',
         builder: (context, state) => const ForgotPasswordScreen(),
+      ),
+
+      // ── Subscription / Billing (AKS-66) — top-level, no shell so the
+      //    upgrade flow is reachable even when a trial has expired. ──
+      GoRoute(
+        path: '/subscription/plans',
+        name: 'subscription-plans',
+        builder: (context, state) => const PlansScreen(),
+      ),
+      GoRoute(
+        path: '/subscription/payment/:planKey',
+        name: 'subscription-payment',
+        builder: (context, state) =>
+            PaymentScreen(planKey: state.pathParameters['planKey']!),
+      ),
+      GoRoute(
+        path: '/subscription/billing-history',
+        name: 'billing-history',
+        builder: (context, state) => const BillingHistoryScreen(),
       ),
 
       // ── Super Admin (no shell) ──

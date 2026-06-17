@@ -971,4 +971,83 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get languageHindi => 'हिन्दी';
+
+  @override
+  String get subscriptionPlans => 'योजनाएँ';
+
+  @override
+  String get choosePlan => 'अपनी योजना चुनें';
+
+  @override
+  String get choosePlanSubtitle => 'कभी भी अपग्रेड करें। कभी भी रद्द करें।';
+
+  @override
+  String get billedMonthlyInr =>
+      'मासिक रूप से INR में बिल किया जाता है। भारतीय नियमों के अनुसार GST लागू।';
+
+  @override
+  String get mostPopular => 'सबसे लोकप्रिय';
+
+  @override
+  String get currentPlan => 'वर्तमान योजना';
+
+  @override
+  String get customPricing => 'कस्टम मूल्य';
+
+  @override
+  String get perMonth => '/माह';
+
+  @override
+  String get subscribe => 'सदस्यता लें';
+
+  @override
+  String get talkToUs => 'हमसे बात करें';
+
+  @override
+  String get enterpriseContact =>
+      'हम Enterprise के बारे में आपसे संपर्क करेंगे। ईमेल support@siteos.in';
+
+  @override
+  String get billingHistory => 'बिलिंग इतिहास';
+
+  @override
+  String get noInvoicesYet => 'अभी तक कोई चालान नहीं';
+
+  @override
+  String get noInvoicesSubtitle => 'आपके भुगतान किए गए चालान यहाँ दिखाई देंगे।';
+
+  @override
+  String get paid => 'भुगतान किया गया';
+
+  @override
+  String get pullToRetry => 'पुनः प्रयास करने के लिए नीचे खींचें।';
+
+  @override
+  String get checkout => 'चेकआउट';
+
+  @override
+  String get orderSummary => 'ऑर्डर सारांश';
+
+  @override
+  String get plan => 'योजना';
+
+  @override
+  String get dueToday => 'आज देय';
+
+  @override
+  String get securePaymentNote =>
+      'भुगतान Razorpay द्वारा सुरक्षित रूप से संसाधित किए जाते हैं। कभी भी रद्द करें।';
+
+  @override
+  String get payWithRazorpay => 'Razorpay से भुगतान करें';
+
+  @override
+  String get paymentSuccessActivating =>
+      'भुगतान प्राप्त हुआ — आपकी योजना सक्रिय की जा रही है…';
+
+  @override
+  String get paymentFailed => 'भुगतान विफल। कृपया पुनः प्रयास करें।';
+
+  @override
+  String get paymentCancelled => 'भुगतान रद्द किया गया।';
 }
